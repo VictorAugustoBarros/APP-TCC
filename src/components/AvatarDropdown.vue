@@ -14,14 +14,10 @@
             <v-avatar>
               <v-img src="images/user-icon.png" alt="John"></v-img>
             </v-avatar>
-            <h3>{{ user.fullName }}</h3>
+            <h3>{{ store.user.name }}</h3>
             <p class="text-caption mt-1">
-              {{ user.email }}
+              {{ store.user.email }}
             </p>
-            <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text">
-              Configuração
-            </v-btn>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text">
               Logout
@@ -34,14 +30,13 @@
 </template>
 
 <script>
+import { store } from '../store.js'
+
+
 export default {
   name: "AvatarDropdown",
   data: () => ({
-    user: {
-      initials: 'JD',
-      fullName: 'John Doe',
-      email: 'teste@gmail.com',
-    },
+    store
   }),
 }
 </script>

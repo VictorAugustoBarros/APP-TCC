@@ -8,14 +8,14 @@ import { store } from '../store.js'
 
 
 export default {
-  name: 'ObjetivoPage',
+  name: 'FeedPage',
   data: function () {
     return {
       store
     }
   },
-  mounted() {
-    store.page.title = "Objetivos"
+  mounted()  {
+    store.page.title = "Feed"
   }
 }
 

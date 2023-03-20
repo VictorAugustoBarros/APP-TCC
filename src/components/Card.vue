@@ -1,36 +1,32 @@
 <template>
-    <v-card style="background-color: lightgray" class="mx-auto" :width="cardWidth">
-        <v-card-title>
-            <v-row style="height: 50px;">
-                <v-col>
-                    <v-avatar image="images/user-icon.png" size=30></v-avatar>
-                </v-col>
-                <v-col>
-                    <span style="font-size: 15px">{{ userName }}</span>
-                </v-col>
-                <v-col />
-            </v-row>
-        </v-card-title>
-
-        <v-row padding="0">
-            <v-card-text style="text-align:center;padding-top: 15px">
+    <v-card style="background-color: lightgray;" class="mx-auto" :width="cardWidth" :height="cardHeight">
+        <template v-slot:title>
+            <v-badge dot color="green" style="float: left;">
+                <v-avatar image="images/user-icon.png" size=35></v-avatar>
+            </v-badge>
+            <span style="font-size: 15px; padding-left: 20px;">@{{ store.user.name }}</span><br>
+        </template>
+        
+        <v-card-text>
+            <v-row padding="0">
+            <v-card-text style="text-align:center;">
                 <v-row>
                     <v-col style="padding-bottom: 0">
-                        <p class="font-card-number">{{ followers }}</p>
+                        <p class="font-card-number">{{ store.user.followers }}</p>
                     </v-col>
                     <v-col style="padding-bottom: 0">
-                        <p class="font-card-number">{{ following }}</p>
+                        <p class="font-card-number">{{ store.user.following }}</p>
                     </v-col>
                     <v-col style="padding-bottom: 0">
-                        <p class="font-card-number">{{ posts }}</p>
+                        <p class="font-card-number">{{ store.user.posts }}</p>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col style="padding-top: 0">
-                        <span class="font-card-text" >Follower</span>
+                        <span class="font-card-text">Seguidores</span>
                     </v-col>
                     <v-col style="padding-top: 0">
-                        <span class="font-card-text">Following</span>
+                        <span class="font-card-text">Seguindo</span>
                     </v-col>
                     <v-col style="padding-top: 0">
                         <span class="font-card-text">Posts</span>
@@ -38,55 +34,37 @@
                 </v-row>
             </v-card-text>
         </v-row>
+        </v-card-text>
+
+        
     </v-card>
 </template>
   
 <script>
+import { store } from '../store.js'
+
 export default {
     name: 'UserCard',
+    data: function () {
+        return {
+            store
+        }
+    },
     props: {
         width: {
-            type: Number,
-            default: 400
+            type: Number
         },
-        userName: {
-            type: String,
-            default: '@UserName'
-        },
-        followers: {
-            type: String,
-            default: '5.5k'
-        },
-        following: {
-            type: String,
-            default: '568'
-        },
-        posts: {
-            type: String,
-            default: '5.5k'
-        },
-        image: {
-            type: String,
-            default: ""
+        height: {
+            type: Number
         }
     },
     computed: {
         cardWidth() {
             return `${this.width}px`
         },
-        cardUserName() {
-            return this.userName;
+        cardHeight() {
+            return `${this.height}px`
         },
-        cardfollowers() {
-            return this.followers
-        },
-        cardfollowing() {
-            return this.following
-        },
-        cardposts() {
-            return this.posts
-        }
-
     }
 }
 </script>

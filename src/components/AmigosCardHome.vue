@@ -36,8 +36,6 @@ export default {
     }, computed: {
         userActive() {
             return this.color;
-        }, cardUserName() {
-            return this.userName;
         }
     }
 }

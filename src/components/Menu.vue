@@ -1,27 +1,23 @@
 <template>
     <v-list>
-        <a href="/">
-            <v-list-item prepend-icon="mdi-folder" title="Home" value="shared"></v-list-item>
-        </a>
-        <a href="/perfil">
+        <router-link to="/">
             <v-list-item prepend-icon="mdi-account-multiple" title="Perfil" value="shared"></v-list-item>
-        </a>
-        <a href="/objetivos">
+        </router-link>
+        <router-link to="/feed">
+            <v-list-item prepend-icon="mdi-folder" title="Feed" value="shared"></v-list-item>
+        </router-link>
+        <router-link to="/objetivos">
             <v-list-item prepend-icon="mdi-calendar" title="Objetivos" value="shared"></v-list-item>
-        </a>
+        </router-link>
+        <router-link to="/criteriosConfig">
+            <v-list-item prepend-icon="mdi-calendar" title="Configuraçao Criterios" value="shared"></v-list-item>
+        </router-link>
     </v-list>
 </template>
 
 <script>
-import { mdiCalendar } from '@mdi/js';
-
 export default {
     name: "MenuApp",
-    data() {
-        return {
-            calendarIcon: mdiCalendar
-        };
-    }
 
 }
 </script>

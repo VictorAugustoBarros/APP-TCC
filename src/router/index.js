@@ -7,11 +7,21 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'Home',
-        component: () => import('@/views/Home.vue'),
+        name: 'Perfil',
+        component: () => import('@/views/Perfil.vue'),
+      },
+    ]
+  }, {
+    path: '/feed',
+    children: [
+      {
+        path: '',
+        name: 'Feed',
+        component: () => import('@/views/Feed.vue'),
       },
     ],
-  },{
+  },
+  {
     path: '/objetivos',
     children: [
       {
@@ -21,11 +31,22 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/criteriosConfig',
+    children: [
+      {
+        path: '',
+        name: 'CriteriosConfig',
+        component: () => import('@/views/CriteriosConfig.vue'),
+      },
+    ],
+  }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
+
 
 export default router

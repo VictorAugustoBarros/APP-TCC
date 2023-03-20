@@ -1,7 +1,8 @@
 <template>
-    <h3>Amigos (129 online)</h3>
+    <h4 style="color: gray;text-align: center;family: Comic Sans MS;">Amigos (129 online)</h4>
+    <br>
     <AmigosCardHome color="green" userName="Zezinho" />
-    <AmigosCardHome color="green" />
+    <AmigosCardHome color="green" userName="Zezinha" />
     <AmigosCardHome color="green" />
     <AmigosCardHome color="green" />
     <AmigosCardHome color="red" />
