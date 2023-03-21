@@ -1,5 +1,5 @@
 <template>
-    <v-card style="background-color: lightgray;" class="mx-auto" :width="cardWidth" :height="cardHeight">
+    <v-card style="background-color: #cfd5e1;" class="mx-auto" :width="cardWidth" :height="cardHeight">
         <template v-slot:title>
             <v-badge dot color="green" style="float: left;">
                 <v-avatar image="images/user-icon.png" size=35></v-avatar>

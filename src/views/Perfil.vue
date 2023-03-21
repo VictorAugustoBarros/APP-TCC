@@ -8,6 +8,7 @@
               height="25vh"
               cover
               class="bg-grey-lighten-2"
+              style="border-radius: 13px;"
             ></v-img>
       </v-row>
       <v-row style="height: 10vh;">
@@ -17,15 +18,15 @@
     </div>
     
     <div style="padding-top: 50px;">
-      <v-row style="height: 15vh;background-color: red;border-radius: 13px;">
+      <v-row style="height: 15vh;background-color: white;border-radius: 13px;">
       
       </v-row>
       <v-row style="height: 2vh"></v-row>
-      <v-row style="height: 15vh;background-color: green;border-radius: 13px;">
+      <v-row style="height: 15vh;background-color: white;border-radius: 13px;">
   
       </v-row>
       <v-row style="height: 2vh"></v-row>
-      <v-row style="height: 15vh;background-color: yellow;border-radius: 13px;">
+      <v-row style="height: 15vh;background-color: white;border-radius: 13px;">
   
       </v-row>
     </div>

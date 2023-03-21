@@ -1,46 +1,10 @@
 <template>
   <title>{{ store.page.title }}</title>
-  <v-app>
+  <v-app style="background-color: #ededf2">
     <v-container class="container" fluid>
-      <v-row class="navbar" style="height: 13vh;">
-        <v-col class="center-element" cols="2">
-          <v-img :width="60" :height="60" src="images/Logo.png">
-          </v-img>
-        </v-col>
-        <v-col cols="8" style="display:flex;align-items: center;">
-          <v-row>
-            <v-col style="display:flex;align-items: center;">
-              <h2 style="padding-left: 70px;">{{ store.page.title }}</h2>
-            </v-col>
-            <v-col>
-              <SearchBox />
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="2" style="display:flex;align-items: center;">
-          <v-row>
-            <v-col class="center-element" style="height: 10vh">
-              <v-btn icon size="40">
-                <v-badge content="5" color="error">
-                  <v-icon size=25>mdi-message</v-icon>
-                </v-badge>
-              </v-btn>
-            </v-col>
-            <v-col class="center-element" style="height: 10vh">
-              <v-btn icon size="40">
-                <v-badge content="5" color="error">
-                  <v-icon>mdi-bell-outline</v-icon>
-                </v-badge>
-              </v-btn>
-            </v-col>
-            <v-col class="center-element" style="height: 10vh">
 
-              <AvatarDropdown />
+      <NavBar />
 
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
       <v-row style="height: 75vh;">
         <v-col cols="2" style="padding-top: 0">
           <UserCard :width=250 :height=120 />
@@ -48,9 +12,9 @@
           <MenuApp />
 
         </v-col>
-        <v-col cols="8" style="background-color: lightgray;border-radius: 10px;padding: 25px">
+        <v-col cols="8" style="background-color: #cfd5e1;border-radius: 10px;padding: 25px">
 
-          <div class="container" style="height: 80vh;overflow: auto">
+          <div class="container" style="height: 83vh;overflow: auto">
             <router-view></router-view>
           </div>
 
@@ -58,6 +22,7 @@
         <v-col cols="2" style="padding-top: 0">
           <ListaAmigos />
         </v-col>
+
       </v-row>
     </v-container>
   </v-app>
@@ -66,10 +31,9 @@
 <script>
 import UserCard from './components/Card.vue';
 import MenuApp from './components/Menu.vue';
-import SearchBox from './components/Search.vue';
-import AvatarDropdown from './components/AvatarDropdown.vue';
 import ListaAmigos from './components/ListaAmigos.vue';
 import ObjetivosPage from './components/Objetivos.vue';
+import NavBar from './components/NavBar.vue';
 
 import { store } from './store.js'
 
@@ -90,25 +54,15 @@ export default {
   components: {
     UserCard,
     MenuApp,
-    SearchBox,
-    AvatarDropdown,
     ListaAmigos,
-    ObjetivosPage
+    ObjetivosPage,
+    NavBar
   }
 }
 
 </script>
 
 <style>
-.center-element {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.navbar {
-  height: 100px;
-}
 *::-webkit-scrollbar,
 *::-webkit-scrollbar-thumb {
   display: none;
@@ -118,13 +72,8 @@ export default {
   border: 10px solid transparent;
 }
 
-*::-webkit-scrollbar-thumb {        
+*::-webkit-scrollbar-thumb {
   box-shadow: inset 0 0 0 10px;
 }
-
-body {
-  background: whitesmoke;
-}
-
 </style>
 
