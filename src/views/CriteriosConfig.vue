@@ -28,8 +28,7 @@
             <v-col>
               <v-select label="Escolha a Importância"
                 :items="['Importância igual', 'Importância moderada', 'Importância forte', 'Importância muito forte', 'Importância extrema']"
-                v-model="comparison.value"
-                ></v-select>
+                v-model="comparison.value"></v-select>
             </v-col>
             <v-col>
               {{ comparison.criterio }}
@@ -49,6 +48,7 @@
 </template>
 
 <script>
+import { store } from '../store.js'
 
 export default {
   name: 'CriteriosConfig',
@@ -57,6 +57,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  mounted() {
+    store.page.title = "Configuração Critérios"
   },
   data: function () {
     return {
@@ -67,23 +70,43 @@ export default {
     };
   },
   watch: {
-    criteriosSelecionados() {
+    criteriosSelecionados(novosCriteriosSelecionados) {
       this.loadComparasions()
     }
   },
   methods: {
     // TODO -> Ajustar funçao das comparacoes entre criterios
+    removeComparisonsNotUsed() {
+      console.log("-----------------INICIO-------------------------");
+      console.log(this.comparisons);
+      for (let comparisonKey in this.comparisons) {
+
+        // @TODO -> Finalizar logica
+        for (let i = 0; i < this.comparisons[comparisonKey].length; i++) {
+          if (!Object.values(this.criteriosSelecionados).includes(this.comparisons[comparisonKey][i].criterio)) {
+            delete this.comparisons[comparisonKey][i]
+          }
+        }
+
+        if (!Object.values(this.criteriosSelecionados).includes(comparisonKey)) {
+          delete this.comparisons[comparisonKey]
+        }
+      }
+      console.log("------------------FINAL-------------------------");
+      console.log(this.comparisons);
+      console.log("----------------------------------------------");
+    },
     loadComparasions() {
       for (let i = 0; i < this.criteriosSelecionados.length; i++) {
         if (!this.comparisons[this.criteriosSelecionados[i]]) {
           this.comparisons[this.criteriosSelecionados[i]] = [];
         }
-        console.log(this.comparisons);     
         for (let j = 0; j < this.criteriosSelecionados.length; j++) {
           if (i !== j) {
-            // if (this.comparisons[this.criteriosSelecionados[i]].value){
-            //   continue
-            // }            
+            if (this.criteriosSelecionados[i].includes(this.criteriosSelecionados[j])) {
+              continue
+            }
+
             this.comparisons[this.criteriosSelecionados[i]].push({
               "criterio": this.criteriosSelecionados[j],
               "value": null
@@ -91,25 +114,7 @@ export default {
           }
         }
       }
-    //   console.log("teste");
-    //   let criteriosVazios = false;
-
-    //   console.log(this.comparisons);
-    //   if (!this.comparisons.length) {
-    //     return
-    //   }
-    //   Object.keys(this.comparisons).forEach(function (key) {
-    //     if (this.comparisons[key].value === null) {
-    //       criteriosVazios = true;
-    //     }
-    //   });
-
-    //   if (criteriosVazios) {
-    //     this.button_atualizar = true;
-    //   } else {
-    //     this.button_atualizar = false;
-    //   }
-    // }
+      this.removeComparisonsNotUsed();
     }
   }
 }
