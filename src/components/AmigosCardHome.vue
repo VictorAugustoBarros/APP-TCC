@@ -11,7 +11,7 @@
                     <span style="font-size: 15px;">{{ userName }} </span>                
                 </v-col>                
                 <v-col>
-                    <font-awesome-icon style="float: right" icon="comment-dots" />
+                    <!-- <font-awesome-icon style="float: right" icon="comment-dots" /> -->
                 </v-col>
                 
             </v-row>

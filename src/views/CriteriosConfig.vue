@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row style="height: 70vh">
+    <v-row>
       <v-col cols="3">
         <h2>Criterios</h2><br><br>
         <v-row style="padding: 0" v-for="criterio in this.criteriosBox" :key="criterio" :id="criterio">
@@ -28,7 +28,11 @@
             <v-col>
               <v-select label="Escolha a Importância"
                 :items="['Importância igual', 'Importância moderada', 'Importância forte', 'Importância muito forte', 'Importância extrema']"
-                v-model="comparison.value"></v-select>
+                v-model="comparison.value"
+
+                ## Verificar funçao para ativar botao
+                @change="verify_button_activate">
+              </v-select>
             </v-col>
             <v-col>
               {{ comparison.criterio }}
@@ -40,8 +44,8 @@
     </v-row>
 
     <v-row style="display: flex;justify-content: center;">
-      <v-btn color="green" disabled="{{ button_atualizar }}">
-        Atualizar
+      <v-btn v-on:click="submitCriterios" color="green" disabled="{{ button_atualizar }}">
+        Salvar
       </v-btn>
     </v-row>
   </v-container>
@@ -52,17 +56,12 @@ import { store } from '../store.js'
 
 export default {
   name: 'CriteriosConfig',
-  props: {
-    button_atualizar: {
-      type: Boolean,
-      default: false,
-    },
-  },
   mounted() {
     store.page.title = "Configuração Critérios"
   },
   data: function () {
     return {
+      button_atualizar: false,
       selecionado: undefined,
       criteriosBox: ["Esforço", "Período", "Tempo Conclusão", "Experiência", "Avaliação de Usuários"],
       criteriosSelecionados: [],
@@ -70,21 +69,43 @@ export default {
     };
   },
   watch: {
-    criteriosSelecionados(novosCriteriosSelecionados) {
-      this.loadComparasions()
+    criteriosSelecionados() {
+      this.removeComparisonsNotUsed();
+      this.loadComparasions();
     }
   },
   methods: {
-    // TODO -> Ajustar funçao das comparacoes entre criterios
-    removeComparisonsNotUsed() {
-      console.log("-----------------INICIO-------------------------");
-      console.log(this.comparisons);
-      for (let comparisonKey in this.comparisons) {
+    verify_button_activate() {
+      console.log("Teste");
+      let has_null_criterio = false;
+      console.log(this.criteriosSelecionados.length);
+      if (this.criteriosSelecionados.length <= 1) {
+        return;
+      }
 
-        // @TODO -> Finalizar logica
+      for (let comparisonKey in this.comparisons) {
+        for (let i = 0; i < this.comparisons[comparisonKey].length; i++) {
+          if (!this.comparisons[comparisonKey].value) {
+            has_null_criterio = true;
+            console.log("True");
+            break;
+          }
+        }
+      }
+      console.log("Has null values: " + has_null_criterio);
+      if (has_null_criterio){
+        console.log("False");
+        this.button_atualizar = false;
+      }else{
+        console.log("True");
+        this.button_atualizar = true;
+      }
+    },
+    removeComparisonsNotUsed() {
+      for (let comparisonKey in this.comparisons) {
         for (let i = 0; i < this.comparisons[comparisonKey].length; i++) {
           if (!Object.values(this.criteriosSelecionados).includes(this.comparisons[comparisonKey][i].criterio)) {
-            delete this.comparisons[comparisonKey][i]
+            this.comparisons[comparisonKey].splice(i, 1);
           }
         }
 
@@ -92,29 +113,33 @@ export default {
           delete this.comparisons[comparisonKey]
         }
       }
-      console.log("------------------FINAL-------------------------");
-      console.log(this.comparisons);
-      console.log("----------------------------------------------");
     },
     loadComparasions() {
       for (let i = 0; i < this.criteriosSelecionados.length; i++) {
         if (!this.comparisons[this.criteriosSelecionados[i]]) {
           this.comparisons[this.criteriosSelecionados[i]] = [];
         }
+
         for (let j = 0; j < this.criteriosSelecionados.length; j++) {
           if (i !== j) {
-            if (this.criteriosSelecionados[i].includes(this.criteriosSelecionados[j])) {
-              continue
+
+            let chaveExiste = false;
+            for (let k = 0; k < this.comparisons[this.criteriosSelecionados[i]].length; k++) {
+              if (this.criteriosSelecionados[j] == this.comparisons[this.criteriosSelecionados[i]][k].criterio) {
+                chaveExiste = true;
+                break;
+              }
             }
 
-            this.comparisons[this.criteriosSelecionados[i]].push({
-              "criterio": this.criteriosSelecionados[j],
-              "value": null
-            });
+            if (!chaveExiste) {
+              this.comparisons[this.criteriosSelecionados[i]].push({
+                "criterio": this.criteriosSelecionados[j],
+                "value": null
+              });
+            }
           }
         }
       }
-      this.removeComparisonsNotUsed();
     }
   }
 }

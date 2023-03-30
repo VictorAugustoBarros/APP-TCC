@@ -1,5 +1,5 @@
 <template>
-    <v-col style="background-color: #E3E3E3; height: 80vh; overflow: auto; border-radius: 10px">
+    <v-col style="background-color: #E3E3E3; overflow: auto; border-radius: 10px">
         <h1>Feed</h1>
 
     </v-col>

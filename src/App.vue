@@ -5,16 +5,16 @@
 
       <NavBar />
 
-      <v-row style="height: 75vh;">
+      <v-row>
         <v-col cols="2" style="padding-top: 0">
           <UserCard :width=250 :height=120 />
           <br>
           <MenuApp />
 
         </v-col>
-        <v-col cols="8" style="background-color: #cfd5e1;border-radius: 10px;padding: 25px">
+        <v-col cols="8" style="background-color: #cfd5e1;border-radius: 10px;padding: 25px;">
 
-          <div class="container" style="height: 83vh;overflow: auto">
+          <div class="container" style="height: auto">
             <router-view></router-view>
           </div>
 
