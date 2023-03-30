@@ -29,8 +29,6 @@
               <v-select label="Escolha a Importância"
                 :items="['Importância igual', 'Importância moderada', 'Importância forte', 'Importância muito forte', 'Importância extrema']"
                 v-model="comparison.value"
-
-                ## Verificar funçao para ativar botao
                 @change="verify_button_activate">
               </v-select>
             </v-col>
