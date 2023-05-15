@@ -13,7 +13,7 @@
       <v-col cols="9">
         <v-row style="display: flex;justify-content: center;text-align: center;">
           <v-btn-toggle v-model="selecionado" color="primary" mandatory>
-            <v-btn v-for="criterio in this.criteriosSelecionados" :value="criterio">
+            <v-btn v-for="criterio in criteriosSelecionados" :key="criterio" :value="criterio">
               {{ criterio }}
             </v-btn>
           </v-btn-toggle>

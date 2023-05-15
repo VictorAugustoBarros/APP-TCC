@@ -2,6 +2,9 @@
 import { reactive } from 'vue'
 
 export const store = reactive({
+    state: {
+        isAuthenticated: false
+    },
     user: {
         name: null,
         email: null,
@@ -12,5 +15,10 @@ export const store = reactive({
     },
     page: {
         title: null
+    },
+    mutations: {
+        setAuthenticated(state, isAuthenticated) {
+            state.isAuthenticated = isAuthenticated;
+        }
     }
-})
+})  

@@ -40,6 +40,15 @@ const routes = [
         component: () => import('@/views/CriteriosConfig.vue'),
       },
     ],
+  },{
+    path: '/login',
+    children: [
+      {
+        path: '',
+        name: 'Login',
+        component: () => import('@/views/Login.vue'),
+      },
+    ],
   }
 ]
 
