@@ -3,9 +3,6 @@
         <router-link to="/">
             <v-list-item prepend-icon="mdi-account-multiple" title="Perfil" ></v-list-item>
         </router-link>
-        <router-link to="/feed">
-            <v-list-item prepend-icon="mdi-folder" title="Feed" ></v-list-item>
-        </router-link>
         <router-link to="/objetivos">
             <v-list-item prepend-icon="mdi-calendar" title="Objetivos" ></v-list-item>
         </router-link>

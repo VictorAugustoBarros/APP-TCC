@@ -11,15 +11,6 @@ const routes = [
         component: () => import('@/views/Perfil.vue'),
       },
     ]
-  }, {
-    path: '/feed',
-    children: [
-      {
-        path: '',
-        name: 'Feed',
-        component: () => import('@/views/Feed.vue'),
-      },
-    ],
   },
   {
     path: '/objetivos',
