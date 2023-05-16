@@ -1,6 +1,6 @@
 <template>
     <v-list style="background-color: transparent">
-        <router-link to="/">
+        <router-link to="/perfil">
             <v-list-item prepend-icon="mdi-account-multiple" title="Perfil" ></v-list-item>
         </router-link>
         <router-link to="/objetivos">

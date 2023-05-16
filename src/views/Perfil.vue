@@ -35,7 +35,7 @@ import { store } from '../store.js'
 
 
 export default {
-  name: 'Perfilpage',
+  name: 'PerfilPage',
   data: function () {
     return {
       store

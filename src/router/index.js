@@ -7,6 +7,24 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'App',
+        component: () => import('@/App.vue'),
+      },
+    ]
+  },{
+    path: '/home',
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: () => import('@/views/HomePage.vue'),
+      },
+    ]
+  },{
+    path: '/perfil',
+    children: [
+      {
+        path: '',
         name: 'Perfil',
         component: () => import('@/views/Perfil.vue'),
       },

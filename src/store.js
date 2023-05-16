@@ -17,8 +17,8 @@ export const store = reactive({
         title: null
     },
     mutations: {
-        setAuthenticated(state, isAuthenticated) {
+        setIsAuthenticated(state, isAuthenticated) {
             state.isAuthenticated = isAuthenticated;
-        }
-    }
+        },
+    },
 })  

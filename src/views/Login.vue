@@ -11,9 +11,14 @@
     </div>
     <div class="form-container sign-in-container">
       <form class="form" action="#">
-        <h1 class="h1"></h1>
-        <input class="input" type="email" placeholder="Email" />
-        <input class="input" type="password" placeholder="Password" />
+        <h1 class="h1">Login</h1>
+        <input class="input" id="emailForm" type="email" placeholder="Email" />
+        <input
+          class="input"
+          id="passwordForm"
+          type="password"
+          placeholder="Password"
+        />
         <a class="a" href="#">Forgot your password?</a>
         <v-btn rounded variant="text" @click="login()"> Entrar </v-btn>
       </form>
@@ -43,6 +48,9 @@
 </template>
 
 <script>
+import axios from "axios";
+import { store } from "../store.js";
+
 export default {
   name: "LoginPage",
   data() {
@@ -53,14 +61,31 @@ export default {
   },
   methods: {
     login() {
-      // Aqui você pode adicionar a lógica de autenticação
-      // Verifique o nome de usuário e senha, faça uma chamada de API, etc.
-      // Exemplo básico de validação:
-      if (this.username === "admin" && this.password === "password") {
-        alert("Login bem-sucedido!");
-      } else {
-        alert("Credenciais inválidas!");
-      }
+      const emailForm = document.getElementById("emailForm");
+      const passwordForm = document.getElementById("passwordForm");
+
+      const data = {
+        email: emailForm.value,
+        password: passwordForm.value,
+      };
+
+      axios
+        .post("http://localhost:8000/users/login", data, {
+          "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+        })
+        .then((response) => {
+          console.log("Resposta:", response.data);
+          if (Object.keys(response.data).length === 0) {
+            console.log("Usuário não encontrado!");
+          } else {
+            store.state.isAuthenticated = true;
+          }
+        })
+        .catch((error) => {
+          // Manipula erros ocorridos durante a solicitação
+          console.error("Erro:", error);
+          store.state.isAuthenticated = false;
+        });
     },
     signUp() {
       const container = document.getElementById("container");

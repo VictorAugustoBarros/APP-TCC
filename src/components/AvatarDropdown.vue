@@ -19,7 +19,7 @@
               {{ store.user.email }}
             </p>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text" @click="logout">
+            <v-btn rounded variant="text" @click="logout()">
               Logout
             </v-btn>
           </div>
@@ -40,8 +40,10 @@ export default {
   }),
     methods: {
     logout() {
-      store.commit('setAuthenticated', false);
+      store.state.isAuthenticated = false;
       console.log(store.state)
+      window.location.pathname = '/';
+
     }
   }
 
