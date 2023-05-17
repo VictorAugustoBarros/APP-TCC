@@ -1,46 +1,93 @@
 <template>
-  <div class="container" id="container">
-    <div class="form-container sign-up-container">
-      <form class="form" action="#">
-        <h1 class="h1">Registrar</h1>
-        <input class="input" type="text" placeholder="Name" />
-        <input class="input" type="email" placeholder="Email" />
-        <input class="input" type="password" placeholder="Password" />
-        <button class="button">Registrar</button>
-      </form>
-    </div>
-    <div class="form-container sign-in-container">
-      <form class="form" action="#">
-        <h1 class="h1">Login</h1>
-        <input class="input" id="emailForm" type="email" placeholder="Email" />
-        <input
-          class="input"
-          id="passwordForm"
-          type="password"
-          placeholder="Password"
-        />
-        <a class="a" href="#">Forgot your password?</a>
-        <v-btn rounded variant="text" @click="login()"> Entrar </v-btn>
-      </form>
-    </div>
-    <div class="overlay-container">
-      <div class="overlay">
-        <div class="overlay-panel overlay-left">
-          <h1 class="h1">Olá, Amigo!</h1>
-          <p class="p">
-            Introduza os seus dados pessoais e comece a evoluis com nós
-          </p>
-          <v-btn rounded variant="text" @click="signIn()"> Entrar </v-btn>
-        </div>
-        <div class="overlay-panel overlay-right">
-          <h1 class="h1">Bem Vindo!</h1>
-          <p class="p">
-            Para se manter conectado conosco, faça o login com suas informações
-            pessoais
-          </p>
-          <v-btn rounded class="ghost" variant="text" @click="signUp()">
-            Registrar
-          </v-btn>
+  <div id="body">
+    <div class="container" id="container">
+      <div class="form-container sign-up-container">
+        <form class="register-form" @submit.prevent="registerUser">
+          <h1 class="h1">Registrar</h1>
+          <span v-if="successRegister" class="success-text">{{
+            successRegister
+          }}</span>
+          <span v-if="errorRegister" class="error-text">{{
+            errorRegister
+          }}</span>
+          <input
+            type="text"
+            class="input"
+            id="nomeRegister"
+            v-model="nomeRegister"
+            placeholder="Nome"
+          />
+          <input
+            class="input"
+            id="usernameRegister"
+            v-model="usernameRegister"
+            placeholder="Username"
+          />
+          <input
+            class="input"
+            id="emailRegister"
+            v-model="emailRegister"
+            placeholder="Email"
+          />
+          <input
+            class="input"
+            type="password"
+            id="passwordRegister"
+            v-model="passwordRegister"
+            placeholder="Senha"
+          />
+          <button class="button" type="submit">Registrar</button>
+        </form>
+      </div>
+
+      <div class="form-container sign-in-container">
+        <form class="form" action="#">
+          <h1 class="h1">Login</h1>
+          <span v-if="successLogin" class="success-text">{{
+            successLogin
+          }}</span>
+          <span v-if="errorLogin" class="error-text">{{ errorLogin }}</span>
+          <input
+            class="input"
+            id="emailForm"
+            v-model.trim="emailLogin"
+            :class="{ 'error-border': emailLogin === '' }"
+            type="email"
+            placeholder="Email"
+            required
+          />
+          <input
+            class="input"
+            id="passwordForm"
+            v-model.trim="passwordLogin"
+            type="password"
+            placeholder="Senha"
+            required
+          />
+          <a class="a" href="#">Forgot your password?</a>
+          <v-btn rounded variant="text" @click="login()"> Entrar </v-btn>
+        </form>
+      </div>
+
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1 class="h1">Olá, Amigo!</h1>
+            <p class="p">
+              Introduza os seus dados pessoais e comece a evoluir com nós
+            </p>
+            <v-btn rounded variant="text" @click="signIn()"> Entrar </v-btn>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1 class="h1">Bem Vindo!</h1>
+            <p class="p">
+              Para se manter conectado conosco, faça o login com suas
+              informações pessoais
+            </p>
+            <v-btn rounded class="ghost" variant="text" @click="signUp()">
+              Registrar
+            </v-btn>
+          </div>
         </div>
       </div>
     </div>
@@ -49,24 +96,75 @@
 
 <script>
 import axios from "axios";
-import { store } from "../store.js";
+import store from '../store/store';
+
+import { API_HOST } from "../constants";
 
 export default {
   name: "LoginPage",
   data() {
     return {
-      username: "",
-      password: "",
+      nomeRegister: "",
+      usernameRegister: "",
+      emailRegister: "",
+      passwordRegister: "",
+
+      emailLogin: "",
+      passwordLogin: "",
+
+      errorLogin: "",
+      successLogin: "",
+      errorRegister: "",
+      successRegister: "",
     };
   },
   methods: {
-    login() {
-      const emailForm = document.getElementById("emailForm");
-      const passwordForm = document.getElementById("passwordForm");
+    registerUser() {
+      if (
+        this.nomeRegister === "" ||
+        this.emailRegister === "" ||
+        this.usernameRegister === "" ||
+        this.passwordRegister === ""
+      ) {
+        this.errorRegister = "Preencha todos os campos.";
+        return;
+      }
 
       const data = {
-        email: emailForm.value,
-        password: passwordForm.value,
+        name: this.nomeRegister,
+        email: this.emailRegister,
+        username: this.usernameRegister,
+        password: this.passwordRegister,
+      };
+
+      axios
+        .post(`${API_HOST}/users`, data, {
+          "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+        })
+        .then((response) => {
+          console.log(response.data.success);
+
+          if (!response.data.success) {
+            this.successRegister = "";
+            this.errorRegister = response.data.message;
+          } else {
+            this.successRegister = response.data.message;
+            this.errorRegister = "";
+          }
+        })
+        .catch(() => {
+          alert("Ocorreu um erro ao cadastrar o usuário.");
+        });
+    },
+    login() {
+      if (this.emailLogin === "" || this.passwordLogin === "") {
+        this.errorLogin = "Preencha todos os campos.";
+        return;
+      }
+
+      const data = {
+        email: this.emailLogin,
+        password: this.passwordLogin,
       };
 
       axios
@@ -74,17 +172,16 @@ export default {
           "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
         })
         .then((response) => {
-          console.log("Resposta:", response.data);
           if (Object.keys(response.data).length === 0) {
-            console.log("Usuário não encontrado!");
+            this.errorLogin = "Usuário não encontrado!";
           } else {
-            store.state.isAuthenticated = true;
+            store.commit('setIsAuthenticated', true);
+            store.state.user.id = response.data.user_id;
+            this.$router.push("/perfil");
           }
         })
         .catch((error) => {
-          // Manipula erros ocorridos durante a solicitação
           console.error("Erro:", error);
-          store.state.isAuthenticated = false;
         });
     },
     signUp() {
@@ -100,13 +197,21 @@ export default {
 </script>
 
 <style>
-/* @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+.error-text {
+  color: red;
+}
+
+.success-text {
+  color: green;
+}
 
 * {
   box-sizing: border-box;
 }
 
-body {
+#body {
   background: #f6f5f7;
   display: flex;
   justify-content: center;
@@ -116,16 +221,12 @@ body {
   height: 100vh;
 }
 
-h1 {
+.h1 {
   font-weight: bold;
   margin: 0;
 }
 
-h2 {
-  text-align: center;
-}
-
-p {
+.p {
   font-size: 14px;
   font-weight: 100;
   line-height: 20px;
@@ -189,7 +290,7 @@ input {
   width: 100%;
 }
 
-.container {
+#container {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -325,5 +426,5 @@ input {
   margin: 0 5px;
   height: 40px;
   width: 40px;
-} */
+}
 </style>

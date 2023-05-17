@@ -4,7 +4,7 @@
             <v-badge dot color="green" style="float: left;">
                 <v-avatar image="images/user-icon.png" size=35></v-avatar>
             </v-badge>
-            <span style="font-size: 15px; padding-left: 20px;">@{{ store.user.name }}</span><br>
+            <span style="font-size: 15px; padding-left: 20px;">{{ store.state.user.name }}</span><br>
         </template>
         
         <v-card-text>
@@ -12,13 +12,13 @@
             <v-card-text style="text-align:center;">
                 <v-row>
                     <v-col style="padding-bottom: 0">
-                        <p class="font-card-number">{{ store.user.followers }}</p>
+                        <p class="font-card-number">{{ store.state.user.followers }}</p>
                     </v-col>
                     <v-col style="padding-bottom: 0">
-                        <p class="font-card-number">{{ store.user.following }}</p>
+                        <p class="font-card-number">{{ store.state.user.following }}</p>
                     </v-col>
                     <v-col style="padding-bottom: 0">
-                        <p class="font-card-number">{{ store.user.posts }}</p>
+                        <p class="font-card-number">{{ store.state.user.posts }}</p>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -41,7 +41,7 @@
 </template>
   
 <script>
-import { store } from '../store.js'
+import store from '../store/store'
 
 export default {
     name: 'UserCard',

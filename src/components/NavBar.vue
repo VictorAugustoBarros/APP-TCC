@@ -7,7 +7,7 @@
         <v-col cols="8" style="display:flex;align-items: center;">
             <v-row>
                 <v-col style="display:flex;align-items: center;">
-                    <h2 style="padding-left: 70px;">{{ store.page.title }}</h2>
+                    <h2 style="padding-left: 70px;">{{ store.state.page.title }}</h2>
                 </v-col>
                 <v-col>
                 </v-col>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { store } from '../store.js'
+import store from '../store/store'
 import SearchBox from '../components/Search.vue';
 
 import AvatarDropdown from '../components/AvatarDropdown.vue';

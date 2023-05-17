@@ -41,12 +41,12 @@ const routes = [
     ],
   },
   {
-    path: '/criteriosConfig',
+    path: '/criterios',
     children: [
       {
         path: '',
-        name: 'CriteriosConfig',
-        component: () => import('@/views/CriteriosConfig.vue'),
+        name: 'Criterios',
+        component: () => import('@/views/Criterios.vue'),
       },
     ],
   },{

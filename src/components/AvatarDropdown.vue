@@ -14,9 +14,9 @@
             <v-avatar>
               <v-img src="images/user-icon.png" alt="John"></v-img>
             </v-avatar>
-            <h3>{{ store.user.name }}</h3>
+            <h3>{{ store.state.user.name }}</h3>
             <p class="text-caption mt-1">
-              {{ store.user.email }}
+              {{ store.state.user.email }}
             </p>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text" @click="logout()">
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { store } from '../store.js'
+import store from '../store/store'
 
 
 export default {
@@ -40,8 +40,7 @@ export default {
   }),
     methods: {
     logout() {
-      store.state.isAuthenticated = false;
-      console.log(store.state)
+      store.commit('setIsAuthenticated', false);
       window.location.pathname = '/';
 
     }

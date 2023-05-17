@@ -50,12 +50,12 @@
 </template>
 
 <script>
-import { store } from '../store.js'
+import store from '../store/store'
 
 export default {
-  name: 'CriteriosConfig',
+  name: 'CriteriosPage',
   mounted() {
-    store.page.title = "Configuração Critérios"
+    store.state.page.title = "Configuração Critérios"
   },
   data: function () {
     return {
@@ -74,9 +74,7 @@ export default {
   },
   methods: {
     verify_button_activate() {
-      console.log("Teste");
       let has_null_criterio = false;
-      console.log(this.criteriosSelecionados.length);
       if (this.criteriosSelecionados.length <= 1) {
         return;
       }
@@ -85,17 +83,13 @@ export default {
         for (let i = 0; i < this.comparisons[comparisonKey].length; i++) {
           if (!this.comparisons[comparisonKey].value) {
             has_null_criterio = true;
-            console.log("True");
             break;
           }
         }
       }
-      console.log("Has null values: " + has_null_criterio);
       if (has_null_criterio){
-        console.log("False");
         this.button_atualizar = false;
       }else{
-        console.log("True");
         this.button_atualizar = true;
       }
     },

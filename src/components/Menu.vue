@@ -6,7 +6,7 @@
         <router-link to="/objetivos">
             <v-list-item prepend-icon="mdi-calendar" title="Objetivos" ></v-list-item>
         </router-link>
-        <router-link to="/criteriosConfig">
+        <router-link to="/criterios">
             <v-list-item prepend-icon="mdi-calendar" title="Configuraçao Criterios"></v-list-item>
         </router-link>
     </v-list>

@@ -7,41 +7,64 @@
   </v-row>
 
   <v-row>
-      <div class="div-cards" v-for="card in cardsObjetivos" :key="card.id" style="padding: 15px">
-        <CardObjetivo :title="card.title" :subtitle=card.subtitle :descricao=card.descricao :image=card.image />
-      </div>
-      
+    <div
+      class="div-cards"
+      v-for="card in cardsObjetivos"
+      :key="card.id"
+      style="padding: 15px"
+    >
+      <CardObjetivo
+        :title="card.titulo"
+        :subtitle="card.subtitle"
+        :descricao="card.descricao"
+        :image="card.imagem"
+      />
+    </div>
   </v-row>
-
 </template>
 
 <script>
-import { store } from '../store.js'
-import CardObjetivo from '../components/CardObjetivo.vue'
+import store from '../store/store'
+import CardObjetivo from "../components/CardObjetivo.vue";
+import axios from "axios";
+import { API_HOST } from "../constants";
 
 
 export default {
-  name: 'ObjetivoPage',
+  name: "ObjetivoPage",
   components: {
-    CardObjetivo
+    CardObjetivo,
   },
   data: function () {
     return {
       store,
-      cardsObjetivos: [
-        { title: "Correr 5km", subtitle: "Corrida", descricao: "Participar de uma corrida de 5km no parque de São José dos Pinhais", image:"https://www.sesc-rs.com.br/wp-content/uploads/2021/10/Corrida-de-Rua-GettyImages-1172155958.jpg" },
-        { title: "Correr 10km", subtitle: "Corrida", descricao: "Participar de uma corrida de 5km em Curitiba", image: "https://cdn.vuetifyjs.com/images/cards/docks.jpg"},
-        { title: "Perder 10kg", subtitle: "Treino", descricao: "Participar de uma corrida de 5km em Curitiba", image: "https://conteudo.imguol.com.br/c/entretenimento/6a/2019/03/18/musculacao-treino-academia-exercicio-1552946244916_v2_836x1254.jpg" },
-        { title: "Criar nova Rotina", subtitle: "Rotina", descricao: "Participar de uma corrida de 5km em Curitiba", image: "https://organizenapratica.com.br/wp-content/uploads/2021/08/o-que-e-rotina.jpg" },
-        { title: "Estudar Python", subtitle: "Programação", descricao: "Participar de uma corrida de 5km em Curitiba", image: "https://idocode.com.br/wp-content/uploads/2021/07/programacao-scaled.jpg"},
-      ]
-    };
+      cardsObjetivos: []
+    }
   },
   mounted() {
-    store.page.title = "Objetivos"
-  }
-}
-
+    store.state.page.title = "Objetivos";
+    this.getUserObjectives()
+  },
+  methods: {
+    getUserObjectives() {
+      const data = {
+        user_id: store.state.user.id,
+      };
+      axios
+        .post(`${API_HOST}/objetivos/user`, data, {
+          "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+        })
+        .then((response) => {
+          this.cardsObjetivos = response.data
+          console.log(this.objetivos);
+        })
+        .catch((error) => {
+          // Manipula erros ocorridos durante a solicitação
+          console.error("Erro:", error);
+        });
+    },
+  },
+};
 </script>
 
 <style>
