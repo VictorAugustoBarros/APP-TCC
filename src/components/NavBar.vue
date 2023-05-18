@@ -43,16 +43,14 @@
 </template>
 
 <script>
-import store from '../store'
-import SearchBox from '../components/Search.vue';
+import SearchBox from '@/components/Search.vue';
 
-import AvatarDropdown from '../components/AvatarDropdown.vue';
+import AvatarDropdown from '@/components/AvatarDropdown.vue';
 
 export default {
     name: "NavBar",
     data: function () {
         return {
-            store
         }
     },
     components: {

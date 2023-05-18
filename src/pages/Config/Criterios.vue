@@ -50,13 +50,9 @@
 </template>
 
 <script>
-import store from '../store'
 
 export default {
   name: 'CriteriosPage',
-  mounted() {
-    store.state.page.title = "Configuração Critérios"
-  },
   data: function () {
     return {
       button_atualizar: false,

@@ -20,29 +20,17 @@
               <v-col cols="8">
                 <v-row>
                   <v-col cols="12">
-                    <v-text-field
-                      v-model="titulo"
-                      label="Titulo"
-                      variant="outlined"
-                    ></v-text-field>
+                    <v-text-field v-model="titulo" label="Titulo" variant="outlined"></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-row>
                   <v-col cols="6">
-                    <v-text-field
-                      v-model="categoria"
-                      label="Categoria"
-                      variant="outlined"
-                    ></v-text-field>
+                    <v-text-field v-model="categoria" label="Categoria" variant="outlined"></v-text-field>
                   </v-col>
 
                   <v-col cols="6">
-                    <v-text-field
-                      v-model="imagem"
-                      label="Link Imagem"
-                      variant="outlined"
-                    ></v-text-field>
+                    <v-text-field v-model="imagem" label="Link Imagem" variant="outlined"></v-text-field>
                   </v-col>
                 </v-row>
 
@@ -58,59 +46,35 @@
                 <v-row class="text-center">
                   <v-col cols="6">
                     <label for="checkedIndividual">Individual</label>
-                    <input
-                      type="checkbox"
-                      id="checkedIndividual"
-                      v-model="checkedIndividual"
-                      @change="this.handleCheckboxChange(1)"
-                    />
+                    <input type="checkbox" id="checkedIndividual" v-model="checkedIndividual"
+                      @change="this.handleCheckboxChange(1)" />
                   </v-col>
                   <v-col cols="6">
                     <label for="checkedCooperativo">Cooperativo</label>
-                    <input
-                      type="checkbox"
-                      id="checkedCooperativo"
-                      v-model="checkedCooperativo"
-                      @change="this.handleCheckboxChange(2)"
-                    />
+                    <input type="checkbox" id="checkedCooperativo" v-model="checkedCooperativo"
+                      @change="this.handleCheckboxChange(2)" />
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-textarea
-                      v-model="descricao"
-                      style="rezise: none"
-                      rows="5"
-                      label="Descrição"
-                      variant="outlined"
-                      :maxlength="100"
-                    ></v-textarea>
+                    <v-textarea v-model="descricao" style="rezise: none" rows="5" label="Descrição" variant="outlined"
+                      :maxlength="100"></v-textarea>
                   </v-col>
                 </v-row>
               </v-col>
 
               <v-col cols="4" class="d-flex align-center justify-center">
-                <CardObjetivo
-                  :title="this.titulo"
-                  :categoria="this.categoria"
-                  :descricao="this.descricao"
-                  :image="this.imagem"
-                  :detalhes="false"
-                />
+                <CardObjetivo :title="this.titulo" :categoria="this.categoria" :descricao="this.descricao"
+                  :image="this.imagem" :detalhes="false" />
               </v-col>
             </v-row>
           </v-container>
 
           <v-card-actions>
-            <v-btn class="flex-grow-1" variant="tonal" @click="cancelar"
-              >Fechar
+            <v-btn class="flex-grow-1" variant="tonal" @click="cancelar">Fechar
             </v-btn>
-            <v-btn
-              class="flex-grow-1"
-              style="background-color: #005b96; color: white"
-              variant="tonal"
-              @click="salvar"
-              >Salvar
+            <v-btn class="flex-grow-1" style="background-color: #005b96; color: white" variant="tonal"
+              @click="salvar">Salvar
             </v-btn>
           </v-card-actions>
         </div>
@@ -121,12 +85,9 @@
 
 
 <script>
-import axios from "axios";
-import store from "../store";
-import { API_HOST } from "../http/constants";
-import CardObjetivo from "../components/CardObjetivo.vue";
+import CardObjetivo from "@/components/CardObjetivo.vue";
 
-import DatePicker from "../components/DatePicker.vue";
+import DatePicker from "@/components/DatePicker.vue";
 
 export default {
   name: "ModalObjetivos",
@@ -153,37 +114,17 @@ export default {
       this.dialog = false;
     },
     salvar() {
-      const data = {
-        titulo: this.titulo,
-        categoria: this.categoria,
-        descricao: this.descricao,
-        imagem: this.imagem,
-        user_id: store.state.user.id,
-      };
-
-      axios
-        .post(`${API_HOST}/objetivos`, data, {
-          "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-        })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.error("Erro:", error);
-        });
-
-      this.dialog = false;
-      this.$emit("modal-fechado");
+        
     },
-    
+
     handleCheckboxChange(checkboxNumber) {
       console.log(checkboxNumber);
       if (checkboxNumber === 1) {
-        this.checkedIndividual = true; 
+        this.checkedIndividual = true;
         this.checkedCooperativo = false;
-      } 
+      }
       else if (checkboxNumber === 2) {
-        this.checkedIndividual = false; 
+        this.checkedIndividual = false;
         this.checkedCooperativo = true;
       }
     }

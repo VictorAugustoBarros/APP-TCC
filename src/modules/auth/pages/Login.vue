@@ -121,7 +121,41 @@ export default {
     };
   },
   methods: {
-    ...mapActions("auth", ["ActionSetUser"]),
+    ...mapActions("auth", ["ActionSetToken"]),
+    submitLogin() {
+      if (this.login.email === "" || this.login.password === "") {
+        this.login.errorMessage = "Preencha todos os campos.";
+        return;
+      }
+      
+      this.ActionSetToken("asljdashjkldasjldkasjdsa")
+
+      this.$router.push({ name: 'home' })
+
+      // const data = {
+      //   email: this.emailLogin,
+      //   password: this.passwordLogin,
+      // };
+
+      // axios
+      //   .post(`${API_HOST}/users/login`, data, {
+      //     "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+      //   })
+      //   .then((response) => {
+      //     if (Object.keys(response.data).length === 0) {
+      //       this.errorLogin = "Usuário não encontrado!";
+      //     } else {
+      //       this.SET_AUTHENTICATED(true);
+      //       this.SET_USER(response.data.user_id);
+
+      //       store.state.user.id = response.data.user_id;
+      // this.$router.push("/perfil");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("Erro:", error);
+      //   });
+    },
     registerUser() {
       if (
         this.register.name === "" ||
@@ -155,40 +189,6 @@ export default {
       //   })
       //   .catch(() => {
       //     alert("Ocorreu um erro ao cadastrar o usuário.");
-      //   });
-    },
-    submitLogin() {
-      if (this.login.email === "" || this.login.password === "") {
-        this.login.errorMessage = "Preencha todos os campos.";
-        return;
-      }
-      
-      // this.ActionSetUser({"nome": "Victor"})
-
-      this.$router.push({ name: 'home' })
-
-      // const data = {
-      //   email: this.emailLogin,
-      //   password: this.passwordLogin,
-      // };
-
-      // axios
-      //   .post(`${API_HOST}/users/login`, data, {
-      //     "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-      //   })
-      //   .then((response) => {
-      //     if (Object.keys(response.data).length === 0) {
-      //       this.errorLogin = "Usuário não encontrado!";
-      //     } else {
-      //       this.SET_AUTHENTICATED(true);
-      //       this.SET_USER(response.data.user_id);
-
-      //       store.state.user.id = response.data.user_id;
-      // this.$router.push("/perfil");
-      //     }
-      //   })
-      //   .catch((error) => {
-      //     console.error("Erro:", error);
       //   });
     },
     signUp() {

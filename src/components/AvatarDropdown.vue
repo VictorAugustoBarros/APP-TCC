@@ -14,9 +14,9 @@
             <v-avatar>
               <v-img src="images/user-icon.png" alt="John"></v-img>
             </v-avatar>
-            <h3>{{ store.state.user.name }}</h3>
+            <h3> Teste </h3>
             <p class="text-caption mt-1">
-              {{ store.state.user.email }}
+              Teste
             </p>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text" @click="logout()">
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import store from '../store'
+import store from '@/store'
+import { mapActions } from 'vuex';
 
 
 export default {
@@ -38,14 +39,13 @@ export default {
   data: () => ({
     store
   }),
-    methods: {
+  methods: {
+    ...mapActions("auth", ["ActionSetToken"]),
     logout() {
-      store.commit('setIsAuthenticated', false);
-      window.location.pathname = '/';
-
+      this.ActionSetToken("")
+      window.location.pathname = '/login';
     }
   }
-
 }
 </script>
 

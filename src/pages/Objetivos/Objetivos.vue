@@ -10,14 +10,12 @@
     <v-row style="height: 30vh" />
     <v-row
       justify="center"
-      align="center"
       class="full-height"
     >
     <h1>Infelizmente você não posssui nenhum objetivo!</h1>
     </v-row>
     <v-row
       justify="center"
-      align="center"
       class="full-height"
     >
       <h2>Crie um novo objetivo e boa sorte!</h2>
@@ -42,11 +40,8 @@
 </template>
 
 <script>
-import store from "../store";
-import CardObjetivo from "../components/CardObjetivo.vue";
-import ModalObjetivos from "../components/ModalObjetivos.vue";
-import axios from "axios";
-import { API_HOST } from "../http/constants";
+import CardObjetivo from "@/components/CardObjetivo";
+import ModalObjetivos from "@/components/ModalObjetivos.vue";
 
 export default {
   name: "ObjetivoPage",
@@ -56,13 +51,11 @@ export default {
   },
   data: function () {
     return {
-      store,
       mostrarModalNovoObjetivo: false,
       cardsObjetivos: [],
     };
   },
   mounted() {
-    store.state.page.title = "Objetivos";
     this.getUserObjectives();
   },
   methods: {
@@ -73,20 +66,20 @@ export default {
       this.mostrarModalNovoObjetivo = true;
     },
     getUserObjectives() {
-      const data = {
-        user_id: store.state.user.id,
-      };
-      axios
-        .post(`${API_HOST}/objetivos/user`, data, {
-          "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-        })
-        .then((response) => {
-          this.cardsObjetivos = response.data;
-        })
-        .catch((error) => {
-          // Manipula erros ocorridos durante a solicitação
-          console.error("Erro:", error);
-        });
+      // const data = {
+      //   user_id: 
+      // };
+      // axios
+      //   .post(`${API_HOST}/objetivos/user`, data, {
+      //     "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+      //   })
+      //   .then((response) => {
+      //     this.cardsObjetivos = response.data;
+      //   })
+      //   .catch((error) => {
+      //     // Manipula erros ocorridos durante a solicitação
+      //     console.error("Erro:", error);
+      //   });
     },
   },
 };

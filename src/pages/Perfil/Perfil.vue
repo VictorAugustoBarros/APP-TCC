@@ -16,7 +16,7 @@
           size="130"
           style="position: absolute; top: 60%; left: 5%"
         ></v-avatar>
-        <h1 style="position: absolute; left: 17%">{{ store.state.user.name }}</h1>
+        <h1 style="position: absolute; left: 17%">{{  }}</h1>
       </v-row>
     </div>
 
@@ -43,13 +43,11 @@
 </template>
 
 <script>
-import store from '../store'
 
 export default {
   name: "PerfilPage",
   data: function () {
     return {
-      store,
     };
   }
 };

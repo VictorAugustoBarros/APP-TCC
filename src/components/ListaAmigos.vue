@@ -14,9 +14,7 @@
 
 
 <script>
-import AmigosCardHome from '../components/AmigosCardHome.vue';
-import store from "../store";
-import axios from "axios";
+import AmigosCardHome from '@/components/AmigosCardHome.vue';
 
 export default {
     name: "ListaAmigos",
@@ -25,43 +23,9 @@ export default {
     },
     data() {
         return {
-            amigos: store.state.amigos
+            // @TODO -> Trazer a lista de amigos
+            amigos: [] 
         }
     },
-    mounted() {
-    store.state.page.title = "Perfil";
-
-    const data = {
-      user_id: store.state.user.id,      
-    };
-
-    axios
-      .post(`${API_HOST}/users/id`, data, {
-        "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-      })
-      .then((response) => {
-        store.state.user.name = response.data.name;
-        store.state.user.email = response.data.email;
-        store.state.user.password = response.data.password;
-        store.state.user.username = response.data.username;
-        store.state.user.followers = response.data.followers;
-        store.state.user.following = response.data.following;
-      })
-      .catch((error) => {
-        console.error("Erro:", error);
-      });
-
-    axios
-      .post(`${API_HOST}/amigos/get`, data, {
-        "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-      })
-      .then((response) => {
-        store.state.amigos = response.data;
-      })
-      .catch((error) => {
-        console.error("Erro:", error);
-      });
-
-  },
 }
 </script>

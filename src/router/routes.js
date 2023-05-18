@@ -1,12 +1,12 @@
 import { routes as auth } from '../modules/auth'
-import { routes as home } from '../pages/home'
+import { routes as home } from '../pages/Home'
 
 export default [
   ...auth,
   ...home,
   {
     path: '/:pathMatch(.*)',
-    name: 'Login',
+    name: '404',
     component: () => import('../pages/404.vue'),
   }
 ]
