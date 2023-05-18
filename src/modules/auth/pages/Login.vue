@@ -4,36 +4,36 @@
       <div class="form-container sign-up-container">
         <form class="register-form" @submit.prevent="registerUser">
           <h1 class="h1">Registrar</h1>
-          <span v-if="successRegister" class="success-text">{{
-            successRegister
+          <span v-if="register.successMessage" class="success-text">{{
+            register.successMessage
           }}</span>
-          <span v-if="errorRegister" class="error-text">{{
-            errorRegister
+          <span v-if="register.errorRegister" class="error-text">{{
+            register.errorRegister
           }}</span>
           <input
             type="text"
             class="input"
             id="nomeRegister"
-            v-model="nomeRegister"
+            v-model="register.name"
             placeholder="Nome"
           />
           <input
             class="input"
             id="usernameRegister"
-            v-model="usernameRegister"
+            v-model="register.username"
             placeholder="Username"
           />
           <input
             class="input"
             id="emailRegister"
-            v-model="emailRegister"
+            v-model="register.email"
             placeholder="Email"
           />
           <input
             class="input"
             type="password"
             id="passwordRegister"
-            v-model="passwordRegister"
+            v-model="register.password"
             placeholder="Senha"
           />
           <button class="button" type="submit">Registrar</button>
@@ -43,15 +43,17 @@
       <div class="form-container sign-in-container">
         <form class="form" action="#">
           <h1 class="h1">Login</h1>
-          <span v-if="successLogin" class="success-text">{{
-            successLogin
+          <span v-if="login.successMessage" class="success-text">{{
+            login.successMessage
           }}</span>
-          <span v-if="errorLogin" class="error-text">{{ errorLogin }}</span>
+          <span v-if="login.errorMessage" class="error-text">{{
+            login.errorMessage
+          }}</span>
           <input
             class="input"
             id="emailForm"
-            v-model.trim="emailLogin"
-            :class="{ 'error-border': emailLogin === '' }"
+            v-model.trim="login.email"
+            :class="{ 'error-border': login.email === '' }"
             type="email"
             placeholder="Email"
             required
@@ -59,13 +61,13 @@
           <input
             class="input"
             id="passwordForm"
-            v-model.trim="passwordLogin"
+            v-model.trim="login.password"
             type="password"
             placeholder="Senha"
             required
           />
           <a class="a" href="#">Forgot your password?</a>
-          <v-btn rounded variant="text" @click="login()"> Entrar </v-btn>
+          <v-btn rounded variant="text" @click="submitLogin()"> Entrar </v-btn>
         </form>
       </div>
 
@@ -95,94 +97,99 @@
 </template>
 
 <script>
-import axios from "axios";
-import store from '../store/store';
-
-import { API_HOST } from "../constants";
+import { mapActions } from "vuex";
 
 export default {
   name: "LoginPage",
   data() {
     return {
-      nomeRegister: "",
-      usernameRegister: "",
-      emailRegister: "",
-      passwordRegister: "",
+      register: {
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+        errorMessage: "",
+        successMessage: "",
+      },
 
-      emailLogin: "",
-      passwordLogin: "",
-
-      errorLogin: "",
-      successLogin: "",
-      errorRegister: "",
-      successRegister: "",
+      login: {
+        email: "",
+        password: "",
+        errorMessage: "",
+        successMessage: "",
+      },
     };
   },
   methods: {
+    ...mapActions("auth", ["ActionSetUser"]),
     registerUser() {
       if (
-        this.nomeRegister === "" ||
-        this.emailRegister === "" ||
-        this.usernameRegister === "" ||
-        this.passwordRegister === ""
+        this.register.name === "" ||
+        this.register.email === "" ||
+        this.register.username === "" ||
+        this.register.password === ""
       ) {
-        this.errorRegister = "Preencha todos os campos.";
+        this.register.errorMessage = "Preencha todos os campos.";
         return;
       }
 
-      const data = {
-        name: this.nomeRegister,
-        email: this.emailRegister,
-        username: this.usernameRegister,
-        password: this.passwordRegister,
-      };
+      // const data = {
+      //   name: this.nomeRegister,
+      //   email: this.emailRegister,
+      //   username: this.usernameRegister,
+      //   password: this.passwordRegister,
+      // };
 
-      axios
-        .post(`${API_HOST}/users`, data, {
-          "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-        })
-        .then((response) => {
-          console.log(response.data.success);
-
-          if (!response.data.success) {
-            this.successRegister = "";
-            this.errorRegister = response.data.message;
-          } else {
-            this.successRegister = response.data.message;
-            this.errorRegister = "";
-          }
-        })
-        .catch(() => {
-          alert("Ocorreu um erro ao cadastrar o usuário.");
-        });
+      // axios
+      //   .post(`${API_HOST}/users`, data, {
+      //     "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+      //   })
+      //   .then((response) => {
+      //     if (!response.data.success) {
+      //       this.successRegister = "";
+      //       this.errorRegister = response.data.message;
+      //     } else {
+      //       this.successRegister = response.data.message;
+      //       this.errorRegister = "";
+      //     }
+      //   })
+      //   .catch(() => {
+      //     alert("Ocorreu um erro ao cadastrar o usuário.");
+      //   });
     },
-    login() {
-      if (this.emailLogin === "" || this.passwordLogin === "") {
-        this.errorLogin = "Preencha todos os campos.";
+    submitLogin() {
+      if (this.login.email === "" || this.login.password === "") {
+        this.login.errorMessage = "Preencha todos os campos.";
         return;
       }
+      
+      // this.ActionSetUser({"nome": "Victor"})
 
-      const data = {
-        email: this.emailLogin,
-        password: this.passwordLogin,
-      };
+      this.$router.push({ name: 'home' })
 
-      axios
-        .post("http://localhost:8000/users/login", data, {
-          "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-        })
-        .then((response) => {
-          if (Object.keys(response.data).length === 0) {
-            this.errorLogin = "Usuário não encontrado!";
-          } else {
-            store.commit('setIsAuthenticated', true);
-            store.state.user.id = response.data.user_id;
-            this.$router.push("/perfil");
-          }
-        })
-        .catch((error) => {
-          console.error("Erro:", error);
-        });
+      // const data = {
+      //   email: this.emailLogin,
+      //   password: this.passwordLogin,
+      // };
+
+      // axios
+      //   .post(`${API_HOST}/users/login`, data, {
+      //     "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+      //   })
+      //   .then((response) => {
+      //     if (Object.keys(response.data).length === 0) {
+      //       this.errorLogin = "Usuário não encontrado!";
+      //     } else {
+      //       this.SET_AUTHENTICATED(true);
+      //       this.SET_USER(response.data.user_id);
+
+      //       store.state.user.id = response.data.user_id;
+      // this.$router.push("/perfil");
+      //     }
+      //   })
+      //   .catch((error) => {
+      //     console.error("Erro:", error);
+      //   });
     },
     signUp() {
       const container = document.getElementById("container");

@@ -1,5 +1,4 @@
 <template>
-  <title>{{ store.state.page.title }}</title>
   <v-app style="background-color: #ededf2">
     <v-container class="container" fluid>
       <NavBar />
@@ -19,7 +18,9 @@
           </div>
         </v-col>
         <v-col cols="2" style="padding-top: 0">
-          <ListaAmigos />
+          <div style="overflow: auto; height: 85vh">
+            <ListaAmigos />
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -27,12 +28,14 @@
 </template>
 
 <script>
-import UserCard from "../components/Card.vue";
-import MenuApp from "../components/Menu.vue";
-import ListaAmigos from "../components/ListaAmigos.vue";
-import NavBar from "../components/NavBar.vue";
+import UserCard from "@/components/Card.vue";
+import MenuApp from "@/components/Menu.vue";
+import ListaAmigos from "@/components/ListaAmigos.vue";
+import NavBar from "@/components/NavBar.vue";
 
-import store from '../store/store'
+import store from "../../store";
+import axios from "axios";
+import { API_HOST } from "@/http/constants";
 
 export default {
   name: "HomePage",
@@ -46,6 +49,27 @@ export default {
     MenuApp,
     ListaAmigos,
     NavBar,
+  },
+  mounted() {
+    const data = {
+      user_id: store.state.user.id,
+    };
+
+    axios
+      .post(`${API_HOST}/users/id`, data, {
+        "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+      })
+      .then((response) => {
+        store.state.user.name = response.data.name;
+        store.state.user.email = response.data.email;
+        store.state.user.password = response.data.password;
+        store.state.user.username = response.data.username;
+        store.state.user.followers = response.data.followers;
+        store.state.user.following = response.data.following;
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
   },
 };
 </script>
