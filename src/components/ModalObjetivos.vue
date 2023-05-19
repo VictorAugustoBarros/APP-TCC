@@ -85,9 +85,9 @@
 
 
 <script>
-import CardObjetivo from "@/components/CardObjetivo.vue";
+import CardObjetivo from "@/components/CardObjetivo";
 
-import DatePicker from "@/components/DatePicker.vue";
+import DatePicker from "@/components/DatePicker";
 
 export default {
   name: "ModalObjetivos",

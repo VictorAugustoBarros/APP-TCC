@@ -14,7 +14,7 @@
 
 
 <script>
-import AmigosCardHome from '@/components/AmigosCardHome.vue';
+import AmigosCardHome from '@/components/AmigosCardHome';
 
 export default {
     name: "ListaAmigos",

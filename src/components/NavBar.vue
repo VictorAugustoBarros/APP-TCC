@@ -19,18 +19,8 @@
         <v-col cols="2" style="display:flex;align-items: center;">
             <v-row>
                 <v-col style="display: flex;align-items: center;justify-content: center">
-                    <v-btn icon size="40" variant="none">
-                        <v-badge content="5" color="error">
-                            <v-icon size=25>mdi-message</v-icon>
-                        </v-badge>
-                    </v-btn>
                 </v-col>
                 <v-col style="display: flex;align-items: center;justify-content: center">
-                    <v-btn icon variant="none">
-                        <v-badge content="5" color="error">
-                            <v-icon>mdi-bell-outline</v-icon>
-                        </v-badge>
-                    </v-btn>
                 </v-col>
                 <v-col style="display: flex;align-items: center;justify-content: center">
 
@@ -43,9 +33,9 @@
 </template>
 
 <script>
-import SearchBox from '@/components/Search.vue';
+import SearchBox from '@/components/Search';
 
-import AvatarDropdown from '@/components/AvatarDropdown.vue';
+import AvatarDropdown from '@/components/AvatarDropdown';
 
 export default {
     name: "NavBar",

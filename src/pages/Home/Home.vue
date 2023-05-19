@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import UserCard from "@/components/Card.vue";
-import MenuApp from "@/components/Menu.vue";
-import ListaAmigos from "@/components/ListaAmigos.vue";
-import NavBar from "@/components/NavBar.vue";
+import UserCard from "@/components/Card";
+import MenuApp from "@/components/Menu";
+import ListaAmigos from "@/components/ListaAmigos";
+import NavBar from "@/components/NavBar";
 
 
 export default {

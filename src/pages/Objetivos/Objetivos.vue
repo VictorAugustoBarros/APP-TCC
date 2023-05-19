@@ -41,7 +41,7 @@
 
 <script>
 import CardObjetivo from "@/components/CardObjetivo";
-import ModalObjetivos from "@/components/ModalObjetivos.vue";
+import ModalObjetivos from "@/components/ModalObjetivos";
 
 export default {
   name: "ObjetivoPage",
