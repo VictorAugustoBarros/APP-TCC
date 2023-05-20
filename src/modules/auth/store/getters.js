@@ -1,3 +1,2 @@
 export const hasToken = ({ token }) => !!token
-
-export const getErrorMessageLogin = ({ errorMessageLogin }) => errorMessageLogin
+export const getToken = ({ token }) => token

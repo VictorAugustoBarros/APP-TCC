@@ -9,12 +9,9 @@
           <br />
           <MenuApp />
         </v-col>
-        <v-col
-          cols="8"
-          style="background-color: #cfd5e1; border-radius: 10px; padding: 25px"
-        >
+        <v-col cols="8" style="background-color: #cfd5e1; border-radius: 10px; padding: 25px">
           <div class="container" style="height: auto">
-            <router-view/>
+            <router-view />
           </div>
         </v-col>
         <v-col cols="2" style="padding-top: 0">
@@ -33,12 +30,13 @@ import MenuApp from "@/components/Menu";
 import ListaAmigos from "@/components/ListaAmigos";
 import NavBar from "@/components/NavBar";
 
+import { mapActions } from "vuex";
 
 export default {
   name: "HomePage",
   data: function () {
     return {
-      
+
     };
   },
   components: {
@@ -47,9 +45,13 @@ export default {
     ListaAmigos,
     NavBar,
   },
-  mounted() {
-    this.$router.push("perfil")
+  methods: {
+    ...mapActions("user", ["GetUserData"]),
   },
+  mounted() {
+    this.GetUserData()
+  },
+  
 };
 </script>
 

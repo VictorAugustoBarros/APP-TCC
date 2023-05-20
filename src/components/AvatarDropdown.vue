@@ -40,9 +40,9 @@ export default {
     store
   }),
   methods: {
-    ...mapActions("auth", ["ActionSetToken"]),
+    ...mapActions("auth", ["ActionSignOut"]),
     logout() {
-      this.ActionSetToken("")
+      this.ActionSignOut()
       window.location.pathname = '/login';
     }
   }

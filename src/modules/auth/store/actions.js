@@ -11,7 +11,7 @@ export const ActionDoLogin = async ({ dispatch }, payload) => {
     "password": payload.password,
   }
 
-  await axios.post(`${API_HOST}/auth/login`,
+  return await axios.post(`${API_HOST}/auth/login`,
     data,
     {
       headers: {
@@ -19,25 +19,25 @@ export const ActionDoLogin = async ({ dispatch }, payload) => {
       }
     })
     .then((response) => {
-      console.log(response);
-      if (response.data.error){
-        console.log(response.data.error)
-        dispatch('ActionSetErrorLogin', response.data.error);
+      if (response.data.error) {
+        return {
+          "success": false,
+          "error": response.data.error
+        }
+      }
 
-      }else {
-        dispatch('ActionSetUser', response.data.user);
-        dispatch('ActionSetToken', response.data.token);
-        console.log("Success")
+      dispatch('ActionSetToken', response.data.token);
+      return {
+        "success": true,
       }
     })
-    .catch((error) => {
-      console.log(error.response)
-    });
+    .catch(() => {});
 
 }
 
-export const ActionCheckToken = ({ dispatch }) => {
-  axios.get(`${API_HOST}/users/verify`,
+export const ActionCheckToken = async ({ dispatch }) => {
+
+  return await axios.get(`${API_HOST}/auth/verify`,
     {
       headers: {
         "Authorization": storage.getLocalToken(),
@@ -45,12 +45,12 @@ export const ActionCheckToken = ({ dispatch }) => {
       }
     })
     .then((response) => {
-      console.log(response)
-      if (response) {
-        dispatch('ActionLoadSession')
+      if (response.data.error) {
+        dispatch('ActionSignOut')
+        return false;
 
       } else {
-        dispatch('ActionSignOut')
+        return true;
       }
     })
     .catch((error) => {
@@ -58,21 +58,12 @@ export const ActionCheckToken = ({ dispatch }) => {
     });
 }
 
-export const ActionSetUser = ({ commit }, payload) => {
-  commit(types.SET_USER, payload)
-}
-
-export const ActionSetErrorLogin = ({ commit }, payload) => {
-  commit("errorMessageLogin", payload)
-}
-
-export const ActionSetToken = ({ commit }, payload) => {
-  storage.setLocalToken(payload)
-  commit(types.SET_TOKEN, payload)
+export const ActionSetToken = ({ commit }, token) => {
+  localStorage.setItem('token', token);
+  commit(types.SET_TOKEN, token);
 }
 
 export const ActionSignOut = ({ dispatch }) => {
   storage.deleteLocalToken()
-  dispatch('ActionSetUser', {})
-  dispatch('ActionSetToken', '')
+  dispatch('auth/ActionSetToken', '')
 }

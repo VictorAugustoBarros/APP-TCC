@@ -121,8 +121,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("auth", ["ActionSetToken", "ActionDoLogin"]),
-    ...mapGetters("auth", ["hasToken", "getErrorMessageLogin"]),
+    ...mapActions("auth", ["ActionDoLogin"]),
     async submitLogin() {
       if (this.login.email === "" || this.login.password === "") {
         this.login.errorMessage = "Preencha todos os campos.";
@@ -134,15 +133,13 @@ export default {
         password: this.login.password
       }
       
-      await this.ActionDoLogin(payload)
-      
-      if (this.hasToken === true){
+      let response = await this.ActionDoLogin(payload)
+      if (response.success){
         this.$router.push({ name: 'home' })
-      }else{
-        this.login.errorMessage = this.getErrorMessageLogin()
-      }
 
-      console.log(this.getErrorMessageLogin());
+      }else {
+        this.login.errorMessage = response.error
+      }
     },
     registerUser() {
       if (

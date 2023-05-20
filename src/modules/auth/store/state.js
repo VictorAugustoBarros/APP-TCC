@@ -1,6 +1,3 @@
 export default {
-    user: {},
-    token: '',
-    errorMessageLogin: '',
-    errorMessageRegister: '',
+    token: ''
   }

@@ -118,7 +118,6 @@ export default {
     },
 
     handleCheckboxChange(checkboxNumber) {
-      console.log(checkboxNumber);
       if (checkboxNumber === 1) {
         this.checkedIndividual = true;
         this.checkedCooperativo = false;
