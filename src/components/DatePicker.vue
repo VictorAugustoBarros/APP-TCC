@@ -1,18 +1,14 @@
 <template>
-  <v-text-field type="date" label="Date"></v-text-field>
-
-
+  <v-text-field type="date" :label="labelName" />
 </template>
 
 <script>
 export default {
   name: "DatePicker",
-    data () {
-      return {
-        picker: new Date().toISOString().substr(0, 10),
-        landscape: false,
-        reactive: false
-      }
+  props: {
+    labelName: {
+      type: String
     }
   }
+}
 </script>

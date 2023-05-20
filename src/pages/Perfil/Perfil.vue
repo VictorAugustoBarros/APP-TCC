@@ -3,7 +3,7 @@
     <div style="position: relative">
       <v-row style="background-color: gray; height: 25vh; border-radius: 13px">
         <v-img
-          src="images/foto-capa.jpg"
+          :src="this.getUser().user_banner"
           height="25vh"
           cover
           class="bg-grey-lighten-2"
@@ -43,12 +43,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   name: "PerfilPage",
   data: function () {
     return {
     };
-  }
+  },    methods: {
+        ...mapGetters("user", ["getUser"]),
+    },
+
 };
 </script>

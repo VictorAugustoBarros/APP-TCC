@@ -6,7 +6,7 @@
     </v-col>
   </v-row>
 
-  <div v-if="cardsObjetivos.length === 0">
+  <div v-if="this.getObjetivos() === 0">
     <v-row style="height: 30vh" />
     <v-row
       justify="center"
@@ -25,7 +25,7 @@
   <v-row>
     <div
       class="div-cards"
-      v-for="card in cardsObjetivos"
+      v-for="card in this.getObjetivos()"
       :key="card.id"
       style="padding: 15px"
     >
@@ -43,6 +43,8 @@
 import CardObjetivo from "@/components/CardObjetivo";
 import ModalObjetivos from "@/components/ModalObjetivos";
 
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   name: "ObjetivoPage",
   components: {
@@ -52,34 +54,24 @@ export default {
   data: function () {
     return {
       mostrarModalNovoObjetivo: false,
-      cardsObjetivos: [],
     };
   },
-  mounted() {
-    this.getUserObjectives();
+  mounted() {    
+    this.LoadUserObjetivos()
   },
   methods: {
+    ...mapActions("objetivos", ["LoadObjetivos"]),
+    ...mapGetters("objetivos", ["getObjetivos"]),
+    ...mapGetters("auth", ["getToken"]),
+    async LoadUserObjetivos(){
+      let token = this.getToken()
+      this.LoadObjetivos({token});
+    },
     recarregarComponente() {
-      this.getUserObjectives();
+      this.LoadUserObjetivos()
     },
     exibirModal() {
       this.mostrarModalNovoObjetivo = true;
-    },
-    getUserObjectives() {
-      // const data = {
-      //   user_id: 
-      // };
-      // axios
-      //   .post(`${API_HOST}/objetivos/user`, data, {
-      //     "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-      //   })
-      //   .then((response) => {
-      //     this.cardsObjetivos = response.data;
-      //   })
-      //   .catch((error) => {
-      //     // Manipula erros ocorridos durante a solicitação
-      //     console.error("Erro:", error);
-      //   });
     },
   },
 };

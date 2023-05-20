@@ -20,52 +20,49 @@
               <v-col cols="8">
                 <v-row>
                   <v-col cols="12">
-                    <v-text-field v-model="titulo" label="Titulo" variant="outlined"></v-text-field>
+                    <v-text-field v-model="objetivo.titulo" label="Titulo" variant="outlined"></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-row>
                   <v-col cols="6">
-                    <v-text-field v-model="categoria" label="Categoria" variant="outlined"></v-text-field>
+                    <v-text-field v-model="objetivo.categoria" label="Categoria" variant="outlined"></v-text-field>
                   </v-col>
 
                   <v-col cols="6">
-                    <v-text-field v-model="imagem" label="Link Imagem" variant="outlined"></v-text-field>
+                    <DatePicker labelName="Data Fim" v-model="objetivo.data_fim" />
                   </v-col>
                 </v-row>
 
                 <v-row>
-                  <v-col cols="6">
-                    <DatePicker />
-                  </v-col>
-                  <v-col cols="6">
-                    <DatePicker />
+                  <v-col cols="12">
+                    <v-text-field v-model="objetivo.imagem" label="Link Imagem" variant="outlined"></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-row class="text-center">
                   <v-col cols="6">
-                    <label for="checkedIndividual">Individual</label>
+                    <label for="checkedIndividual">Individual</label><br>
                     <input type="checkbox" id="checkedIndividual" v-model="checkedIndividual"
                       @change="this.handleCheckboxChange(1)" />
                   </v-col>
                   <v-col cols="6">
-                    <label for="checkedCooperativo">Cooperativo</label>
+                    <label for="checkedCooperativo">Cooperativo</label><br>
                     <input type="checkbox" id="checkedCooperativo" v-model="checkedCooperativo"
                       @change="this.handleCheckboxChange(2)" />
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-textarea v-model="descricao" style="rezise: none" rows="5" label="Descrição" variant="outlined"
-                      :maxlength="100"></v-textarea>
+                    <v-textarea v-model="objetivo.descricao" style="rezise: none" rows="5" label="Descrição"
+                      variant="outlined" :maxlength="100"></v-textarea>
                   </v-col>
                 </v-row>
               </v-col>
 
               <v-col cols="4" class="d-flex align-center justify-center">
-                <CardObjetivo :title="this.titulo" :categoria="this.categoria" :descricao="this.descricao"
-                  :image="this.imagem" :detalhes="false" />
+                <CardObjetivo :title="this.objetivo.titulo" :categoria="this.objetivo.categoria" :descricao="this.objetivo.descricao"
+                  :image="this.objetivo.imagem" :detalhes="false" />
               </v-col>
             </v-row>
           </v-container>
@@ -86,8 +83,9 @@
 
 <script>
 import CardObjetivo from "@/components/CardObjetivo";
-
 import DatePicker from "@/components/DatePicker";
+
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ModalObjetivos",
@@ -97,10 +95,13 @@ export default {
   },
   data() {
     return {
-      titulo: "",
-      categoria: "",
-      imagem: "",
-      descricao: "",
+      objetivo: {
+        titulo: "",
+        categoria: "",
+        imagem: "",
+        descricao: "",
+        data_fim: "",
+      },
 
       checkedIndividual: true,
       checkedCooperativo: false,
@@ -110,11 +111,37 @@ export default {
     };
   },
   methods: {
+    ...mapActions("objetivos", ["CreateObjetivo"]),
+    ...mapActions("objetivos", "LoadObjetivos"),
+    ...mapGetters("auth", ["getToken"]),
     cancelar() {
       this.dialog = false;
     },
-    salvar() {
-        
+    async salvar() {
+      // if (!this.objetivo.titulo || !this.objetivo.categoria || !this.objetivo.imagem || !this.objetivo.descricao || !this.objetivo.data_fim) {
+      //   alert("Favor inserir todos os dados!")
+      //   return;
+      // }
+
+      // const currentDate = new Date(); // Data atual
+      // const targetDate = new Date(this.objetivo.data_fim); // Data de destino
+
+      // if (targetDate < currentDate) {
+      //   alert("Escolher uma data final maior que hoje!")
+      //   return;
+      // }
+      let token = this.getToken();
+      let payload = JSON.parse(JSON.stringify(this.objetivo));
+      
+      const response = await this.CreateObjetivo({ payload, token })
+      if (!response) {
+        alert(response.error);
+        return
+      }
+
+      this.$emit('modal-fechado');
+      
+      this.dialog = false;
     },
 
     handleCheckboxChange(checkboxNumber) {

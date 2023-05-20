@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import UserCard from "@/components/Card";
+import UserCard from "@/components/UserCard";
 import MenuApp from "@/components/Menu";
 import ListaAmigos from "@/components/ListaAmigos";
 import NavBar from "@/components/NavBar";
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "HomePage",
@@ -46,10 +46,16 @@ export default {
     NavBar,
   },
   methods: {
+    ...mapGetters("auth", ["getToken"]),    
     ...mapActions("user", ["GetUserData"]),
+    userData() {
+      let token = this.getToken();
+      this.GetUserData({ token });
+    }
   },
   mounted() {
-    this.GetUserData()
+    this.userData();
+    // this.$router.push({ name: 'home.perfil' });
   },
   
 };

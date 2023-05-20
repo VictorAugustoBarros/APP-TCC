@@ -7,7 +7,6 @@
         <v-col cols="8" style="display:flex;align-items: center;">
             <v-row>
                 <v-col style="display:flex;align-items: center;">
-                    <h2 style="padding-left: 70px;"> Atualizar </h2>
                 </v-col>
                 <v-col>
                 </v-col>

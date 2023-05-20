@@ -1,4 +1,4 @@
-import { routes as objetivos } from '@/pages/Objetivos'
+import { routes as objetivos } from '@/pages/objetivos'
 import { routes as criterios } from '@/pages/Config'
 import { routes as perfil } from '@/pages/Perfil'
 

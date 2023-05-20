@@ -1,7 +1,7 @@
 import store from '@/store'
 
 export default async (to, from, next) => {
-  document.title = `${to.name} - Routine`;
+  document.title = `Routine`;
   let hasToken = store.getters['auth/hasToken'];
 
 

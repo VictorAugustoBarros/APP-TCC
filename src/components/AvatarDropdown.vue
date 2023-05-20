@@ -4,19 +4,16 @@
       <template v-slot:activator="{ props }">
         <v-btn icon v-bind="props" size="40">
           <v-badge icon="mdi-vuetify">
-            <v-avatar image="images/user-icon.png" size=40></v-avatar>
+            <v-avatar :image="this.getUser().user_icon" size=40></v-avatar>
           </v-badge>
         </v-btn>
       </template>
       <v-card>
         <v-card-text>
           <div class="mx-auto text-center">
-            <v-avatar>
-              <v-img src="images/user-icon.png" alt="John"></v-img>
-            </v-avatar>
-            <h3> Teste </h3>
+            <h3> {{ this.getUser().name }} </h3>
             <p class="text-caption mt-1">
-              Teste
+              {{ this.getUser().email }} 
             </p>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text" @click="logout()">
@@ -31,7 +28,7 @@
 
 <script>
 import store from '@/store'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 
 export default {
@@ -41,6 +38,7 @@ export default {
   }),
   methods: {
     ...mapActions("auth", ["ActionSignOut"]),
+    ...mapGetters("user", ["getUser"]),
     logout() {
       this.ActionSignOut()
       window.location.pathname = '/login';

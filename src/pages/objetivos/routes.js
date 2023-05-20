@@ -1,7 +1,7 @@
 export default [
   {
-    path: '/objetivos',
-    name: 'objetivos',
+    path: 'objetivos',
+    name: 'home.objetivos',
     component: () => import('./Objetivos')
   }
 ]
