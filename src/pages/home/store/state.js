@@ -1,12 +1,12 @@
 export default {
     user: {
-        key: "",
-        name: "",
-        email: "",
-        user_icon: "",
-        username: "",
-        followers: "",
-        following: ""
+        key: null,
+        name: null,
+        email: null,
+        user_icon: null,
+        username: null,
+        followers: null,
+        following: null
     },
     amigos: []
 }

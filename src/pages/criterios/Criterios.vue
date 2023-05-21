@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row style="height: 700px;">
       <v-col cols="3">
         <h2>Criterios</h2><br><br>
         <v-row style="padding: 0" v-for="criterio in this.criteriosBox" :key="criterio" :id="criterio">
@@ -28,21 +28,19 @@
             <v-col>
               <v-select label="Escolha a Importância"
                 :items="['Importância igual', 'Importância moderada', 'Importância forte', 'Importância muito forte', 'Importância extrema']"
-                v-model="comparison.value"
-                @change="verify_button_activate">
+                v-model="comparison.value" @change="verify_button_activate">
               </v-select>
             </v-col>
             <v-col>
               {{ comparison.criterio }}
             </v-col>
-
           </v-row>
         </li>
       </v-col>
     </v-row>
 
-    <v-row style="display: flex;justify-content: center;">
-      <v-btn v-on:click="submitCriterios" color="green" disabled="{{ button_atualizar }}">
+    <v-row style="justify-content: center;">
+      <v-btn v-on:click="submitCriterios" color="green">
         Salvar
       </v-btn>
     </v-row>
@@ -50,13 +48,13 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'CriteriosPage',
   data: function () {
     return {
-      button_atualizar: false,
-      selecionado: undefined,
+      selecionado: null,
       criteriosBox: ["Esforço", "Período", "Tempo Conclusão", "Experiência", "Avaliação de Usuários"],
       criteriosSelecionados: [],
       comparisons: {},
@@ -68,9 +66,16 @@ export default {
       this.loadComparasions();
     }
   },
+  async mounted() {
+    let payload = {
+        token: this.getToken()
+    }
+    this.comparisons = await this.GetUserCriterios(payload)
+  },
   methods: {
+    ...mapActions("criterios", ["SetUserCriterios", "GetUserCriterios"]),
+    ...mapGetters("auth", ["getToken"]),
     verify_button_activate() {
-      let has_null_criterio = false;
       if (this.criteriosSelecionados.length <= 1) {
         return;
       }
@@ -78,15 +83,9 @@ export default {
       for (let comparisonKey in this.comparisons) {
         for (let i = 0; i < this.comparisons[comparisonKey].length; i++) {
           if (!this.comparisons[comparisonKey].value) {
-            has_null_criterio = true;
             break;
           }
         }
-      }
-      if (has_null_criterio){
-        this.button_atualizar = false;
-      }else{
-        this.button_atualizar = true;
       }
     },
     removeComparisonsNotUsed() {
@@ -127,6 +126,29 @@ export default {
             }
           }
         }
+      }
+    },
+    verificarCamposVazios() {
+      for (let key in this.comparisons) {
+        let criterios = this.comparisons[key];
+        for (let i = 0; i < criterios.length; i++) {
+          let criterio = criterios[i];
+          if (criterio.value === null) {
+            alert(`O campo "${key} -> ${criterio.criterio}" está vazio!`);
+            return false;
+          }
+        }
+      }
+      return true;
+    },
+    submitCriterios() {
+      if (this.verificarCamposVazios()){
+        let payload = {
+          criterios: this.comparisons,
+          token: this.getToken()
+        }
+
+        this.SetUserCriterios(payload)
       }
     }
   }

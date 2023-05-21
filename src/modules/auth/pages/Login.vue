@@ -97,7 +97,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
+
 
 export default {
   name: "LoginPage",
@@ -119,8 +120,8 @@ export default {
         successMessage: "",
       },
     };
-  },
-  methods: {
+  }
+  ,methods: {
     ...mapActions("auth", ["ActionDoLogin"]),
     async submitLogin() {
       if (this.login.email === "" || this.login.password === "") {

@@ -4,6 +4,7 @@ import API_HOST from '@/http/constants'
 import * as storage from '../storage'
 import * as types from './mutation-types'
 
+import { useAuthStore } from "@/store/storage";
 
 export const ActionDoLogin = async ({ dispatch }, payload) => {
   const data = {
@@ -26,7 +27,9 @@ export const ActionDoLogin = async ({ dispatch }, payload) => {
         }
       }
 
-      dispatch('ActionSetToken', response.data.token);
+      const auth = useAuthStore()
+      auth.addToken(response.data.token);
+      
       return {
         "success": true,
       }
@@ -36,6 +39,9 @@ export const ActionDoLogin = async ({ dispatch }, payload) => {
 }
 
 export const ActionCheckToken = async ({ dispatch }) => {
+  if (!storage.getLocalToken()) {
+    return
+  }
 
   return await axios.get(`${API_HOST}/auth/verify`,
     {

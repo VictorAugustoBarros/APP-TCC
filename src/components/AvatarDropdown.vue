@@ -30,6 +30,7 @@
 import store from '@/store'
 import { mapActions, mapGetters } from 'vuex';
 
+import { useAuthStore } from "@/store/storage";
 
 export default {
   name: "AvatarDropdown",
@@ -40,7 +41,8 @@ export default {
     ...mapActions("auth", ["ActionSignOut"]),
     ...mapGetters("user", ["getUser"]),
     logout() {
-      this.ActionSignOut()
+      const auth = useAuthStore()
+      auth.deleteToken()
       window.location.pathname = '/login';
     }
   }

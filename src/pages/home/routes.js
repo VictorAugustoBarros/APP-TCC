@@ -1,5 +1,5 @@
 import { routes as objetivos } from '@/pages/objetivos'
-import { routes as criterios } from '@/pages/Config'
+import { routes as criterios } from '@/pages/criterios'
 import { routes as perfil } from '@/pages/Perfil'
 
 export default [
@@ -8,9 +8,9 @@ export default [
     name: 'home',
     component: () => import('./Home'),
     children: [
+      ...perfil,
       ...objetivos,
-      ...criterios,
-      ...perfil
+      ...criterios
     ]
   },
 ]

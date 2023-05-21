@@ -13,7 +13,7 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn class="flex-grow-1" color="blue" :disabled="!detalhes">
+      <v-btn class="flex-grow-1" color="blue" :disabled="!detalhes" @click="detalhesObjetivo()">
         Detalhes
       </v-btn>
     </v-card-actions>
@@ -25,6 +25,9 @@
 export default {
   name: "CardObjetivo",
   props: {
+    id: {
+      type: String,
+    },
     title: {
       type: String,
     },
@@ -41,6 +44,11 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  methods: {
+    detalhesObjetivo() {
+      this.$router.push({ name: 'home.objetivos.detalhes', query: { id: this.id } });
+    }
   },
 };
 </script>

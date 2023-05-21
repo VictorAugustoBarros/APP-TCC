@@ -26,38 +26,37 @@
 
 <script>
 import UserCard from "@/components/UserCard";
-import MenuApp from "@/components/Menu";
 import ListaAmigos from "@/components/ListaAmigos";
 import NavBar from "@/components/NavBar";
+import MenuApp from "@/components/Menu";
 
 import { mapActions, mapGetters } from "vuex";
+import { useAuthStore } from "@/store/storage";
 
 export default {
   name: "HomePage",
-  data: function () {
-    return {
-
-    };
-  },
   components: {
     UserCard,
     MenuApp,
     ListaAmigos,
     NavBar,
   },
-  methods: {
-    ...mapGetters("auth", ["getToken"]),    
-    ...mapActions("user", ["GetUserData"]),
-    userData() {
-      let token = this.getToken();
-      this.GetUserData({ token });
+  data() {
+    return {
+      token: null,
+      user: null
     }
   },
-  mounted() {
-    this.userData();
-    // this.$router.push({ name: 'home.perfil' });
+  methods: {
+    ...mapGetters("user", ["getUser"]),
+    ...mapActions("user", ["GetUserData"]),
   },
-  
+  async mounted() {
+    const auth = useAuthStore()
+    await this.GetUserData(auth.getToken);
+    this.user = this.getUser()
+    this.$router.push({ name: 'home.perfil', params: { username: this.user.username } });
+  },
 };
 </script>
 

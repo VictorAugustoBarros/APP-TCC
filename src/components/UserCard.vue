@@ -4,7 +4,7 @@
             <v-badge dot color="green" style="float: left;">
                 <v-avatar :image="this.getUser().user_icon" size=35></v-avatar>
             </v-badge>
-            <span style="font-size: 15px; padding-left: 20px;">{{ this.getUser().name }}</span><br>
+            <span style="font-size: 15px; padding-left: 20px;">{{ this.getUser().username }}</span><br>
         </template>
 
         <v-card-text>

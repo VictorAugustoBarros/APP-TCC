@@ -30,6 +30,7 @@
       style="padding: 15px"
     >
       <CardObjetivo
+        :id="card.id"
         :title="card.titulo"
         :categoria="card.subtitle"
         :descricao="card.descricao"
@@ -42,6 +43,7 @@
 <script>
 import CardObjetivo from "@/components/CardObjetivo";
 import ModalObjetivos from "@/components/ModalObjetivos";
+import { useAuthStore } from "@/store/storage";
 
 import { mapActions, mapGetters } from "vuex";
 
@@ -62,10 +64,9 @@ export default {
   methods: {
     ...mapActions("objetivos", ["LoadObjetivos"]),
     ...mapGetters("objetivos", ["getObjetivos"]),
-    ...mapGetters("auth", ["getToken"]),
     async LoadUserObjetivos(){
-      let token = this.getToken()
-      this.LoadObjetivos({token});
+      const auth = useAuthStore()
+      this.LoadObjetivos(auth.getToken);
     },
     recarregarComponente() {
       this.LoadUserObjetivos()

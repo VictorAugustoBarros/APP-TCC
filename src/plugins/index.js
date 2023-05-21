@@ -8,6 +8,9 @@ import router from '@/router'
 
 import store from '@/store'
 
+import { createPinia } from 'pinia'
+
+
 
 export function registerPlugins(app) {
   loadFonts()
@@ -18,6 +21,7 @@ export function registerPlugins(app) {
     .use(library)
     .use(FontAwesomeIcon)
     .use(faCommentDots)
+    .use(createPinia())
     .config.productionTip = false
 }
 

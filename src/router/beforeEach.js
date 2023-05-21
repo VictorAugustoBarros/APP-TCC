@@ -1,26 +1,43 @@
 import store from '@/store'
+import { useAuthStore } from "@/store/storage";
+import { watch } from 'vue';
+
 
 export default async (to, from, next) => {
   document.title = `Routine`;
-  let hasToken = store.getters['auth/hasToken'];
 
+  const auth = useAuthStore()
+  const token = auth.getToken
 
-  if (to.name === 'login' && hasToken) {
+  console.log(from.path, "->", to.path)
+
+  if (to.name === 'login' && token) {
+    console.log("1");
     next({ name: 'home' });
-    return; // Retorna aqui para evitar a execução do restante do código
+    return;
   }
 
-  if (hasToken && to.name !== 'login') {
+  if (token && to.name !== 'login') {
     let response = await store.dispatch('auth/ActionCheckToken');
-    
+
     if (!response) {
       next({ name: 'login' });
-      return; // Retorna aqui para evitar a execução do restante do código
+      return;
     }
-  } else if (!hasToken && to.name !== 'login') {
+  } else if (!token && to.name !== 'login') {
     next({ name: 'login' });
-    return; // Retorna aqui para evitar a execução do restante do código
+    return;
   }
 
+  watch(to.params, (newParams, oldParams) => {
+    // Verificar se os parâmetros são diferentes do valor atual
+    if (JSON.stringify(newParams) !== JSON.stringify(oldParams)) {
+      console.log('Parâmetros diferentes:', newParams);
+      // Recarregar o componente ou executar outras ações necessárias
+      next();
+    }
+  }, { immediate: true });
+
   next();
+  return;
 }

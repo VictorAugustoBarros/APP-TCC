@@ -2,7 +2,7 @@ import API_HOST from '@/http/constants'
 import axios from 'axios';
 import * as types from './mutation-types'
 
-export const LoadObjetivos = async ({ dispatch }, { token }) => {
+export const LoadObjetivos = async ({ dispatch }, token) => {
     return await axios.get(`${API_HOST}/objetivos`,
         {
             headers: {

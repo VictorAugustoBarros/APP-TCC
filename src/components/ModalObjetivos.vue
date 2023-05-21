@@ -112,24 +112,24 @@ export default {
   },
   methods: {
     ...mapActions("objetivos", ["CreateObjetivo"]),
-    ...mapActions("objetivos", "LoadObjetivos"),
+    ...mapActions("objetivos", ["LoadObjetivos"]),
     ...mapGetters("auth", ["getToken"]),
     cancelar() {
       this.dialog = false;
     },
     async salvar() {
-      // if (!this.objetivo.titulo || !this.objetivo.categoria || !this.objetivo.imagem || !this.objetivo.descricao || !this.objetivo.data_fim) {
-      //   alert("Favor inserir todos os dados!")
-      //   return;
-      // }
+      if (!this.objetivo.titulo || !this.objetivo.categoria || !this.objetivo.imagem || !this.objetivo.descricao || !this.objetivo.data_fim) {
+        alert("Favor inserir todos os dados!")
+        return;
+      }
 
-      // const currentDate = new Date(); // Data atual
-      // const targetDate = new Date(this.objetivo.data_fim); // Data de destino
+      const currentDate = new Date(); // Data atual
+      const targetDate = new Date(this.objetivo.data_fim); // Data de destino
 
-      // if (targetDate < currentDate) {
-      //   alert("Escolher uma data final maior que hoje!")
-      //   return;
-      // }
+      if (targetDate < currentDate) {
+        alert("Escolher uma data final maior que hoje!")
+        return;
+      }
       let token = this.getToken();
       let payload = JSON.parse(JSON.stringify(this.objetivo));
       
