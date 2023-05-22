@@ -18,13 +18,13 @@
         <v-col cols="2" style="display:flex;align-items: center;">
             <v-row>
                 <v-col style="display: flex;align-items: center;justify-content: center">
+                    <NotificacoesDropdown />
                 </v-col>
                 <v-col style="display: flex;align-items: center;justify-content: center">
+                    <NotificacoesAmizades />
                 </v-col>
                 <v-col style="display: flex;align-items: center;justify-content: center">
-
                     <AvatarDropdown />
-
                 </v-col>
             </v-row>
         </v-col>
@@ -34,6 +34,8 @@
 <script>
 import SearchBox from '@/components/Search';
 import AvatarDropdown from '@/components/AvatarDropdown';
+import NotificacoesDropdown from '@/components/Notificacoes';
+import NotificacoesAmizades from '@/components/NotificacoesAmizades';
 
 export default {
     name: "NavBar",
@@ -43,6 +45,8 @@ export default {
     },
     components: {
         AvatarDropdown,
+        NotificacoesDropdown,
+        NotificacoesAmizades,
         SearchBox
     }
 }

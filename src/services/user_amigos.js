@@ -35,7 +35,6 @@ export const solicitarAmizade = async (payload) => {
             }
         })
         .then((response) => {
-            console.log(response.data);
             if (response.data.error){
                 return false
             }

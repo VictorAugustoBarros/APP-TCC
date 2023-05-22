@@ -41,7 +41,9 @@
 
     <v-row style="justify-content: center;">
       <v-btn v-on:click="submitCriterios" color="green">
-        Salvar
+        
+        <span v-if="!comparisonOnLoad">Salvar</span>
+        <span v-else>Editar</span>
       </v-btn>
     </v-row>
   </v-container>
@@ -49,7 +51,7 @@
 
 <script>
 
-import {SetUserCriterios, GetUserCriterios} from '@/services/criterios'
+import { SetUserCriterios, GetUserCriterios } from '@/services/criterios'
 
 export default {
   name: 'CriteriosPage',
@@ -59,18 +61,42 @@ export default {
       criteriosBox: ["Esforço", "Período", "Tempo Conclusão", "Experiência", "Avaliação de Usuários"],
       criteriosSelecionados: [],
       comparisons: {},
+      comparisonOnLoad: false
     };
   },
   watch: {
     criteriosSelecionados() {
+      this.criterioSelecionado()
       this.removeComparisonsNotUsed();
       this.loadComparasions();
     }
   },
   async mounted() {
     this.comparisons = await GetUserCriterios()
+
+    if (Object.keys(this.comparisons).length > 0) {      
+      this.comparisonOnLoad = true
+      this.mount_comparisons()
+    }
   },
   methods: {
+    mount_comparisons() {
+      for (const comparison in this.comparisons) {
+        this.criteriosSelecionados.push(comparison);
+      }
+      this.criterioSelecionado()
+      this.removeComparisonsNotUsed();
+      this.loadComparasions();
+    },
+    criterioSelecionado(){
+      if (!this.selecionado && this.criteriosSelecionados) {
+        this.selecionado = this.criteriosSelecionados[0]
+      }
+
+      if (!this.criteriosSelecionados.includes(this.selecionado) && this.criteriosSelecionados) {
+        this.selecionado = this.criteriosSelecionados[0]
+      }
+    },
     verify_button_activate() {
       if (this.criteriosSelecionados.length <= 1) {
         return;
@@ -138,7 +164,7 @@ export default {
       return true;
     },
     submitCriterios() {
-      if (this.verificarCamposVazios()){
+      if (this.verificarCamposVazios()) {
         SetUserCriterios(this.comparisons)
       }
     }

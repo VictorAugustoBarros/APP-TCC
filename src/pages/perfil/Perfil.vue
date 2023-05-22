@@ -9,9 +9,10 @@
         <v-avatar :image="this.userPerfil.user_icon" size="130" style="position: absolute; top: 60%; left: 5%"></v-avatar>
         <h1 style="position: absolute; left: 17%">{{ this.userPerfil.username }}</h1>
 
-        <v-btn v-if="$route.params.username !== user.username" @click="sendFriendRequest"
-          style="background-color: lightblue; position: absolute; top: 10%; left: 95%; transform: translate(-50%, -50%); z-index: 1">
-          Adicionar
+        <v-btn v-if="$route.params.username !== user.username" :disabled="isFriend()" @click="sendFriendRequest"
+          style="background-color: lightblue; position: absolute; top: 10%; left: 93%; transform: translate(-50%, -50%); z-index: 1">
+          <span v-if="isFriend()">Adicionado ✓</span>
+          <span v-else>Adicionar</span>
         </v-btn>
       </v-row>
     </div>
@@ -35,6 +36,7 @@
 <script>
 import { solicitarAmizade } from '@/services/user_amigos'
 import { GetUserByUsername } from '@/services/users'
+import {GetUserAmigos} from '@/services/user_amigos'
 
 import userStore from '@/store/userStore';
 
@@ -44,21 +46,19 @@ export default {
     return {
       user: null,
       userPerfil: {},
-      loadPage: false
+      loadPage: false,
+      amigos: null,
+      userS: userStore()
     };
   },
   async beforeMount() {
     const response = await GetUserByUsername(this.$route.params.username)
-    if (response.error) {
-      alert(response.error);
-      this.$router.go(-1);
-    }
     this.userPerfil = response
-
-    const userS = userStore()
-    this.user = userS.getUser
-
+    
+    this.user = this.userS.getUser
+    this.amigos = this.userS.getAmigos
     this.loadPage = true
+
   },
   methods: {
     async sendFriendRequest() {
@@ -67,10 +67,16 @@ export default {
       }
 
       const response = await solicitarAmizade(payload)
+      
       if (response){
-        alert("Solicitação enviada!")
+        await GetUserAmigos();
+        
+        this.$router.push({ path: this.$route.path });
       }
-    }
+    },
+    isFriend() {
+      return this.amigos.some(amigo => amigo.username === this.$route.params.username);
+  },
   },
 };
 </script>

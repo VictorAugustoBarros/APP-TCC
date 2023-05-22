@@ -2,46 +2,40 @@ import API_HOST from '@/http/constants'
 import axios from 'axios';
 
 import authStore from "@/store/authStore";
+import userCriterioStore from '@/store/userCriterioStore';
 
 export const SetUserCriterios = async (payload) => {
     const auth = authStore()
+    const userCriterioStore = userCriterioStore()
 
-    return await axios.post(`${API_HOST}/criterios/user`,
-        payload.criterios,
+    return await axios.post(`${API_HOST}/user_criterios`,
+        payload,
         {
             headers: {
-                "token": auth.getToken,
+                "Authorization": auth.getToken,
                 "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
             }
         })
         .then((response) => {
-            if (!response.data.error) {
-                return true
-            }
-
-            return false
-
+            userCriterioStore.setCriterios(response.data)
         })
         .catch(() => { });
 }
 
 export const GetUserCriterios = async () => {
     const auth = authStore()
+    const userCriterioS = userCriterioStore()
 
-    return await axios.get(`${API_HOST}/criterios`,
+    return await axios.get(`${API_HOST}/user_criterios`,
         {
             headers: {
-                "token": auth.getToken,
+                "Authorization": auth.getToken,
                 "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
             }
         })
         .then((response) => {
-            if (!response.data.error) {
-                return response.data.criterios
-            }
-
-            return false
-
+            userCriterioS.setCriterios(response.data)
+            return response.data
         })
         .catch(() => { });
 }

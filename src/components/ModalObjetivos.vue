@@ -44,12 +44,17 @@
                   <v-col cols="6">
                     <label for="checkedIndividual">Individual</label><br>
                     <input type="checkbox" id="checkedIndividual" v-model="checkedIndividual"
-                      @change="this.handleCheckboxChange(1)" />
+                      @change="handleCheckboxChange('individual')" />
                   </v-col>
                   <v-col cols="6">
                     <label for="checkedCooperativo">Cooperativo</label><br>
-                    <input type="checkbox" id="checkedCooperativo" v-model="checkedCooperativo"
-                      @change="this.handleCheckboxChange(2)" />
+                    <input type="checkbox" id="checkedCooperativo" v-model="checkedCooperativo" :disabled="this.btnCooperativoEnable"
+                      @change="handleCheckboxChange('cooperativo')" />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <CooperativeUsers v-model="modalUsersDisable" :disableDialog="modalUsersDisable"/>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -61,8 +66,8 @@
               </v-col>
 
               <v-col cols="4" class="d-flex align-center justify-center">
-                <CardObjetivo :title="this.objetivo.titulo" :categoria="this.objetivo.categoria" :descricao="this.objetivo.descricao"
-                  :image="this.objetivo.imagem" :detalhes="false" />
+                <CardObjetivo :title="this.objetivo.titulo" :categoria="this.objetivo.categoria"
+                  :descricao="this.objetivo.descricao" :image="this.objetivo.imagem" :detalhes="false" />
               </v-col>
             </v-row>
           </v-container>
@@ -75,7 +80,8 @@
             </v-btn>
           </v-card-actions>
         </div>
-      </v-card>
+      </v-card>      
+
     </v-dialog>
   </v-row>
 </template>
@@ -84,14 +90,17 @@
 <script>
 import CardObjetivo from "@/components/CardObjetivo";
 import DatePicker from "@/components/DatePicker";
+import CooperativeUsers from "@/components/CooperativeUsers";
 
 import { CreateObjetivo } from '@/services/objetivos'
+import userCriterioStore from "@/store/userCriterioStore";
 
 export default {
   name: "ModalObjetivos",
   components: {
     DatePicker,
     CardObjetivo,
+    CooperativeUsers
   },
   data() {
     return {
@@ -108,11 +117,34 @@ export default {
 
       dialog: false,
       isHovered: false,
+      btnCooperativoEnable: false,
+      modalUsersDisable: true,
+
+      userCriterioS: userCriterioStore()
     };
   },
   methods: {
     cancelar() {
       this.dialog = false;
+    },
+    handleCheckboxChange(checkbox) {
+      if (checkbox === 'individual' && this.checkedIndividual) {
+        this.checkedCooperativo = false;
+        this.modalUsersDisable = true;
+
+      } else if (checkbox === 'cooperativo' && this.checkedCooperativo) {
+        this.checkedIndividual = false;
+
+        if (!this.userCriterioS.hasCriterio) {
+          alert("Favor configurar os Critérios!")
+          this.btnCooperativoEnable = true
+          
+          this.checkedIndividual = true;
+          this.checkedCooperativo = false;
+        }else{
+          this.modalUsersDisable = false;
+        }
+      }
     },
     async salvar() {
       if (!this.objetivo.titulo || !this.objetivo.categoria || !this.objetivo.imagem || !this.objetivo.descricao || !this.objetivo.data_fim) {
@@ -128,7 +160,7 @@ export default {
         return;
       }
       const payload = JSON.parse(JSON.stringify(this.objetivo));
-      
+
       const response = await CreateObjetivo(payload)
       if (!response) {
         alert(response.error);
@@ -136,19 +168,8 @@ export default {
       }
 
       this.$emit('modal-fechado');
-      
-      this.dialog = false;
-    },
 
-    handleCheckboxChange(checkboxNumber) {
-      if (checkboxNumber === 1) {
-        this.checkedIndividual = true;
-        this.checkedCooperativo = false;
-      }
-      else if (checkboxNumber === 2) {
-        this.checkedIndividual = false;
-        this.checkedCooperativo = true;
-      }
+      this.dialog = false;
     }
   },
 };

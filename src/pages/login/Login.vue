@@ -62,8 +62,11 @@
 </template>
 
 <script>
-import { authLogin } from '@/services/auth'
-
+import { authLogin} from '@/services/auth'
+import {GetUserData, ActionRegisterUser} from '@/services/users'
+import {GetUserAmigos} from '@/services/user_amigos'
+import {LoadObjetivos} from '@/services/objetivos'
+import {GetUserCriterios} from '@/services/criterios'
 
 export default {
   name: "LoginPage",
@@ -100,6 +103,12 @@ export default {
 
       if (response.success) {
         this.login.errorMessage = null
+
+        await GetUserData();
+        await GetUserAmigos();
+        await LoadObjetivos();
+        await GetUserCriterios();
+
         this.$router.push({ name: 'app.feed' })
 
       } else {
@@ -123,11 +132,12 @@ export default {
         "password": this.register.password,
         "username": this.register.username
       }
-      let response = await this.ActionRegisterUser(payload)
+      let response = await ActionRegisterUser(payload)
       if (response.success) {
         this.register.successMessage = "Usuário cadastrado com sucesso!";
         this.register.errorMessage = null
         this.signIn();
+        
       } else {
         this.register.successMessage = null
         this.register.errorMessage = response.error

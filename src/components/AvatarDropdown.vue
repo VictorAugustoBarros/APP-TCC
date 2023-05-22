@@ -29,6 +29,8 @@
 <script>
 import authStore from '@/store/authStore';
 import userStore from '@/store/userStore';
+import objetivoStore from '@/store/objetivoStore';
+import userCriterioStore from '@/store/userCriterioStore';
 
 export default {
   name: "AvatarDropdown",
@@ -42,7 +44,15 @@ export default {
   methods: {
     logout() {
       const authS = authStore()
+      const userS = userStore()
+      const objetivoS = objetivoStore()
+      const userCriterioS = userCriterioStore()
+      
       authS.deleteAll()
+      userS.deleteAll()
+      objetivoS.deleteAll()
+      userCriterioS.deleteAll()
+      
 
       this.$router.push({"name": "app"})
     }

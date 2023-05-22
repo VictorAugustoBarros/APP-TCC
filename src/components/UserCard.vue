@@ -12,7 +12,7 @@
                 <v-card-text style="text-align:center;">
                     <v-row>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.user.followers }}</p>
+                            <p class="font-card-number">{{ this.objetivo.objetivos.length }}</p>
                         </v-col>
                         <v-col style="padding-bottom: 0">
                             <p class="font-card-number">{{ this.user.following }}</p>
@@ -23,10 +23,10 @@
                     </v-row>
                     <v-row>
                         <v-col style="padding-top: 0">
-                            <span class="font-card-text">Seguidores</span>
+                            <span class="font-card-text">Objetivos</span>
                         </v-col>
                         <v-col style="padding-top: 0">
-                            <span class="font-card-text">Seguindo</span>
+                            <span class="font-card-text">Concluídos</span>
                         </v-col>
                         <v-col style="padding-top: 0">
                             <span class="font-card-text">Amigos</span>
@@ -42,13 +42,17 @@
   
 <script>
 import userStore from '@/store/userStore';
+import objetivoStore from '@/store/objetivoStore';
 
 export default {
     name: 'UserCard',
     data() {
         return {
-            user : null,
-            amigos : null
+            user: null,
+            objetivos: null,
+            amigos: null,
+            userS: userStore(),
+            objetivoS: objetivoStore()
         }
     },
     props: {
@@ -68,10 +72,11 @@ export default {
         },
     },
     beforeMount() {
-        const user = userStore()
-        this.user = user.getUser
-        this.amigos = user.getAmigos
-    },
+        this.user = this.userS.getUser
+        this.amigos = this.userS.getAmigos
+        this.objetivo = this.objetivoS.getObjetivos
+        
+    }
 }
 </script>
 

@@ -8,6 +8,8 @@ export default async (to, from, next) => {
   const auth = authStore()
   const page = pageStore()
 
+  // console.log(from.path, "->", to.path)
+
   page.setPage(JSON.stringify(to))
 
   const token = auth.getToken

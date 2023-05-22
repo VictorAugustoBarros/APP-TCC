@@ -22,6 +22,26 @@ export const LoadObjetivos = async () => {
         .catch(() => { });
 }
 
+export const EditObjetivo = async (payload) => {
+    const auth = authStore()
+
+    return await axios.put(`${API_HOST}/objetivos`,
+        payload,
+        {
+            headers: {
+                "Authorization": auth.getToken,
+                "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+            }
+        })
+        .then((response) => {
+            if (response.data.success){
+                return true
+            }
+            return false
+        })
+        .catch(() => { });
+}
+
 export const CreateObjetivo = async (payload) => {
     const auth = authStore()
 

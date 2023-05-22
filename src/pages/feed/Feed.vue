@@ -33,8 +33,6 @@ import ListaAmigos from "@/components/ListaAmigos";
 import NavBar from "@/components/NavBar";
 import MenuApp from "@/components/Menu";
 
-import {GetUserData} from '@/services/users'
-import {GetUserAmigos} from '@/services/user_amigos'
 
 export default {
   name: "HomePage",
@@ -43,10 +41,6 @@ export default {
     MenuApp,
     ListaAmigos,
     NavBar,
-  },
-  async beforeMount() {
-    await GetUserData();
-    await GetUserAmigos();
   }
 };
 </script>

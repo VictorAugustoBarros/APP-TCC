@@ -1,5 +1,5 @@
 <template>
-  <v-card width="275" style="border-radius: 20px">
+  <v-card width="265" style="border-radius: 20px">
     <v-img class="align-end text-white" height="200" :src="image" cover>
       <v-card-title>{{ title }}</v-card-title>
     </v-img>
@@ -13,7 +13,7 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn class="flex-grow-1" color="blue" :disabled="!detalhes" @click="detalhesObjetivo">
+      <v-btn class="flex-grow-1" color="blue" :disabled="!detalhes" @click="detalhesObjetivo()">
         Detalhes
       </v-btn>
     </v-card-actions>
@@ -25,7 +25,7 @@
 export default {
   name: "CardObjetivo",
   props: {
-    id: {
+    objetivoKey: {
       type: String,
     },
     title: {
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     detalhesObjetivo() {
-      this.$router.push({ "name": 'home.objetivos.detalhes', query: { id: this.id } });
+      this.$router.push({ "name": 'home.objetivos.detalhes', query: { objetivoKey: this.objetivoKey } });
     }
   },
 };

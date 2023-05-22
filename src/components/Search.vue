@@ -1,6 +1,7 @@
 <template>
-    <v-autocomplete variant="outlined" v-model="searchText" :items="filteredUsers" label="Usuários" @input="searchUsers"
-        @change="handleItemClick(searchText)"></v-autocomplete>
+    <v-autocomplete v-if="loadComponent" variant="outlined" v-model="searchText" :items="usernames" label="Usuários" @input="searchUsers"
+        @change="handleItemClick(searchText)">
+        </v-autocomplete>
 </template>
   
 <script>
@@ -12,12 +13,15 @@ export default {
         return {
             searchText: "",
             usernames: [],
-            filteredUsers: []
+            filteredUsers: [],
+            loadComponent: false
         };
     },
-    async beforeMount() {
+    async beforeCreate() {
         const response = await GetAllUsernames()
         this.usernames = response
+
+        this.loadComponent = true
     },
     methods: {
         searchUsers() {
