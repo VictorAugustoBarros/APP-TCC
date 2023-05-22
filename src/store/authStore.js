@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 
-
-export const useAuthStore = defineStore({
+const authStore = defineStore({
     id: 'auth',
     state: () => ({
         token: useStorage('token', String),
-        page: useStorage('page', String),
     }),
     getters: {
         getToken() {
@@ -17,8 +15,10 @@ export const useAuthStore = defineStore({
         addToken(new_token) {
             this.token = new_token
         },
-        deleteToken() {
+        deleteAll() {
             this.token = null
         }
     },
 })
+
+export default authStore

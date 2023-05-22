@@ -1,1 +1,0 @@
-export const SET_CRITERIO = 'CRITERIOS/SET_CRITERIO'

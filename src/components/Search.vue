@@ -4,7 +4,7 @@
 </template>
   
 <script>
-import { mapActions } from 'vuex';
+import {GetAllUsernames} from '@/services/users'
 
 export default {
     name: "SearchBox",
@@ -15,11 +15,11 @@ export default {
             filteredUsers: []
         };
     },
-    async mounted() {
-        this.usernames = await this.GetAllUsernames()
+    async beforeMount() {
+        const response = await GetAllUsernames()
+        this.usernames = response
     },
     methods: {
-        ...mapActions("user", ["GetAllUsernames"]),
         searchUsers() {
             this.filteredUsers = this.usernames.filter(username => {
                 return username.toLowerCase();
@@ -29,7 +29,8 @@ export default {
             if (!username) {
                 return
             }
-            this.$router.push({ name: 'home.perfil', params: { username: username } });
+            
+            this.$router.push({ name: 'perfil', params: { username: username } });
         }
     }
 };

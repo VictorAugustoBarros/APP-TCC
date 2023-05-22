@@ -1,28 +1,35 @@
 import API_HOST from '@/http/constants'
 import axios from 'axios';
-import * as types from './mutation-types'
 
-export const LoadObjetivos = async ({ dispatch }, token) => {
+import authStore from "@/store/authStore";
+import objetivoStore from "@/store/objetivoStore";
+
+export const LoadObjetivos = async () => {
+    const auth = authStore()
+    const objetivo = objetivoStore()
+
     return await axios.get(`${API_HOST}/objetivos`,
         {
             headers: {
-                "token": token,
+                "Authorization": auth.getToken,
                 "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
             }
         })
         .then((response) => {
-            dispatch('ActionSetObjetivos', response.data.objetivos);
+            objetivo.setObjetivos(response.data)
+            return response.data
         })
         .catch(() => { });
 }
 
-export const CreateObjetivo = async ({ commit }, { payload, token }) => {
+export const CreateObjetivo = async (payload) => {
+    const auth = authStore()
 
     return await axios.post(`${API_HOST}/objetivos`,
         payload,
         {
             headers: {
-                "token": token,
+                "Authorization": auth.getToken,
                 "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
             }
         })
@@ -38,9 +45,4 @@ export const CreateObjetivo = async ({ commit }, { payload, token }) => {
             }
         })
         .catch(() => { });
-}
-
-
-export const ActionSetObjetivos = ({ commit }, objetivos) => {
-    commit(types.SET_OBJETIVOS, objetivos);
 }

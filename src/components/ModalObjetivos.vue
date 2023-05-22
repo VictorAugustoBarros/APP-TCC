@@ -85,7 +85,7 @@
 import CardObjetivo from "@/components/CardObjetivo";
 import DatePicker from "@/components/DatePicker";
 
-import { mapActions, mapGetters } from "vuex";
+import { CreateObjetivo } from '@/services/objetivos'
 
 export default {
   name: "ModalObjetivos",
@@ -111,9 +111,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions("objetivos", ["CreateObjetivo"]),
-    ...mapActions("objetivos", ["LoadObjetivos"]),
-    ...mapGetters("auth", ["getToken"]),
     cancelar() {
       this.dialog = false;
     },
@@ -130,10 +127,9 @@ export default {
         alert("Escolher uma data final maior que hoje!")
         return;
       }
-      let token = this.getToken();
-      let payload = JSON.parse(JSON.stringify(this.objetivo));
+      const payload = JSON.parse(JSON.stringify(this.objetivo));
       
-      const response = await this.CreateObjetivo({ payload, token })
+      const response = await CreateObjetivo(payload)
       if (!response) {
         alert(response.error);
         return

@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="8">
         <v-row class="justify-center">
-          <h1>{{objetivo.titulo}}</h1>
+          <h1>{{}}</h1>
         </v-row>
         <br><br><br>
         <v-row>
@@ -63,29 +63,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import objetivoStore from '@/store/objetivoStore';
 
 export default {
   name: "ObjetivosDetalhes",
   data() {
     return {
-      id: null,
       objetivo: null
     };
   },
-  created() {
-    console.log(this.getObjetivos())
-    this.id = this.$route.query.id;
-    this.buscarObjetivo(this.id)
+  async beforeMount() {
+    console.log("OK")
+    console.log(this.$route.query.id);
+    const objetivo = objetivoStore()
+    this.objetivo = await objetivo.getObjetivoById(this.$route.query.id)
   },
   methods: {
-    ...mapGetters("objetivos", ["getObjetivos"]),
     buscarObjetivo(id) {
       this.objetivo = this.getObjetivoById(id);
     },
-  },
-  computed: {
-    ...mapGetters("objetivos", ["getObjetivoById"])
   },
 };
 </script>'

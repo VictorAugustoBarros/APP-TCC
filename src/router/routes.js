@@ -1,12 +1,22 @@
-import { routes as auth } from '../modules/auth'
-import { routes as home } from '../pages/home'
+import { routes as feed } from '@/pages/feed'
 
 export default [
-  ...auth,
-  ...home,
+  {
+    path: '/',
+    name: 'app',
+    component: () => import('@/App'),
+    children: [
+      ...feed,
+    ]
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/pages/login/Login')
+  },
   {
     path: '/:pathMatch(.*)',
     name: '404',
-    component: () => import('../pages/404.vue'),
+    component: () => import('@/pages/404'),
   }
 ]

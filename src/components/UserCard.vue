@@ -2,9 +2,9 @@
     <v-card style="background-color: #cfd5e1;" class="mx-auto" :width="cardWidth" :height="cardHeight">
         <template v-slot:title>
             <v-badge dot color="green" style="float: left;">
-                <v-avatar :image="this.getUser().user_icon" size=35></v-avatar>
+                <v-avatar :image="this.user.user_icon" size=35></v-avatar>
             </v-badge>
-            <span style="font-size: 15px; padding-left: 20px;">{{ this.getUser().username }}</span><br>
+            <span style="font-size: 15px; padding-left: 20px;">{{ this.user.username }}</span><br>
         </template>
 
         <v-card-text>
@@ -12,13 +12,13 @@
                 <v-card-text style="text-align:center;">
                     <v-row>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.getUser().followers }}</p>
+                            <p class="font-card-number">{{ this.user.followers }}</p>
                         </v-col>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.getUser().following }}</p>
+                            <p class="font-card-number">{{ this.user.following }}</p>
                         </v-col>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.getAmigos().length }}</p>
+                            <p class="font-card-number">{{ this.amigos.length }}</p>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -41,11 +41,16 @@
 </template>
   
 <script>
-
-import { mapGetters } from 'vuex';
+import userStore from '@/store/userStore';
 
 export default {
     name: 'UserCard',
+    data() {
+        return {
+            user : null,
+            amigos : null
+        }
+    },
     props: {
         width: {
             type: Number
@@ -54,9 +59,6 @@ export default {
             type: Number
         }
     },
-    methods: {
-        ...mapGetters("user", ["getUser", "getAmigos"]),
-    },
     computed: {
         cardWidth() {
             return `${this.width}px`
@@ -64,7 +66,12 @@ export default {
         cardHeight() {
             return `${this.height}px`
         },
-    }
+    },
+    beforeMount() {
+        const user = userStore()
+        this.user = user.getUser
+        this.amigos = user.getAmigos
+    },
 }
 </script>
 

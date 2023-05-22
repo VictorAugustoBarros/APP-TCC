@@ -1,14 +1,16 @@
 import API_HOST from '@/http/constants'
-import * as types from './mutation-types'
-
 import axios from 'axios';
 
-export const SetUserCriterios = async ({ dispatch }, payload) => {
+import authStore from "@/store/authStore";
+
+export const SetUserCriterios = async (payload) => {
+    const auth = authStore()
+
     return await axios.post(`${API_HOST}/criterios/user`,
         payload.criterios,
         {
             headers: {
-                "token": payload.token,
+                "token": auth.getToken,
                 "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
             }
         })
@@ -23,17 +25,18 @@ export const SetUserCriterios = async ({ dispatch }, payload) => {
         .catch(() => { });
 }
 
-export const GetUserCriterios = async ({ dispatch }, payload) => {
+export const GetUserCriterios = async () => {
+    const auth = authStore()
+
     return await axios.get(`${API_HOST}/criterios`,
         {
             headers: {
-                "token": payload.token,
+                "token": auth.getToken,
                 "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
             }
         })
         .then((response) => {
             if (!response.data.error) {
-                dispatch('ActionSetCriterio', response.data.criterios);
                 return response.data.criterios
             }
 
@@ -41,8 +44,4 @@ export const GetUserCriterios = async ({ dispatch }, payload) => {
 
         })
         .catch(() => { });
-}
-
-export const ActionSetCriterio = ({ commit }, payload) => {
-    commit(types.SET_CRITERIO, payload);
 }

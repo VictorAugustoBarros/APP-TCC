@@ -33,7 +33,6 @@
 
 <script>
 import SearchBox from '@/components/Search';
-
 import AvatarDropdown from '@/components/AvatarDropdown';
 
 export default {

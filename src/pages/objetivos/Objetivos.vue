@@ -6,36 +6,20 @@
     </v-col>
   </v-row>
 
-  <div v-if="this.getObjetivos() === 0">
+  <div v-if="this.objetivos.length === 0">
     <v-row style="height: 30vh" />
-    <v-row
-      justify="center"
-      class="full-height"
-    >
-    <h1>Infelizmente você não posssui nenhum objetivo!</h1>
+    <v-row justify="center" class="full-height">
+      <h1>Infelizmente você não posssui nenhum objetivo!</h1>
     </v-row>
-    <v-row
-      justify="center"
-      class="full-height"
-    >
+    <v-row justify="center" class="full-height">
       <h2>Crie um novo objetivo e boa sorte!</h2>
     </v-row>
   </div>
 
   <v-row>
-    <div
-      class="div-cards"
-      v-for="card in this.getObjetivos()"
-      :key="card.id"
-      style="padding: 15px"
-    >
-      <CardObjetivo
-        :id="card.id"
-        :title="card.titulo"
-        :categoria="card.subtitle"
-        :descricao="card.descricao"
-        :image="card.imagem"
-      />
+    <div class="div-cards" v-for="card in this.objetivos" :key="card.id" style="padding: 15px">
+      <CardObjetivo :id="card.id" :title="card.titulo" :categoria="card.subtitle" :descricao="card.descricao"
+        :image="card.imagem" />
     </div>
   </v-row>
 </template>
@@ -43,9 +27,8 @@
 <script>
 import CardObjetivo from "@/components/CardObjetivo";
 import ModalObjetivos from "@/components/ModalObjetivos";
-import { useAuthStore } from "@/store/storage";
 
-import { mapActions, mapGetters } from "vuex";
+import { LoadObjetivos } from '@/services/objetivos'
 
 export default {
   name: "ObjetivoPage",
@@ -55,18 +38,17 @@ export default {
   },
   data: function () {
     return {
+      objetivos: [],
       mostrarModalNovoObjetivo: false,
     };
   },
-  mounted() {    
+  beforeMount() {
     this.LoadUserObjetivos()
   },
   methods: {
-    ...mapActions("objetivos", ["LoadObjetivos"]),
-    ...mapGetters("objetivos", ["getObjetivos"]),
-    async LoadUserObjetivos(){
-      const auth = useAuthStore()
-      this.LoadObjetivos(auth.getToken);
+    async LoadUserObjetivos() {
+      const response = await LoadObjetivos()
+      this.objetivos = response.objetivos
     },
     recarregarComponente() {
       this.LoadUserObjetivos()
@@ -81,7 +63,9 @@ export default {
 <style>
 .div-cards {
   display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  align-items: center; /* Centraliza verticalmente */
+  justify-content: center;
+  /* Centraliza horizontalmente */
+  align-items: center;
+  /* Centraliza verticalmente */
 }
 </style>

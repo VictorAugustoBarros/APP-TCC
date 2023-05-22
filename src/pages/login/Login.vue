@@ -7,36 +7,14 @@
           <span v-if="register.successMessage" class="success-text">{{
             register.successMessage
           }}</span>
-          <span v-if="register.errorRegister" class="error-text">{{
-            register.errorRegister
+          <span v-if="register.errorMessage" class="error-text">{{
+            register.errorMessage
           }}</span>
-          <input
-            type="text"
-            class="input"
-            id="nomeRegister"
-            v-model="register.name"
-            placeholder="Nome"
-          />
-          <input
-            class="input"
-            id="usernameRegister"
-            v-model="register.username"
-            placeholder="Username"
-          />
-          <input
-            class="input"
-            id="emailRegister"
-            v-model="register.email"
-            placeholder="Email"
-          />
-          <input
-            class="input"
-            type="password"
-            id="passwordRegister"
-            v-model="register.password"
-            placeholder="Senha"
-          />
-          <button class="button" type="submit">Registrar</button>
+          <input type="text" class="input" id="nomeRegister" v-model="register.name" placeholder="Nome" />
+          <input class="input" id="usernameRegister" v-model="register.username" placeholder="Username" />
+          <input class="input" type="email" id="emailRegister" v-model="register.email" placeholder="Email" />
+          <input class="input" type="password" id="passwordRegister" v-model="register.password" placeholder="Senha" />
+          <v-btn rounded variant="text" @click="registerUser()"> Registrar </v-btn>
         </form>
       </div>
 
@@ -49,23 +27,10 @@
           <span v-if="login.errorMessage" class="error-text">{{
             login.errorMessage
           }}</span>
-          <input
-            class="input"
-            id="emailForm"
-            v-model.trim="login.email"
-            :class="{ 'error-border': login.email === '' }"
-            type="email"
-            placeholder="Email"
-            required
-          />
-          <input
-            class="input"
-            id="passwordForm"
-            v-model.trim="login.password"
-            type="password"
-            placeholder="Senha"
-            required
-          />
+          <input class="input" id="emailForm" v-model.trim="login.email" :class="{ 'error-border': login.email === '' }"
+            type="email" placeholder="Email" required />
+          <input class="input" id="passwordForm" v-model.trim="login.password" type="password" placeholder="Senha"
+            required />
           <a class="a" href="#">Forgot your password?</a>
           <v-btn rounded variant="text" @click="submitLogin()"> Entrar </v-btn>
         </form>
@@ -97,7 +62,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { authLogin } from '@/services/auth'
 
 
 export default {
@@ -121,28 +86,27 @@ export default {
       },
     };
   }
-  ,methods: {
-    ...mapActions("auth", ["ActionDoLogin"]),
+  , methods: {
     async submitLogin() {
       if (this.login.email === "" || this.login.password === "") {
         this.login.errorMessage = "Preencha todos os campos.";
         return;
       }
-      
-      let payload = {
-        email: this.login.email, 
-        password: this.login.password
-      }
-      
-      let response = await this.ActionDoLogin(payload)
-      if (response.success){
-        this.$router.push({ name: 'home' })
 
-      }else {
+      const response = await authLogin({
+        email: this.login.email,
+        password: this.login.password
+      })
+
+      if (response.success) {
+        this.login.errorMessage = null
+        this.$router.push({ name: 'app.feed' })
+
+      } else {
         this.login.errorMessage = response.error
       }
     },
-    registerUser() {
+    async registerUser() {
       if (
         this.register.name === "" ||
         this.register.email === "" ||
@@ -153,29 +117,21 @@ export default {
         return;
       }
 
-      // const data = {
-      //   name: this.nomeRegister,
-      //   email: this.emailRegister,
-      //   username: this.usernameRegister,
-      //   password: this.passwordRegister,
-      // };
-
-      // axios
-      //   .post(`${API_HOST}/users`, data, {
-      //     "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
-      //   })
-      //   .then((response) => {
-      //     if (!response.data.success) {
-      //       this.successRegister = "";
-      //       this.errorRegister = response.data.message;
-      //     } else {
-      //       this.successRegister = response.data.message;
-      //       this.errorRegister = "";
-      //     }
-      //   })
-      //   .catch(() => {
-      //     alert("Ocorreu um erro ao cadastrar o usuário.");
-      //   });
+      const payload = {
+        "name": this.register.name,
+        "email": this.register.email,
+        "password": this.register.password,
+        "username": this.register.username
+      }
+      let response = await this.ActionRegisterUser(payload)
+      if (response.success) {
+        this.register.successMessage = "Usuário cadastrado com sucesso!";
+        this.register.errorMessage = null
+        this.signIn();
+      } else {
+        this.register.successMessage = null
+        this.register.errorMessage = response.error
+      }
     },
     signUp() {
       const container = document.getElementById("container");
@@ -326,6 +282,7 @@ input {
 }
 
 @keyframes show {
+
   0%,
   49.99% {
     opacity: 0;

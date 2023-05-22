@@ -10,7 +10,10 @@
           <MenuApp />
         </v-col>
         <v-col cols="8" style="background-color: #cfd5e1; border-radius: 10px; padding: 25px">
-          <div class="container" style="height: auto">
+          <div class="container" style="height: auto">            
+            <div v-if="$route.path === '/feed'">
+              <h1>Em construção...</h1>
+            </div>
             <router-view />
           </div>
         </v-col>
@@ -30,8 +33,8 @@ import ListaAmigos from "@/components/ListaAmigos";
 import NavBar from "@/components/NavBar";
 import MenuApp from "@/components/Menu";
 
-import { mapActions, mapGetters } from "vuex";
-import { useAuthStore } from "@/store/storage";
+import {GetUserData} from '@/services/users'
+import {GetUserAmigos} from '@/services/user_amigos'
 
 export default {
   name: "HomePage",
@@ -41,22 +44,10 @@ export default {
     ListaAmigos,
     NavBar,
   },
-  data() {
-    return {
-      token: null,
-      user: null
-    }
-  },
-  methods: {
-    ...mapGetters("user", ["getUser"]),
-    ...mapActions("user", ["GetUserData"]),
-  },
-  async mounted() {
-    const auth = useAuthStore()
-    await this.GetUserData(auth.getToken);
-    this.user = this.getUser()
-    this.$router.push({ name: 'home.perfil', params: { username: this.user.username } });
-  },
+  async beforeMount() {
+    await GetUserData();
+    await GetUserAmigos();
+  }
 };
 </script>
 

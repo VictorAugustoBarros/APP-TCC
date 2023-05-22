@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+
+import {SetUserCriterios, GetUserCriterios} from '@/services/criterios'
 
 export default {
   name: 'CriteriosPage',
@@ -67,14 +68,9 @@ export default {
     }
   },
   async mounted() {
-    let payload = {
-        token: this.getToken()
-    }
-    this.comparisons = await this.GetUserCriterios(payload)
+    this.comparisons = await GetUserCriterios()
   },
   methods: {
-    ...mapActions("criterios", ["SetUserCriterios", "GetUserCriterios"]),
-    ...mapGetters("auth", ["getToken"]),
     verify_button_activate() {
       if (this.criteriosSelecionados.length <= 1) {
         return;
@@ -143,12 +139,7 @@ export default {
     },
     submitCriterios() {
       if (this.verificarCamposVazios()){
-        let payload = {
-          criterios: this.comparisons,
-          token: this.getToken()
-        }
-
-        this.SetUserCriterios(payload)
+        SetUserCriterios(this.comparisons)
       }
     }
   }
