@@ -2,7 +2,7 @@
   <v-container v-if="loadComponent">
     <v-row style="text-align: center;">
       <v-col cols=12>
-        <h1>Objetivo</h1>
+        <h1>Editar Objetivo</h1>
       </v-col>
     </v-row>
     <v-row>
