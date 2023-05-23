@@ -1,4 +1,4 @@
-import API_HOST from '@/http/constants'
+import {API_HOST, ALLOW_ORIGIN} from '@/http/constants'
 import axios from 'axios';
 
 import authStore from "@/store/authStore";
@@ -13,7 +13,7 @@ export const SetUserCriterios = async (payload) => {
         {
             headers: {
                 "Authorization": auth.getToken,
-                "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
             }
         })
         .then((response) => {
@@ -30,7 +30,7 @@ export const GetUserCriterios = async () => {
         {
             headers: {
                 "Authorization": auth.getToken,
-                "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
             }
         })
         .then((response) => {

@@ -33,7 +33,7 @@ export const authVerifyToken = async () => {
         {
             headers: {
                 "Authorization": auth.getToken,
-                "Access-Control-Allow-Origin": "http://127.0.0.1:3001",
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
             }
         })
         .then((response) => {
