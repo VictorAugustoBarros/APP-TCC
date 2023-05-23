@@ -12,7 +12,7 @@
                 <v-card-text style="text-align:center;">
                     <v-row>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.objetivo.objetivos.length }}</p>
+                            <p class="font-card-number">{{ this.objetivos.length }}</p>
                         </v-col>
                         <v-col style="padding-bottom: 0">
                             <p class="font-card-number">{{ this.user.following }}</p>
@@ -74,8 +74,7 @@ export default {
     beforeMount() {
         this.user = this.userS.getUser
         this.amigos = this.userS.getAmigos
-        this.objetivo = this.objetivoS.getObjetivos
-        
+        this.objetivos = this.objetivoS.getObjetivos
     }
 }
 </script>

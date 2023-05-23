@@ -10,7 +10,7 @@ const objetivoStore = defineStore({
         getObjetivos() {
             return this.objetivos
         },
-        getObjetivosID: (state) => (objetivoKey) => {
+        getByID: (state) => (objetivoKey) => {
             return state.objetivos.objetivos.find(objetivo => objetivo.key === objetivoKey);
         }
     },

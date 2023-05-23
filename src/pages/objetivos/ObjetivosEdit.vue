@@ -106,7 +106,7 @@ export default {
   },
   async beforeMount() {
     const objetivoS = objetivoStore()
-    this.objetivo = objetivoS.getObjetivosID(this.$route.query.objetivoKey)
+    this.objetivo = objetivoS.getByID(this.$route.query.objetivoKey)
 
     if (!this.objetivo) {
       this.$router.go(-1);

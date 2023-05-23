@@ -51,7 +51,7 @@ export default {
   methods: {
     async LoadUserObjetivos() {
       const response = await LoadObjetivos()
-      this.objetivos = response.objetivos
+      this.objetivos = response
 
       this.loadPage = true;
     },
