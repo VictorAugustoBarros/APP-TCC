@@ -9,7 +9,9 @@ const app = createApp(App)
 registerPlugins(app)
 
 const page = pageStore()
-console.log(page.getPage)
+
+router.replace({"path": "/"});
+
 if (page.getPage) {
   router.replace(page.getPage);
 }
