@@ -10,7 +10,6 @@ registerPlugins(app)
 
 const page = pageStore()
 
-console.log(page.getPage0);
 if (page.getPage) {
   router.replace(page.getPage);
 }
