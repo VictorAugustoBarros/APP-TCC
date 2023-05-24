@@ -20,5 +20,5 @@ RUN ls
 # compila a aplicação de produção com minificação
 RUN npm run build
 
-EXPOSE 3001
-CMD [ "http-server", "-p 3001", "dist" ]
+EXPOSE 8082
+CMD [ "http-server", "-p 8082", "dist" ]
