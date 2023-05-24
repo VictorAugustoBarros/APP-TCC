@@ -4,14 +4,15 @@ import pageStore from "@/store/pageStore";
 
 export default async (to, from, next) => {
   document.title = `Routine`;
-  console.log(from.path, "->", to.path)
 
   const auth = authStore()
   const page = pageStore()
 
-  page.setPage(JSON.stringify(to));
+  page.setPage(customStringify(to)); // Use a custom stringify function
 
   const token = auth.getToken
+
+  // console.log(from.path, "->", to.path)
 
   if (to.name === 'login' && token) {
     next({ path: '/feed' });
@@ -33,4 +34,18 @@ export default async (to, from, next) => {
 
   next();
   return;
+}
+
+function customStringify(obj) {
+  const seen = new WeakSet();
+
+  return JSON.stringify(obj, (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) {
+        return; 
+      }
+      seen.add(value);
+    }
+    return value;
+  });
 }
