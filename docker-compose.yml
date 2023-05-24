@@ -8,4 +8,4 @@ services:
       - '8082:80'
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.app.rule=(Host(`54.232.148.69`) && PathPrefix(`/`))'
+      - 'traefik.http.routers.app.rule=(Host(`interlinker.com.br`) && PathPrefix(`/`))'
