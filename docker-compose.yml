@@ -5,7 +5,7 @@ services:
     container_name: 'app-tcc'
     build: .
     ports:
-      - '8082:8082'
+      - '8082:80'
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.app.rule=(Host(`54.232.148.69`) && PathPrefix(`/`))'
