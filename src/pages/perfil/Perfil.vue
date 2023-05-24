@@ -71,7 +71,6 @@ export default {
       this.userIcon = response.userIcon
       
     } else{
-      console.log("teste")
       this.userNotFound = true
     }
 
