@@ -3,8 +3,6 @@ import authStore from "@/store/authStore";
 import pageStore from "@/store/pageStore";
 
 export default async (to, from, next) => {
-  document.title = `Routine`;
-
   const auth = authStore()
   const page = pageStore()
 
