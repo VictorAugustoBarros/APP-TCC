@@ -2,4 +2,4 @@
 // export const ALLOW_ORIGIN = "http://localhost:3001"
 
 export const API_HOST = "http://54.232.148.69:8080"
-export const ALLOW_ORIGIN = "http://ec2-18-230-69-64.sa-east-1.compute.amazonaws.com:3001"
+export const ALLOW_ORIGIN = "http://54.232.148.69:3001"
