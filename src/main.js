@@ -17,7 +17,7 @@ const page = pageStore()
 
 if (page.getPage) {
   console.log("Pagina restorada...!")
-  console.log(page.getPage)
+  console.log(JSON.parse(page.getPage))
   router.replace(JSON.parse(page.getPage));
 }else{
   console.log("Sem Page History...!")

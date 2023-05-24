@@ -4,6 +4,7 @@ import pageStore from "@/store/pageStore";
 
 export default async (to, from, next) => {
   document.title = `Routine`;
+  console.log(from.path, "->", to.path)
 
   const auth = authStore()
   const page = pageStore()
@@ -11,8 +12,6 @@ export default async (to, from, next) => {
   page.setPage(JSON.stringify(to));
 
   const token = auth.getToken
-
-  console.log(from.path, "->", to.path)
 
   if (to.name === 'login' && token) {
     next({ path: '/feed' });
