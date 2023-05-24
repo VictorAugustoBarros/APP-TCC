@@ -8,7 +8,7 @@ export default async (to, from, next) => {
   const auth = authStore()
   const page = pageStore()
 
-  page.setPage(customStringify(to)); // Use a custom stringify function
+  page.setPage(JSON.stringify(to));
 
   const token = auth.getToken
 
@@ -34,19 +34,4 @@ export default async (to, from, next) => {
 
   next();
   return;
-}
-
-// Custom stringify function to handle circular references
-function customStringify(obj) {
-  const seen = new WeakSet();
-
-  return JSON.stringify(obj, (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (seen.has(value)) {
-        return; // Skip circular references
-      }
-      seen.add(value);
-    }
-    return value;
-  });
 }
