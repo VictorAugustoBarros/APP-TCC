@@ -8,5 +8,5 @@ services:
       - '8082:8082'
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.routers.app.rule=Host(`host`) && PathPrefix(`/api`)'
+      - 'traefik.http.routers.app.rule=Host(`host`) && PathPrefix(`/`)'
       - 'traefik.http.services.app.loadbalancer.server.port=8082'
