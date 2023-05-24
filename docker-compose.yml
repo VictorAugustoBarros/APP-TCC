@@ -6,7 +6,7 @@ services:
     build: .
     ports:
       - '8082:8082'
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
-    #   - "traefik.http.routers.whoami.entrypoints=web"
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.app.rule=Host(`host`) && PathPrefix(`/api`)'
+      - 'traefik.http.services.app.loadbalancer.server.port=8082'
