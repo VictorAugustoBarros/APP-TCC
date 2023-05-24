@@ -14,9 +14,6 @@ export default async (to, from, next) => {
 
   // console.log(from.path, "->", to.path)
 
-  console.log(window.location);
-  console.log(window.location.href);
-
   if (to.name === 'login' && token) {
     next({ path: '/feed' });
     return;
