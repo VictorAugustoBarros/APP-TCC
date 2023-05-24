@@ -1,5 +1,15 @@
-<template>
-  <v-container v-if="load" style="overflow: auto" class="container" fluid>
+<template v-if="load">
+  <div v-if="this.userNotFound">
+      <v-row style="height: 30vh" />
+      <v-row justify="center" class="full-height">
+        <h1>Usuário não encontrado!</h1>
+      </v-row>
+      <v-row justify="center" class="full-height">
+        <h2>Verifique o nome e tente novamente!</h2>
+      </v-row>
+    </div>
+
+  <v-container v-else  style="overflow: auto" class="container" fluid>
     <div style="position: relative">
       <v-row style="background-color: gray; height: 25vh; border-radius: 13px">
         <v-img :src="this.userBanner" height="25vh" cover class="bg-grey-lighten-2" style="border-radius: 13px"></v-img>
@@ -47,6 +57,7 @@ export default {
       username: null,
       userBanner: null,
       userIcon: null,
+      userNotFound: false,
 
       user: userStore().getUser
     };
@@ -59,12 +70,12 @@ export default {
       this.userBanner = response.userBanner
       this.userIcon = response.userIcon
       
-      this.load = true
-
     } else{
-      this.load = false
+      console.log("teste")
+      this.userNotFound = true
     }
-    
+
+    this.load = true    
   },
   methods: {
     async sendFriendRequest() {
