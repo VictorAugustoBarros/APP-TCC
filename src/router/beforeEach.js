@@ -15,17 +15,18 @@ export default async (to, from, next) => {
   console.log(from.path, "->", to.path)
 
   if (to.name === 'login' && token) {
-    next({ path: '/' });
+    next({ path: '/feed' });
     return;
   }
 
-  if (token && to.name !== 'login') {
+  if (to.name !== 'login' && token) {
     let response = await authVerifyToken()
 
     if (!response) {
       next({ path: '/login' });
       return;
     }
+    
   } else if (!token && to.name !== 'login') {
     next({ path: '/login' });
     return;

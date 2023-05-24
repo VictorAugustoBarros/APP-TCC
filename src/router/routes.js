@@ -5,7 +5,7 @@ import { routes as perfil } from '@/pages/perfil'
 export default [
   {
     path: '/',
-    redirect: '/feed'
+    redirect: '/login'
   },
   {
     path: '/feed',
