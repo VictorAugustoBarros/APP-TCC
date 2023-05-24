@@ -165,13 +165,14 @@ export default {
 }
 
 #body {
-  background: #f6f5f7;
+  /* background: #f6f5f7; */
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   font-family: "Montserrat", sans-serif;
   height: 100vh;
+  background-color: lightgrey;
 }
 
 .h1 {
@@ -382,3 +383,4 @@ input {
   width: 40px;
 }
 </style>
+
