@@ -10,13 +10,9 @@ registerPlugins(app)
 
 const page = pageStore()
 
-router.replace({"path": "/"});
-
 if (page.getPage) {
   router.replace(page.getPage);
 }
 
 app.use(router)
 app.mount('#app')
-
-

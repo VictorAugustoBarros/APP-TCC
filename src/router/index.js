@@ -6,7 +6,7 @@ import beforeEach from './beforeEach'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory("/"),
     routes,
 })
 

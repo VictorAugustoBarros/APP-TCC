@@ -10,8 +10,6 @@ export default async (to, from, next) => {
 
   const token = auth.getToken  
 
-  // console.log(from.path, "->", to.path)
-
   if (to.name === 'login' && token) {
     next({ path: '/feed' });
     return;
