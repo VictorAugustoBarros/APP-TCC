@@ -8,7 +8,7 @@ export default async (to, from, next) => {
   const auth = authStore()
   const page = pageStore()
 
-  page.setPage(customStringify(to)); // Use a custom stringify function
+  page.setPage(to.path);
 
   const token = auth.getToken
 

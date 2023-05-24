@@ -11,10 +11,8 @@ registerPlugins(app)
 const page = pageStore()
 
 if (page.getPage) {
-  router.replace(JSON.parse(page.getPage));
+  router.replace(page.getPage);
 }
-
-console.log("ok")
 
 app.use(router)
 app.mount('#app')
