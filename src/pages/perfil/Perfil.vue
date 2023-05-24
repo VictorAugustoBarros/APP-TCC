@@ -2,8 +2,7 @@
   <v-container v-if="load" style="overflow: auto" class="container" fluid>
     <div style="position: relative">
       <v-row style="background-color: gray; height: 25vh; border-radius: 13px">
-        <v-img :src="this.userBanner" height="25vh" cover class="bg-grey-lighten-2"
-          style="border-radius: 13px"></v-img>
+        <v-img :src="this.userBanner" height="25vh" cover class="bg-grey-lighten-2" style="border-radius: 13px"></v-img>
       </v-row>
       <v-row style="height: 10vh">
         <v-avatar :image="this.userIcon" size="130" style="position: absolute; top: 60%; left: 5%"></v-avatar>
@@ -48,19 +47,24 @@ export default {
       username: null,
       userBanner: null,
       userIcon: null,
-      
+
       user: userStore().getUser
     };
   },
   async beforeMount() {
     const response = await getUserPerfilInfo(this.$route.params.username)
-    if (!response.error){
+
+    if (!response.error) {
       this.username = response.username
       this.userBanner = response.userBanner
       this.userIcon = response.userIcon
+      
+      this.load = true
+
+    } else{
+      this.load = false
     }
     
-    this.load = true
   },
   methods: {
     async sendFriendRequest() {
@@ -69,6 +73,12 @@ export default {
       // }
 
       // const response = await solicitarAmizade(payload)
+    },
+    isFriend() {
+      if (this.user.username === this.$route.params.username){
+        return true
+      }
+      return false
     }
   }
 };
