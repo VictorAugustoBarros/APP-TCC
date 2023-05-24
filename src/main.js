@@ -6,23 +6,15 @@ import pageStore from '@/store/pageStore';
 
 const app = createApp(App)
 
-console.log("Registrando plugins...")
-
 registerPlugins(app)
 
-console.log("Plugins registrados!")
-
-console.log("Buscando Page History...!")
 const page = pageStore()
-page.deletePage()
 
 if (page.getPage) {
-  console.log("Pagina restorada...!")
-  console.log(JSON.parse(page.getPage))
   router.replace(JSON.parse(page.getPage));
-}else{
-  console.log("Sem Page History...!")
 }
+
+console.log("ok")
 
 app.use(router)
 app.mount('#app')
