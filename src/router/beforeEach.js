@@ -10,9 +10,12 @@ export default async (to, from, next) => {
 
   page.setPage(to.path);
 
-  const token = auth.getToken
+  const token = auth.getToken  
 
   // console.log(from.path, "->", to.path)
+
+  console.log(window.location);
+  console.log(window.location.href);
 
   if (to.name === 'login' && token) {
     next({ path: '/feed' });
@@ -34,18 +37,4 @@ export default async (to, from, next) => {
 
   next();
   return;
-}
-
-function customStringify(obj) {
-  const seen = new WeakSet();
-
-  return JSON.stringify(obj, (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (seen.has(value)) {
-        return; 
-      }
-      seen.add(value);
-    }
-    return value;
-  });
 }
