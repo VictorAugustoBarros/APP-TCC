@@ -24,8 +24,8 @@ export default [
     component: () => import('@/pages/login/Login')
   },
   {
-    path: '/:pathMatch(.*)',
+    path: '/:catchAll(.*)',
     name: '404',
     component: () => import('@/pages/404'),
-  }
+  },
 ]
