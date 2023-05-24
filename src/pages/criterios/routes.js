@@ -1,7 +1,7 @@
 export default [
   {
     path: '/criterios',
-    name: 'criterios',
+    name: 'feed.criterios',
     component: () => import('./Criterios')
   }
 ]

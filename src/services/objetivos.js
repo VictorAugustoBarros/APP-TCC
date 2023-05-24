@@ -2,11 +2,29 @@ import {API_HOST, ALLOW_ORIGIN} from '@/http/constants'
 import axios from 'axios';
 
 import authStore from "@/store/authStore";
-import objetivoStore from "@/store/objetivoStore";
+
+export const getObjetivo = async (objetivo_key) => {
+    const auth = authStore()
+
+    return await axios.get(`${API_HOST}/objetivos/${objetivo_key}`,
+        {
+            headers: {
+                "Authorization": auth.getToken,
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
+            }
+        })
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
+}
 
 export const LoadObjetivos = async () => {
     const auth = authStore()
-    const objetivo = objetivoStore()
 
     return await axios.get(`${API_HOST}/objetivos`,
         {
@@ -16,10 +34,13 @@ export const LoadObjetivos = async () => {
             }
         })
         .then((response) => {
-            objetivo.setObjetivos(response.data)
             return response.data
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 
 export const EditObjetivo = async (payload) => {
@@ -39,7 +60,11 @@ export const EditObjetivo = async (payload) => {
             }
             return false
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 
 export const CreateObjetivo = async (payload) => {
@@ -64,5 +89,9 @@ export const CreateObjetivo = async (payload) => {
                 "success": true
             }
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }

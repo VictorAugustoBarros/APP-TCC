@@ -5,26 +5,25 @@ const userStore = defineStore({
     id: 'user',
     state: () => ({
         user: useStorage('user', Object),
-        amigos: useStorage('amigos', Array),
+        hasCriterios: useStorage('hasCriterios', Boolean),
     }),
     getters: {
         getUser() {
             return this.user
         },
-        getAmigos() {
-            return this.amigos
+        getHasCriterios() {
+            return this.hasCriterios
         }
     },
     actions: {
         setUser(new_user) {
             this.user = new_user
         },
-        setAmigos(new_amigos) {
-            this.amigos = new_amigos
+        setCriterios(new_value){
+            this.hasCriterios = new_value
         },
         deleteAll() {
             this.user = null
-            this.amigos = null
         }
     },
 })

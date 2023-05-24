@@ -2,11 +2,9 @@ import {API_HOST, ALLOW_ORIGIN} from '@/http/constants'
 import axios from 'axios';
 
 import authStore from "@/store/authStore";
-import userCriterioStore from '@/store/userCriterioStore';
 
 export const SetUserCriterios = async (payload) => {
     const auth = authStore()
-    const userCriterioStore = userCriterioStore()
 
     return await axios.post(`${API_HOST}/user_criterios`,
         payload,
@@ -17,14 +15,16 @@ export const SetUserCriterios = async (payload) => {
             }
         })
         .then((response) => {
-            userCriterioStore.setCriterios(response.data)
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 
 export const GetUserCriterios = async () => {
     const auth = authStore()
-    const userCriterioS = userCriterioStore()
 
     return await axios.get(`${API_HOST}/user_criterios`,
         {
@@ -34,8 +34,11 @@ export const GetUserCriterios = async () => {
             }
         })
         .then((response) => {
-            userCriterioS.setCriterios(response.data)
             return response.data
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }

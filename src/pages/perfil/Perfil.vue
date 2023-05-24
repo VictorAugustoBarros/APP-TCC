@@ -1,13 +1,13 @@
 <template>
-  <v-container v-if="loadPage" style="overflow: auto" class="container" fluid>
+  <v-container v-if="load" style="overflow: auto" class="container" fluid>
     <div style="position: relative">
       <v-row style="background-color: gray; height: 25vh; border-radius: 13px">
-        <v-img :src="this.userPerfil.user_banner" height="25vh" cover class="bg-grey-lighten-2"
+        <v-img :src="this.userBanner" height="25vh" cover class="bg-grey-lighten-2"
           style="border-radius: 13px"></v-img>
       </v-row>
       <v-row style="height: 10vh">
-        <v-avatar :image="this.userPerfil.user_icon" size="130" style="position: absolute; top: 60%; left: 5%"></v-avatar>
-        <h1 style="position: absolute; left: 17%">{{ this.userPerfil.username }}</h1>
+        <v-avatar :image="this.userIcon" size="130" style="position: absolute; top: 60%; left: 5%"></v-avatar>
+        <h1 style="position: absolute; left: 17%">{{ this.username }}</h1>
 
         <v-btn v-if="$route.params.username !== user.username" :disabled="isFriend()" @click="sendFriendRequest"
           style="background-color: lightblue; position: absolute; top: 10%; left: 93%; transform: translate(-50%, -50%); z-index: 1">
@@ -34,49 +34,42 @@
 </template>
 
 <script>
-import { solicitarAmizade } from '@/services/user_amigos'
-import { GetUserByUsername } from '@/services/users'
-import {GetUserAmigos} from '@/services/user_amigos'
-
 import userStore from '@/store/userStore';
+
+import { getUserPerfilInfo } from '@/services/info'
+import { solicitarAmizade } from '@/services/user_amigos'
 
 export default {
   name: "PerfilPage",
   data: function () {
     return {
-      user: null,
-      userPerfil: {},
-      loadPage: false,
-      amigos: null,
-      userS: userStore()
+      load: false,
+
+      username: null,
+      userBanner: null,
+      userIcon: null,
+      
+      user: userStore().getUser
     };
   },
   async beforeMount() {
-    const response = await GetUserByUsername(this.$route.params.username)
-    this.userPerfil = response
+    const response = await getUserPerfilInfo(this.$route.params.username)
+    if (!response.error){
+      this.username = response.username
+      this.userBanner = response.userBanner
+      this.userIcon = response.userIcon
+    }
     
-    this.user = this.userS.getUser
-    this.amigos = this.userS.getAmigos
-    this.loadPage = true
-
+    this.load = true
   },
   methods: {
     async sendFriendRequest() {
-      const payload = {
-        "amigo_username": this.$route.params.username
-      }
+      // const payload = {
+      //   "amigo_username": this.$route.params.username
+      // }
 
-      const response = await solicitarAmizade(payload)
-      
-      if (response){
-        await GetUserAmigos();
-        
-        this.$router.push({ path: this.$route.path });
-      }
-    },
-    isFriend() {
-      return this.amigos.some(amigo => amigo.username === this.$route.params.username);
-  },
-  },
+      // const response = await solicitarAmizade(payload)
+    }
+  }
 };
 </script>

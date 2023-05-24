@@ -1,12 +1,20 @@
-import { routes as feed } from '@/pages/feed'
+import { routes as objetivos } from '@/pages/objetivos'
+import { routes as criterios } from '@/pages/criterios'
+import { routes as perfil } from '@/pages/perfil'
 
 export default [
   {
     path: '/',
-    name: 'app',
-    component: () => import('@/App'),
+    redirect: '/feed'
+  },
+  {
+    path: '/feed',
+    name: 'feed',
+    component: () => import('@/pages/feed/Feed'),
     children: [
-      ...feed,
+      ...objetivos,
+      ...criterios,
+      ...perfil
     ]
   },
   {

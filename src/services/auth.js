@@ -21,7 +21,10 @@ export const authLogin = async (payload) => {
             auth.addToken(response.data.token);
             return response.data
         })
-        .catch(() => {
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
         });
 
 }
@@ -45,7 +48,9 @@ export const authVerifyToken = async () => {
             }
         })
         .catch((error) => {
-            console.error("Erro:", error);
+            return {
+                "error": error.message
+            }
         });
 }
 

@@ -18,17 +18,17 @@
     </div>
 
     <v-row>
-      <div class="div-cards" v-for="card in this.objetivos" :key="card.id" style="padding: 15px">
-        <CardObjetivo :objetivoKey="card.key" :title="card.titulo" :categoria="card.subtitle" :descricao="card.descricao"
-          :image="card.imagem" />
+      <div class="div-cards" v-for="objetivo in this.objetivos" :key="objetivo.id" style="padding: 15px">
+        <CardObjetivo :objetivoKey="objetivo.key" :title="objetivo.titulo" :categoria="objetivo.categoria" :descricao="objetivo.descricao"
+          :image="objetivo.imagem" />
       </div>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import CardObjetivo from "@/components/CardObjetivo";
-import ModalObjetivos from "@/components/ModalObjetivos";
+import CardObjetivo from "@/pages/objetivos/components/CardObjetivo";
+import ModalObjetivos from "@/pages/objetivos/components/ModalObjetivos";
 
 import { LoadObjetivos } from '@/services/objetivos'
 
@@ -44,14 +44,16 @@ export default {
       mostrarModalNovoObjetivo: false,
       loadPage: false
     };
-  },
+  }, 
   beforeMount() {
     this.LoadUserObjetivos()
   },
   methods: {
     async LoadUserObjetivos() {
       const response = await LoadObjetivos()
-      this.objetivos = response
+      if (!response.error){
+        this.objetivos = response
+      }
 
       this.loadPage = true;
     },

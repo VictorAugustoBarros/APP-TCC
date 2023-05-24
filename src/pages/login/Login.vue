@@ -64,9 +64,6 @@
 <script>
 import { authLogin} from '@/services/auth'
 import {GetUserData, ActionRegisterUser} from '@/services/users'
-import {GetUserAmigos} from '@/services/user_amigos'
-import {LoadObjetivos} from '@/services/objetivos'
-import {GetUserCriterios} from '@/services/criterios'
 
 export default {
   name: "LoginPage",
@@ -105,11 +102,8 @@ export default {
         this.login.errorMessage = null
 
         await GetUserData();
-        await GetUserAmigos();
-        await LoadObjetivos();
-        await GetUserCriterios();
 
-        this.$router.push({ name: 'app.feed' })
+        this.$router.push ({"path": "/feed"})
 
       } else {
         this.login.errorMessage = response.error

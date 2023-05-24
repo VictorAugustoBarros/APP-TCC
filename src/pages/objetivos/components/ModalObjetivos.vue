@@ -48,13 +48,13 @@
                   </v-col>
                   <v-col cols="6">
                     <label for="checkedCooperativo">Cooperativo</label><br>
-                    <input type="checkbox" id="checkedCooperativo" v-model="checkedCooperativo" :disabled="this.btnCooperativoEnable"
-                      @change="handleCheckboxChange('cooperativo')" />
+                    <input type="checkbox" id="checkedCooperativo" v-model="checkedCooperativo"
+                      :disabled="this.btnCooperativoEnable" @change="handleCheckboxChange('cooperativo')" />
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <CooperativeUsers v-model="modalUsersDisable" :disableDialog="modalUsersDisable"/>
+                    <CooperativeUsers v-model="modalUsersDisable" :disableDialog="modalUsersDisable" />
                   </v-col>
                 </v-row>
                 <v-row>
@@ -80,7 +80,7 @@
             </v-btn>
           </v-card-actions>
         </div>
-      </v-card>      
+      </v-card>
 
     </v-dialog>
   </v-row>
@@ -88,12 +88,13 @@
 
 
 <script>
-import CardObjetivo from "@/components/CardObjetivo";
+import CardObjetivo from "@/pages/objetivos/components/CardObjetivo";
 import DatePicker from "@/components/DatePicker";
 import CooperativeUsers from "@/components/CooperativeUsers";
 
 import { CreateObjetivo } from '@/services/objetivos'
-import userCriterioStore from "@/store/userCriterioStore";
+
+import userStore from '@/store/userStore';
 
 export default {
   name: "ModalObjetivos",
@@ -104,6 +105,9 @@ export default {
   },
   data() {
     return {
+      user: userStore().getUser,
+      hasCriterios: userStore().getHasCriterios,
+
       objetivo: {
         titulo: "",
         categoria: "",
@@ -120,7 +124,6 @@ export default {
       btnCooperativoEnable: false,
       modalUsersDisable: true,
 
-      userCriterioS: userCriterioStore()
     };
   },
   methods: {
@@ -135,13 +138,13 @@ export default {
       } else if (checkbox === 'cooperativo' && this.checkedCooperativo) {
         this.checkedIndividual = false;
 
-        if (!this.userCriterioS.hasCriterio) {
+        if (!this.hasCriterios) {
           alert("Favor configurar os Critérios!")
           this.btnCooperativoEnable = true
-          
+
           this.checkedIndividual = true;
           this.checkedCooperativo = false;
-        }else{
+        } else {
           this.modalUsersDisable = false;
         }
       }
@@ -167,7 +170,7 @@ export default {
         return
       }
 
-      this.$emit('modal-fechado');
+      this.$emit('modal-fechado');      
 
       this.dialog = false;
     }

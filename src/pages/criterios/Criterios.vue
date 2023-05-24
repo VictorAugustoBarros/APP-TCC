@@ -41,7 +41,7 @@
 
     <v-row style="justify-content: center;">
       <v-btn v-on:click="submitCriterios" color="green">
-        
+
         <span v-if="!comparisonOnLoad">Salvar</span>
         <span v-else>Editar</span>
       </v-btn>
@@ -52,16 +52,20 @@
 <script>
 
 import { SetUserCriterios, GetUserCriterios } from '@/services/criterios'
+import userStore from '@/store/userStore';
+
 
 export default {
   name: 'CriteriosPage',
   data: function () {
     return {
+      hasCriterios: userStore(),
+
       selecionado: null,
       criteriosBox: ["Esforço", "Período", "Tempo Conclusão", "Experiência", "Avaliação de Usuários"],
       criteriosSelecionados: [],
       comparisons: {},
-      comparisonOnLoad: false
+      comparisonOnLoad: false,
     };
   },
   watch: {
@@ -72,9 +76,10 @@ export default {
     }
   },
   async mounted() {
+
     this.comparisons = await GetUserCriterios()
 
-    if (Object.keys(this.comparisons).length > 0) {      
+    if (Object.keys(this.comparisons).length > 0) {
       this.comparisonOnLoad = true
       this.mount_comparisons()
     }
@@ -88,7 +93,7 @@ export default {
       this.removeComparisonsNotUsed();
       this.loadComparasions();
     },
-    criterioSelecionado(){
+    criterioSelecionado() {
       if (!this.selecionado && this.criteriosSelecionados) {
         this.selecionado = this.criteriosSelecionados[0]
       }
@@ -151,6 +156,15 @@ export default {
       }
     },
     verificarCamposVazios() {
+      if (this.criteriosSelecionados.length == 0) {
+        alert(`Favor definir seus critérios!`);
+        return false;
+      }
+      if (this.criteriosSelecionados.length == 1) {
+        alert(`Favor selecionar outro critério!`);
+        return false;
+      }
+
       for (let key in this.comparisons) {
         let criterios = this.comparisons[key];
         for (let i = 0; i < criterios.length; i++) {
@@ -165,7 +179,9 @@ export default {
     },
     submitCriterios() {
       if (this.verificarCamposVazios()) {
+        alert("Critérios salvo com sucesso")
         SetUserCriterios(this.comparisons)
+        this.hasCriterios.setCriterios(true);
       }
     }
   }

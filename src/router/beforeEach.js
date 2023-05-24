@@ -8,14 +8,14 @@ export default async (to, from, next) => {
   const auth = authStore()
   const page = pageStore()
 
-  // console.log(from.path, "->", to.path)
-
   page.setPage(customStringify(to)); // Use a custom stringify function
 
   const token = auth.getToken
 
+  // console.log(from.path, "->", to.path)
+
   if (to.name === 'login' && token) {
-    next({ name: 'home' });
+    next({ path: '/' });
     return;
   }
 
@@ -23,11 +23,11 @@ export default async (to, from, next) => {
     let response = await authVerifyToken()
 
     if (!response) {
-      next({ name: 'login' });
+      next({ path: '/login' });
       return;
     }
   } else if (!token && to.name !== 'login') {
-    next({ name: 'login' });
+    next({ path: '/login' });
     return;
   }
 

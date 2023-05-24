@@ -4,7 +4,7 @@
       <template v-slot:activator="{ props }">
         <v-btn icon v-bind="props" size="40">
           <v-badge icon="mdi-vuetify">
-            <v-avatar :image="this.user.user_icon" size=40></v-avatar>
+            <v-avatar :image="this.user.userIcon" size=40></v-avatar>
           </v-badge>
         </v-btn>
       </template>
@@ -16,7 +16,7 @@
               {{ this.user.email }} 
             </p>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text" @click="logout()">
+            <v-btn rounded variant="text" @click="logout">
               Logout
             </v-btn>
           </div>
@@ -29,32 +29,18 @@
 <script>
 import authStore from '@/store/authStore';
 import userStore from '@/store/userStore';
-import objetivoStore from '@/store/objetivoStore';
-import userCriterioStore from '@/store/userCriterioStore';
 
 export default {
   name: "AvatarDropdown",
   data: () => ({
-    user: {}
+    user: userStore().getUser
   }),
-  beforeMount() {
-    const user = userStore()
-    this.user = user.getUser
-  },
   methods: {
     logout() {
-      const authS = authStore()
-      const userS = userStore()
-      const objetivoS = objetivoStore()
-      const userCriterioS = userCriterioStore()
-      
-      authS.deleteAll()
-      userS.deleteAll()
-      objetivoS.deleteAll()
-      userCriterioS.deleteAll()
-      
+      authStore().deleteAll()
+      localStorage.clear()
 
-      this.$router.push({"name": "app"})
+      this.$router.push ({path: "/login"})
     }
   }
 }

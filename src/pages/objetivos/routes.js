@@ -1,12 +1,12 @@
 export default [
     {
         path: '/objetivos',
-        name: 'home.objetivos',
+        name: 'feed.objetivos',
         component: () => import('./Objetivos'),
     },
     {
         path: '/objetivos/detalhes',
-        name: 'home.objetivos.detalhes',
+        name: 'feed.objetivos.detalhes',
         component: () => import('./ObjetivosEdit')
     }
 ]

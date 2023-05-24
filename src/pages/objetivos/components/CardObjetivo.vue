@@ -13,7 +13,7 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn class="flex-grow-1" color="blue" :disabled="!detalhes" @click="detalhesObjetivo()">
+      <v-btn class="flex-grow-1" color="blue" :disabled="!detalhes" @click="detalhesObjetivo">
         Detalhes
       </v-btn>
     </v-card-actions>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     detalhesObjetivo() {
-      this.$router.push({ "name": 'home.objetivos.detalhes', query: { objetivoKey: this.objetivoKey } });
+      this.$router.push({ "name": 'feed.objetivos.detalhes', query: { objetivoKey: this.objetivoKey } });
     }
   },
 };

@@ -20,7 +20,11 @@ export const GetUserAmigos = async () => {
             user.setAmigos(response.data)
             return response.data
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 
 export const solicitarAmizade = async (payload) => {
@@ -40,6 +44,10 @@ export const solicitarAmizade = async (payload) => {
             }
             return true
         })
-        .catch(() => {});
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 

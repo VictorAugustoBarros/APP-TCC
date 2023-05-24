@@ -72,7 +72,7 @@ export default {
   name: "404Page",
   methods: {
     returnHome(){
-      this.$router.push({"name": "app.feed"})
+      this.$router.push ({"path": "/feed"})
     }
   },
 }

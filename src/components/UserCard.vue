@@ -1,8 +1,8 @@
-<template>
+<template v-if="load">
     <v-card style="background-color: #cfd5e1;" class="mx-auto" :width="cardWidth" :height="cardHeight">
         <template v-slot:title>
             <v-badge dot color="green" style="float: left;">
-                <v-avatar :image="this.user.user_icon" size=35></v-avatar>
+                <v-avatar :image="this.user.userIcon" size=35></v-avatar>
             </v-badge>
             <span style="font-size: 15px; padding-left: 20px;">{{ this.user.username }}</span><br>
         </template>
@@ -12,13 +12,13 @@
                 <v-card-text style="text-align:center;">
                     <v-row>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.objetivos.length }}</p>
+                            <p class="font-card-number">{{ this.qntObjetivos }}</p>
                         </v-col>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.user.following }}</p>
+                            <p class="font-card-number">{{ this.qntObjetivosConcluidos }}</p>
                         </v-col>
                         <v-col style="padding-bottom: 0">
-                            <p class="font-card-number">{{ this.amigos.length }}</p>
+                            <p class="font-card-number">{{ this.qntAmigos }}</p>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -42,17 +42,17 @@
   
 <script>
 import userStore from '@/store/userStore';
-import objetivoStore from '@/store/objetivoStore';
+import { getUserCardInfo } from '@/services/info'
 
 export default {
     name: 'UserCard',
     data() {
         return {
-            user: null,
-            objetivos: null,
-            amigos: null,
-            userS: userStore(),
-            objetivoS: objetivoStore()
+            qntObjetivos: 0,
+            qntObjetivosConcluidos: 0,
+            qntAmigos: 0,
+            user: userStore().getUser,
+            load: false
         }
     },
     props: {
@@ -71,10 +71,14 @@ export default {
             return `${this.height}px`
         },
     },
-    beforeMount() {
-        this.user = this.userS.getUser
-        this.amigos = this.userS.getAmigos
-        this.objetivos = this.objetivoS.getObjetivos
+    async beforeMount() {        
+        const data = await getUserCardInfo()
+
+        this.qntObjetivos = data.qntObjetivos
+        this.qntObjetivosConcluidos = data.qntObjetivosConcluidos
+        this.qntAmigos = data.qntAmigos
+
+        this.load = true
     }
 }
 </script>
@@ -91,4 +95,15 @@ export default {
 .font-card-number {
     font-size: 15px;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>

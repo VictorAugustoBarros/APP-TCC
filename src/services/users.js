@@ -16,7 +16,9 @@ export const ActionRegisterUser = async (payload) => {
             return response.data
         })
         .catch((error) => {
-            console.error("Erro:", error);
+            return {
+                "error": error.message
+            }
         });
 }
 
@@ -32,10 +34,18 @@ export const GetUserData = async () => {
             }
         })
         .then((response) => {
-            user.setUser(response.data)
+            if (!response.error){
+                user.setUser(response.data.user)
+                user.setCriterios(response.data.hasCriterios)
+            }
+            
             return response.data
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 
 
@@ -53,7 +63,11 @@ export const GetAllUsernames = async () => {
         .then((response) => {
             return response.data
         })
-        .catch(() => { });
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 
 export const GetUserByUsername = async (username) => {
@@ -69,6 +83,10 @@ export const GetUserByUsername = async (username) => {
         .then((response) => {
             return response.data
         })
-        .catch(() => {});
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
 }
 

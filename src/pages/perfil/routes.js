@@ -1,7 +1,7 @@
 export default [
     {
         path: '/perfil/:username',
-        name: 'perfil',
+        name: 'feed.perfil',
         component: () => import('./Perfil'),
     }
 ]
