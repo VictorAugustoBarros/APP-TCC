@@ -14,8 +14,10 @@ const pageStore = defineStore({
     actions: {
         setPage(new_page) {
             this.page = new_page
+        },
+        deletePage() {
+            this.page = null;
         }
-
     },
 })
 

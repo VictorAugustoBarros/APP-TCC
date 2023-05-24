@@ -14,6 +14,7 @@ console.log("Plugins registrados!")
 
 console.log("Buscando Page History...!")
 const page = pageStore()
+page.deleteAll()
 
 if (page.getPage) {
   console.log("Pagina restorada...!")
