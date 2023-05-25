@@ -10,10 +10,13 @@
             <v-list-item prepend-icon="mdi-calendar" title="Objetivos"></v-list-item>
         </router-link>
         <router-link to="/feedbacks">
-            <v-list-item prepend-icon="mdi-account-arrow-up-outline" title="Feedbacks"></v-list-item>
+            <v-list-item disabled prepend-icon="mdi-account-arrow-up-outline" title="Feedbacks"></v-list-item>
         </router-link>
+        <v-list-item disabled prepend-icon="mdi-chart-areaspline" title="Evolução">
+            Evolução
+        </v-list-item>
         <router-link to="/evolucao">
-            <v-list-item prepend-icon="mdi-chart-areaspline" title="Evolução"></v-list-item>
+            <v-list-item disabled prepend-icon="mdi-chart-areaspline" title="Evolução"></v-list-item>
         </router-link>
         <router-link to="/criterios">
             <v-list-item prepend-icon="mdi-cog-outline" title="Criterios"></v-list-item>

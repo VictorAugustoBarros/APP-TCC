@@ -18,9 +18,10 @@
         <v-avatar :image="this.userIcon" size="130" style="position: absolute; top: 60%; left: 5%"></v-avatar>
         <h1 style="position: absolute; left: 17%">{{ this.username }}</h1>
 
-        <v-btn v-if="$route.params.username !== user.username" :disabled="isFriend()" @click="sendFriendRequest"
+        <v-btn v-if="$route.params.username !== user.username" :disabled="isFriend() || this.friendRequested" @click="sendFriendRequest"
           style="background-color: lightblue; position: absolute; top: 10%; left: 93%; transform: translate(-50%, -50%); z-index: 1">
           <span v-if="isFriend()">Adicionado ✓</span>
+          <span v-else-if="this.friendRequested">Solicitação ✓</span>
           <span v-else>Adicionar</span>
         </v-btn>
       </v-row>
@@ -46,7 +47,7 @@
 import userStore from '@/store/userStore';
 
 import { getUserPerfilInfo } from '@/services/info'
-import { solicitarAmizade } from '@/services/user_amigos'
+import { sendNotificacao } from '@/services/notificacoes'
 
 export default {
   name: "PerfilPage",
@@ -58,6 +59,8 @@ export default {
       userBanner: null,
       userIcon: null,
       userNotFound: false,
+      userAdded: false,
+      friendRequested: false,
 
       user: userStore().getUser
     };
@@ -78,11 +81,11 @@ export default {
   },
   methods: {
     async sendFriendRequest() {
-      // const payload = {
-      //   "amigo_username": this.$route.params.username
-      // }
-
-      // const response = await solicitarAmizade(payload)
+      const response = await sendNotificacao(this.$route.params.username)
+      if (response.success){
+        alert("Solicitação enviada")
+        this.friendRequested = true;
+      }
     },
     isFriend() {
       if (this.user.username === this.$route.params.username){

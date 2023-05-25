@@ -27,11 +27,11 @@ export const GetUserAmigos = async () => {
         });
 }
 
-export const solicitarAmizade = async (payload) => {
+export const solicitarAmizade = async (username) => {
     const auth = authStore()
 
     return await axios.post(`${API_HOST}/amigos`,
-        payload,
+        {"username": username},
         {
             headers: {
                 "Authorization": auth.getToken,

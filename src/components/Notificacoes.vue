@@ -22,19 +22,19 @@
 
 <script>
 
+import {getNotificacoes} from '@/services/notificacoes'
+
 export default {
   name: "NotificacoesDropdown",
   data: () => ({
-    notificacoes: [
-      { id: 1, descricao: 'User1 te enviou um teste' },
-      { id: 2, descricao: 'User2 te enviou um teste' },
-      { id: 3, descricao: 'Teste3' },
-      { id: 3, descricao: 'Teste3' },
-      { id: 3, descricao: 'Teste3' },
-      { id: 3, descricao: 'Teste3' },
-      { id: 3, descricao: 'Teste3' },
-    ]
+    notificacoes: []
     }),
+  async beforeMount() {
+    // const notificacoes = await getNotificacoes()
+    // if (!notificacoes.error){
+    //   this.notificacoes = notificacoes
+    // }    
+  },
 }
 </script>
 

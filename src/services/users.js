@@ -5,10 +5,13 @@ import authStore from "@/store/authStore";
 import userStore from "@/store/userStore";
 
 export const ActionRegisterUser = async (payload) => {
+    const auth = authStore()
+    
     return await axios.post(`${API_HOST}/users`,
         payload,
         {
             headers: {
+                "Authorization": auth.getToken,
                 "Access-Control-Allow-Origin": ALLOW_ORIGIN,
             }
         })
