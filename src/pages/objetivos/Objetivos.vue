@@ -19,14 +19,16 @@
 
     <v-row>
       <div class="div-cards" v-for="objetivo in this.objetivos" :key="objetivo.id" style="padding: 15px">
-        <CardObjetivo :objetivoKey="objetivo.key" :title="objetivo.titulo" :categoria="objetivo.categoria" :descricao="objetivo.descricao"
-          :image="objetivo.imagem" />
+        <CardObjetivo :objetivoKey="objetivo.key" :title="objetivo.titulo" :categoria="objetivo.categoria"
+          :descricao="objetivo.descricao" :image="objetivo.imagem" />
       </div>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import bus from '@/eventBus';
+
 import CardObjetivo from "@/pages/objetivos/components/CardObjetivo";
 import ModalObjetivos from "@/pages/objetivos/components/ModalObjetivos";
 
@@ -34,6 +36,7 @@ import { LoadObjetivos } from '@/services/objetivos'
 
 export default {
   name: "ObjetivoPage",
+  emits: ['updateCard'],
   components: {
     CardObjetivo,
     ModalObjetivos,
@@ -42,27 +45,30 @@ export default {
     return {
       objetivos: [],
       mostrarModalNovoObjetivo: false,
-      loadPage: false
+      loadPage: false,
+
+      busEvent: bus
     };
-  }, 
+  },
   beforeMount() {
     this.LoadUserObjetivos()
   },
   methods: {
     async LoadUserObjetivos() {
       const response = await LoadObjetivos()
-      if (!response.error){
+      if (!response.error) {
         this.objetivos = response
       }
 
       this.loadPage = true;
     },
     recarregarComponente() {
+      this.busEvent.emit('update-card', {});
       this.LoadUserObjetivos()
     },
     exibirModal() {
       this.mostrarModalNovoObjetivo = true;
-    }    
+    }
   },
 };
 </script>

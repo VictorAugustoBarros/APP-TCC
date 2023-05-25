@@ -1,10 +1,5 @@
 <template>
   <v-container v-if="load">
-    <v-row style="text-align: center;">
-      <v-col cols=12>
-        <h1>Editar Objetivo</h1>
-      </v-col>
-    </v-row>
     <v-row>
       <v-col cols="8">
         <v-row>
@@ -67,6 +62,25 @@
             <v-btn class="flex-grow-1" style="background-color: #005b96; color: white" variant="tonal"
               @click="editarObjetivo">Editar
             </v-btn>
+
+            <v-btn class="flex-grow-1" style="background-color: red; color: white" variant="tonal">Excluir
+              <v-dialog v-model="modalExcluir" activator="parent" width="auto">
+                <v-card style="text-align: center">
+                  <v-card-text>
+                    Deseja realmente excluir?
+                  </v-card-text>
+                  <v-card-actions style="justify-content: center;">
+                    <v-btn color="red" variant="text" @click="modalExcluir = false;excluirObjetivo()">
+                      Sim
+                    </v-btn>
+                    <v-btn color="blue" variant="text" @click="modalExcluir = false">
+                      Não
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-btn>
+
           </v-card-actions>
         </v-col>
         <v-col cols="3" />
@@ -80,8 +94,10 @@ import CardObjetivo from "@/pages/objetivos/components/CardObjetivo";
 import CooperativeUsers from "@/components/CooperativeUsers";
 import DatePicker from "@/components/DatePicker";
 
-import { EditObjetivo, getObjetivo } from '@/services/objetivos'
+import { EditObjetivo, getObjetivo, DeleteObjetivo } from '@/services/objetivos'
 import userStore from "@/store/userStore";
+import bus from '@/eventBus';
+
 
 export default {
   name: "ObjetivosEdit",
@@ -97,6 +113,7 @@ export default {
       load: false,
 
       objetivo: {},
+      modalExcluir: false,
 
       modalUsersDisable: true,
       btnCooperativoEnable: false,
@@ -131,7 +148,7 @@ export default {
         alert("Escolher uma data final maior que hoje!")
         return;
       }
-      
+
       const payload = this.objetivo;
       this.objetivo.key = this.$route.query.objetivoKey
 
@@ -141,7 +158,14 @@ export default {
       }
 
     },
-    handleCheckboxChange(checkbox) {
+    async excluirObjetivo() {
+      const response = await DeleteObjetivo(this.$route.query.objetivoKey)
+      if (response){
+        bus.emit('update-card', {});
+        this.$router.push({"path": "/objetivos"})
+      }
+    }
+    , handleCheckboxChange(checkbox) {
       if (checkbox === 'individual' && this.checkedIndividual) {
         this.checkedCooperativo = false;
         this.modalUsersDisable = true;

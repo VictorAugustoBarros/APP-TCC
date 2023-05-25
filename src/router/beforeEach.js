@@ -10,23 +10,27 @@ export default async (to, from, next) => {
 
   const token = auth.getToken  
 
-  if (to.name === 'login' && token) {
-    next({ path: '/feed' });
+  if (from.path === "/" && to.path === "/feed" && auth.getfromLogin){
+    auth.setFromLogin(false);
+    next();
     return;
   }
 
-  if (to.name !== 'login' && token) {
+  if (!token && to.name !== 'login') {
+    next({ path: '/login' });
+    return;
+  }
+
+  if (to.name !== 'login' && token && !auth.getfromLogin) {
     let response = await authVerifyToken()
 
     if (!response) {
       next({ path: '/login' });
       return;
     }
-    
-  } else if (!token && to.name !== 'login') {
-    next({ path: '/login' });
+    next();  
     return;
-  }
+  } 
 
   next();
   return;

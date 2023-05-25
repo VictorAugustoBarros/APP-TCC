@@ -17,7 +17,8 @@ export const authLogin = async (payload) => {
                 "Access-Control-Allow-Origin": ALLOW_ORIGIN,
             }
         })
-        .then((response) => {
+        .then((response) => {            
+            auth.setFromLogin(true);
             auth.addToken(response.data.token);
             return response.data
         })
@@ -42,10 +43,8 @@ export const authVerifyToken = async () => {
         .then((response) => {
             if (response.data.error) {
                 return false;
-
-            } else {
-                return true;
             }
+            return true;
         })
         .catch((error) => {
             return {

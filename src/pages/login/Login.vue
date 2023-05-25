@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import { authLogin} from '@/services/auth'
-import {GetUserData, ActionRegisterUser} from '@/services/users'
+import { authLogin } from '@/services/auth'
+import { GetUserData, ActionRegisterUser } from '@/services/users'
 
 export default {
   name: "LoginPage",
@@ -101,9 +101,8 @@ export default {
       if (response.success) {
         this.login.errorMessage = null
 
-        await GetUserData();
-
-        this.$router.push ({"path": "/feed"})
+        this.$router.push({"path": "/feed"})
+        GetUserData();
 
       } else {
         this.login.errorMessage = response.error
@@ -131,7 +130,7 @@ export default {
         this.register.successMessage = "Usuário cadastrado com sucesso!";
         this.register.errorMessage = null
         this.signIn();
-        
+
       } else {
         this.register.successMessage = null
         this.register.errorMessage = response.error

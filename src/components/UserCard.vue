@@ -42,17 +42,13 @@
   
 <script>
 import userStore from '@/store/userStore';
-import { getUserCardInfo } from '@/services/info'
+
 
 export default {
     name: 'UserCard',
     data() {
         return {
-            qntObjetivos: 0,
-            qntObjetivosConcluidos: 0,
-            qntAmigos: 0,
             user: userStore().getUser,
-            load: false
         }
     },
     props: {
@@ -60,6 +56,15 @@ export default {
             type: Number
         },
         height: {
+            type: Number
+        },
+        qntObjetivos: {
+            type: Number
+        },
+        qntObjetivosConcluidos: {
+            type: Number
+        },
+        qntAmigos: {
             type: Number
         }
     },
@@ -70,15 +75,6 @@ export default {
         cardHeight() {
             return `${this.height}px`
         },
-    },
-    async beforeMount() {        
-        const data = await getUserCardInfo()
-
-        this.qntObjetivos = data.qntObjetivos
-        this.qntObjetivosConcluidos = data.qntObjetivosConcluidos
-        this.qntAmigos = data.qntAmigos
-
-        this.load = true
     }
 }
 </script>
@@ -98,12 +94,11 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+    transition: opacity 0.5s;
 }
 
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
-
 </style>

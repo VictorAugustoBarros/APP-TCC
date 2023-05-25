@@ -12,9 +12,6 @@
         <router-link to="/feedbacks">
             <v-list-item disabled prepend-icon="mdi-account-arrow-up-outline" title="Feedbacks"></v-list-item>
         </router-link>
-        <v-list-item disabled prepend-icon="mdi-chart-areaspline" title="Evolução">
-            Evolução
-        </v-list-item>
         <router-link to="/evolucao">
             <v-list-item disabled prepend-icon="mdi-chart-areaspline" title="Evolução"></v-list-item>
         </router-link>

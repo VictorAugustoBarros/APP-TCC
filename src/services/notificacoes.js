@@ -14,7 +14,6 @@ export const sendNotificacao = async (username) => {
             headers: { "Authorization": auth.getToken, "Access-Control-Allow-Origin": ALLOW_ORIGIN, }
         })
         .then((response) => {
-            console.log(response.data);
             return response.data
         })
         .catch((error) => {
@@ -31,7 +30,6 @@ export const getNotificacoes = async () => {
             headers: { "Authorization": auth.getToken, "Access-Control-Allow-Origin": ALLOW_ORIGIN, }
         })
         .then((response) => {
-            console.log(response.data);
             return response.data
         })
         .catch((error) => {

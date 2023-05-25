@@ -95,3 +95,24 @@ export const CreateObjetivo = async (payload) => {
             }
         });
 }
+
+export const DeleteObjetivo = async (objetivo_key) => {
+    const auth = authStore()
+
+    return await axios.delete(`${API_HOST}/objetivos/${objetivo_key}`,
+        {
+            headers: {
+                "Authorization": auth.getToken,
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
+            }
+        })
+        .then((response) => {
+            if (response.data.error) {
+                return false
+            }
+            return true
+        })
+        .catch(() => {
+            return false
+        });
+}
