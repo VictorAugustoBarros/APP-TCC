@@ -6,6 +6,6 @@ services:
     build: .
     ports:
       - '8082:80'
-    # labels:
-    #   - 'traefik.enable=true'
-    #   - 'traefik.http.routers.app.rule=(Host(`interlinker.com.br`) && PathPrefix(`/`))'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.app.rule=(Host(`interlinker.com.br`) && PathPrefix(`/`))'
