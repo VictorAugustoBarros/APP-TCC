@@ -1,5 +1,5 @@
 # Usa a imagem base do Node.js LTS Alpine
-FROM node:lts-alpine as build-stage
+FROM node:13.12.0-alpine as build-stage
 
 WORKDIR /app
 
