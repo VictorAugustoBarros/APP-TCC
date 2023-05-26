@@ -1,0 +1,1 @@
+import{am as r,an as s}from"./index.d55d2dc8.js";const t=r({id:"user",state:()=>({user:s("user",Object),hasCriterios:s("hasCriterios",Boolean)}),getters:{getUser(){return this.user},getHasCriterios(){return this.hasCriterios}},actions:{setUser(e){this.user=e},setCriterios(e){this.hasCriterios=e},deleteAll(){this.user=null}}}),o=t;export{o as u};
