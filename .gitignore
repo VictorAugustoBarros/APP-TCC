@@ -1,0 +1,28 @@
+# Arquivos e diretórios específicos do Vue.js
+node_modules/
+/.npm/
+/.env.local
+/.env.*
+
+# Arquivos gerados durante a construção
+/.sass-cache/
+/.browserslistrc
+
+# Arquivos de log e cache
+/logs/
+/cache/
+
+# Arquivos de configuração do IDE
+.idea/
+.vscode/
+
+# Outros arquivos e diretórios específicos do projeto
+.DS_Store
+*.log
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Dependendo do seu ambiente de desenvolvimento, você pode precisar adicionar mais
+# regras de exclusão específicas, como para pacotes de construção ou IDEs específicos.
