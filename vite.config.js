@@ -8,6 +8,9 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    minify: false,
+  },
   plugins: [
     vue({ 
       template: { transformAssetUrls }
@@ -33,7 +36,7 @@ export default defineConfig({
     ],
   },
   server: {
-    port: 3001,
+    port: 80,
   },
   configureWebpack: {
     devtool: 'source-map'
