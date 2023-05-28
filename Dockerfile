@@ -9,7 +9,7 @@ RUN npm install --verbose
 
 COPY . .
 
-RUN npm run build
+RUN npm run build --verbose
 
 # Estágio de produção
 FROM nginx:stable-alpine as production-stage
