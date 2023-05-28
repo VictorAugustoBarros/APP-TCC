@@ -1,5 +1,6 @@
 # Arquivos e diretórios específicos do Vue.js
 node_modules/
+dist/
 /.npm/
 /.env.local
 /.env.*
@@ -7,6 +8,7 @@ node_modules/
 # Arquivos gerados durante a construção
 /.sass-cache/
 /.browserslistrc
+package-lock.json
 
 # Arquivos de log e cache
 /logs/
