@@ -1,15 +1,18 @@
 export const data = {
-    labels: ['VueJs2', 'EmberJs', 'ReactJs', 'AngularJs'],
-    datasets: [
-      {
-        backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-        data: [40, 20, 80, 10]
-      }
-    ]
-  }
-  
-  export const options = {
-    responsive: true,
-    maintainAspectRatio: false
-  }
-  
+  labels: [
+    "Objetivos Concluidos",
+    "Objetivos em conclusão",
+    "Objetivos cancelados",
+  ],
+  datasets: [
+    {
+      backgroundColor: ["#41B883", "#E46651", "#00D8FF"],
+      data: [40, 20, 40],
+    },
+  ],
+};
+
+export const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+};
