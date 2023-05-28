@@ -2,9 +2,9 @@
     <v-card style="background-color: #cfd5e1;" class="mx-auto" :width="cardWidth" :height="cardHeight">
         <template v-slot:title>
             <v-badge dot color="green" style="float: left;">
-                <v-avatar :image="this.user.userIcon" size=35></v-avatar>
+                <v-avatar :image="this.userIcon" size=35></v-avatar>
             </v-badge>
-            <span style="font-size: 15px; padding-left: 20px;">{{ this.user.username }}</span><br>
+            <span style="font-size: 15px; padding-left: 20px;">{{ this.username }}</span><br>
         </template>
 
         <v-card-text>
@@ -66,7 +66,13 @@ export default {
         },
         qntAmigos: {
             type: Number
-        }
+        },
+        username: {
+            type: String
+        },
+        userIcon: {
+            type: String
+        },
     },
     computed: {
         cardWidth() {

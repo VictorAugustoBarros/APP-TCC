@@ -1,19 +1,16 @@
 <template>
     <v-list style="background-color: transparent">
-        <router-link to="/feed">
-            <v-list-item prepend-icon="mdi-account-multiple" title="Feed"></v-list-item>
-        </router-link>
-        <router-link :to="'/perfil/' + this.user.username">
+        <router-link :to="'/perfil/' + user.username" @click="handleLinkClick(user.username)">
             <v-list-item prepend-icon="mdi-account" title="Perfil"></v-list-item>
         </router-link>
         <router-link to="/objetivos">
             <v-list-item prepend-icon="mdi-calendar" title="Objetivos"></v-list-item>
         </router-link>
         <router-link to="/feedbacks">
-            <v-list-item disabled prepend-icon="mdi-account-arrow-up-outline" title="Feedbacks"></v-list-item>
+            <v-list-item prepend-icon="mdi-account-arrow-up-outline" title="Feedbacks"></v-list-item>
         </router-link>
         <router-link to="/evolucao">
-            <v-list-item disabled prepend-icon="mdi-chart-areaspline" title="Evolução"></v-list-item>
+            <v-list-item prepend-icon="mdi-chart-areaspline" title="Evolução"></v-list-item>
         </router-link>
         <router-link to="/criterios">
             <v-list-item prepend-icon="mdi-cog-outline" title="Criterios"></v-list-item>
@@ -22,6 +19,7 @@
 </template>
 
 <script>
+import bus from '@/eventBus';
 import userStore from '@/store/userStore';
 
 export default {
@@ -35,6 +33,12 @@ export default {
         const user = userStore()
         this.user = user.getUser
     },
+    methods: {
+        handleLinkClick(username) {
+            this.$router.push({ name: "perfil", params: { username: username } });
+            bus.emit("update-perfil", username);
+        }
+    }
 }
 </script>
 

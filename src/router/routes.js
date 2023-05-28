@@ -1,19 +1,28 @@
 import { routes as objetivos } from '@/pages/objetivos'
 import { routes as criterios } from '@/pages/criterios'
 import { routes as perfil } from '@/pages/perfil'
-import { routes as feed } from '@/pages/feed'
+import { routes as feedbacks } from '@/pages/feedbacks'
+import { routes as evolucao } from '@/pages/evolucao'
 
 
 export default [
   {
     path: '/',
     name: 'app',
-    component: () => import('@/App')
+    component: () => import('@/App'),
   },
-  ...objetivos,
-  ...criterios,
-  ...perfil,
-  ...feed,
+  {
+    path: '/app',
+    name: 'appWeb',
+    component: () => import('@/AppWeb'),
+    children: [
+      ...objetivos,
+      ...criterios,
+      ...perfil,
+      ...feedbacks,
+      ...evolucao,
+    ]
+  },  
   {
     path: '/login',
     name: 'login',

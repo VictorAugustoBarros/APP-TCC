@@ -63,7 +63,7 @@
 
 <script>
 import { authLogin } from '@/services/auth'
-import { GetUserData, ActionRegisterUser } from '@/services/users'
+import { ActionRegisterUser } from '@/services/users'
 
 export default {
   name: "LoginPage",
@@ -85,8 +85,8 @@ export default {
         successMessage: "",
       },
     };
-  }
-  , methods: {
+  }, 
+  methods: {
     async submitLogin() {
       if (this.login.email === "" || this.login.password === "") {
         this.login.errorMessage = "Preencha todos os campos.";
@@ -99,11 +99,9 @@ export default {
       })
 
       if (response.success) {
-        this.login.errorMessage = null
-
-        this.$router.push({"path": "/feed"})
-        GetUserData();
-
+        this.login.errorMessage = null        
+        this.$router.push({"path": "/"})
+        
       } else {
         this.login.errorMessage = response.error
       }
@@ -235,7 +233,7 @@ form {
   text-align: center;
 }
 
-input {
+.input {
   background-color: #eee;
   border: none;
   padding: 12px 15px;

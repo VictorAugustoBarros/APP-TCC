@@ -1,18 +1,31 @@
-import { authVerifyToken } from '@/services/auth'
 import authStore from "@/store/authStore";
+import userStore from "@/store/userStore";
 import pageStore from "@/store/pageStore";
 
+import { authVerifyToken } from '@/services/auth'
+import { GetUserData } from '@/services/users'
+
+
 export default async (to, from, next) => {
-  const auth = authStore()
-  const page = pageStore()
+  const authS = authStore()
+  const userS = userStore()
+  const pageS = pageStore()
 
-  page.setPage(to.path);
+  pageS.setPage(to.path);
 
-  const token = auth.getToken  
+  const token = authS.getToken  
 
-  if (from.path === "/" && to.path === "/feed" && auth.getfromLogin){
-    auth.setFromLogin(false);
-    next();
+  if (from.name === "login" && to.name ==="app") {
+    await GetUserData()
+  }
+  
+  if (to.name === "app" && token) {
+    next({ name: 'appWeb' });
+    return;
+  }
+
+  if (to.name === "appWeb" && token) {
+    next({ name: 'perfil', params: { username: userS.getUsername } });
     return;
   }
 
@@ -21,15 +34,13 @@ export default async (to, from, next) => {
     return;
   }
 
-  if (to.name !== 'login' && token && !auth.getfromLogin) {
+  if (to.name !== 'login' && token ) {
     let response = await authVerifyToken()
 
     if (!response) {
       next({ path: '/login' });
       return;
     }
-    next();  
-    return;
   } 
 
   next();

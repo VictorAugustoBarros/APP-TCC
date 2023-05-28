@@ -10,27 +10,19 @@
 
 <script>
 import AmigosCardHome from '@/components/AmigosCardHome';
-import { getListaAmigosInfo } from '@/services/info'
 
 export default {
     name: "ListaAmigos",
     components: {
         AmigosCardHome
     },
-    data() {
-        return {
-            load: false,
-            amigos: []
+    props: {
+        amigos: {
+            type: Array,
+            default: function () {
+                return [];
+            }
         }
-    },
-    async beforeMount() {        
-        const response = await getListaAmigosInfo()
-        
-        if (!response.error){
-            this.amigos = response
-        }
-
-        this.load = true
     }
 }
 </script>

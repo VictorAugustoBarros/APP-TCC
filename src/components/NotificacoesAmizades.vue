@@ -2,20 +2,20 @@
   <v-row justify="center">
     <v-menu min-width="200px" rounded>
       <template v-slot:activator="{ props }">
-        <v-btn icon v-bind="props" size="40">
-          <v-badge color="red" :content="this.amizades.length" >
+        <v-btn icon v-bind="props" size="40" :disabled="this.friendRequests.length === 0">
+          <v-badge color="red" :content="this.friendRequests.length">
             <v-avatar icon="mdi-account-multiple-plus-outline" size=40></v-avatar>
           </v-badge>
         </v-btn>
       </template>
       <v-card>
         <v-card-text style="height: 200px;overflow: auto;">
-          <div v-for="amizade in amizades" :key="amizade.id" class="mx-auto text-center">
-            <h3> {{ amizade.username }} </h3>
-            <v-btn rounded variant="text" color="green">
+          <div v-for="friendRequest in friendRequests" :key="friendRequest.key" class="mx-auto text-center">
+            <h3> {{ friendRequest.username }} </h3>
+            <v-btn rounded variant="text" color="green" @click="aceitarFriendRequest(friendRequest)">
               Aceitar
             </v-btn>
-            <v-btn rounded variant="text" color="red">
+            <v-btn rounded variant="text" color="red" @click="removerFriendRequest(friendRequest.key)">
               Remover
             </v-btn>
             <v-divider class="my-3"></v-divider>
@@ -27,16 +27,38 @@
 </template>
 
 <script>
+import bus from '@/eventBus';
+import userStore from '@/store/userStore';
+
+import { deleteFriendRequest, sendNotificacao } from '@/services/notificacoes'
+import { adicionarAmizade } from '@/services/user_amigos'
 
 export default {
   name: "NotificacoesAmizades",
-  data: () => ({
-    amizades: [
-      { id: 1, username: 'User1' },
-      { id: 2, username: 'User2' },
-      { id: 3, username: 'User3' }
-    ]
-  }),
+  props: {
+    friendRequests: {
+      type: Array
+    }
+  },
+  methods: {
+    async aceitarFriendRequest(friendRequest) {
+      await adicionarAmizade(friendRequest.username)
+      await deleteFriendRequest(friendRequest.key)
+      await sendNotificacao({
+        "username": friendRequest.username,
+        "descricao": "usuário " + userStore().getUsername + " aceitou seu pedido de amizade!"
+      })
+
+      bus.emit('update-card', {});
+      bus.emit('update-amigos', {});
+      bus.emit('update-notificacao-amizades', {});
+
+    },
+    async removerFriendRequest(notificacao_key) {
+      await deleteFriendRequest(notificacao_key)
+      bus.emit('update-notificacao-amizades', {});
+    },
+  },
 }
 </script>
 

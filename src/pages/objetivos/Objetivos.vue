@@ -46,25 +46,27 @@ export default {
       objetivos: [],
       mostrarModalNovoObjetivo: false,
       loadPage: false,
-
-      busEvent: bus
     };
   },
-  beforeMount() {
-    this.LoadUserObjetivos()
-  },
-  methods: {
-    async LoadUserObjetivos() {
+  async created() {
+    bus.on('update-objetivos', async () => {
       const response = await LoadObjetivos()
       if (!response.error) {
         this.objetivos = response
       }
+    });
 
-      this.loadPage = true;
-    },
+    bus.emit('update-objetivos', {});
+
+    this.loadPage = true;
+  },
+  beforeUnmount() {
+    bus.off('update-objetivos');
+  },
+  methods: {
     recarregarComponente() {
-      this.busEvent.emit('update-card', {});
-      this.LoadUserObjetivos()
+      bus.emit('update-card', {});
+      bus.emit('update-objetivos', {});
     },
     exibirModal() {
       this.mostrarModalNovoObjetivo = true;

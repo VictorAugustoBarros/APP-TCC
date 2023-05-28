@@ -11,6 +11,9 @@ const userStore = defineStore({
         getUser() {
             return this.user
         },
+        getUsername() {
+            return this.user.username
+        },
         getHasCriterios() {
             return this.hasCriterios
         }
@@ -23,7 +26,8 @@ const userStore = defineStore({
             this.hasCriterios = new_value
         },
         deleteAll() {
-            this.user = null
+            this.user = null,
+            this.hasCriterios = null
         }
     },
 })

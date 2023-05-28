@@ -38,6 +38,7 @@ export default {
   methods: {
     logout() {
       authStore().deleteAll()
+      userStore().deleteAll()
       localStorage.clear()
       this.$router.push ({path: "/"})
     }

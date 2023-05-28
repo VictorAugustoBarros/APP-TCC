@@ -27,7 +27,7 @@ export const GetUserAmigos = async () => {
         });
 }
 
-export const solicitarAmizade = async (username) => {
+export const adicionarAmizade = async (username) => {
     const auth = authStore()
 
     return await axios.post(`${API_HOST}/amigos`,
