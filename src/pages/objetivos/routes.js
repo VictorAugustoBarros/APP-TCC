@@ -5,7 +5,7 @@ export default [
         component: () => import('./Objetivos'),
     },
     {
-        path: '/objetivos/detalhes',
+        path: '/objetivos/detalhes/:objetivoKey',
         name: 'objetivos.detalhes',
         component: () => import('./ObjetivosEdit')
     }

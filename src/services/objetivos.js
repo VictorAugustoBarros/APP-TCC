@@ -43,6 +43,27 @@ export const LoadObjetivos = async () => {
         });
 }
 
+
+export const LoadObjetivosFeedbacks = async () => {
+    const auth = authStore()
+
+    return await axios.get(`${API_HOST}/objetivos`,
+        {
+            headers: {
+                "Authorization": auth.getToken,
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
+            }
+        })
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
+}
+
 export const EditObjetivo = async (payload) => {
     const auth = authStore()
 

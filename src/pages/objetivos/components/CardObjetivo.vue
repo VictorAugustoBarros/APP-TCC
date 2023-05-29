@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     detalhesObjetivo() {
-      this.$router.push({ "name": 'objetivos.detalhes', query: { objetivoKey: this.objetivoKey } });
+      this.$router.push({ "name": 'objetivos.detalhes', params: { objetivoKey: this.objetivoKey } });
     }
   },
 };

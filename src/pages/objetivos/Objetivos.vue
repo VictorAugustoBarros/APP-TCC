@@ -1,28 +1,40 @@
 <template>
-  <v-container v-if="loadPage">
-    <v-row>
-      <v-col cols="10"></v-col>
-      <v-col cols="2">
-        <ModalObjetivos @modal-fechado="recarregarComponente" />
-      </v-col>
-    </v-row>
+  <v-container>
 
-    <div v-if="this.objetivos.length === 0">
+    <div v-if="loading">
       <v-row style="height: 30vh" />
       <v-row justify="center" class="full-height">
-        <h1>Infelizmente você não posssui nenhum objetivo!</h1>
-      </v-row>
-      <v-row justify="center" class="full-height">
-        <h2>Crie um novo objetivo e boa sorte!</h2>
+        <v-img width="100px" height="100px" src="@/assets/loading.gif" />
       </v-row>
     </div>
 
-    <v-row>
-      <div class="div-cards" v-for="objetivo in this.objetivos" :key="objetivo.id" style="padding: 15px">
-        <CardObjetivo :objetivoKey="objetivo.key" :title="objetivo.titulo" :categoria="objetivo.categoria"
-          :descricao="objetivo.descricao" :image="objetivo.imagem" />
+    <div v-else>
+      <v-row>
+        <v-col cols="10"></v-col>
+        <v-col cols="2">
+          <ModalObjetivos @modal-fechado="recarregarComponente" />
+        </v-col>
+      </v-row>
+
+      <div v-if="this.objetivos.length === 0">
+        <v-row style="height: 30vh" />
+        <v-row justify="center" class="full-height">
+          <h1>Infelizmente você não posssui nenhum objetivo!</h1>
+        </v-row>
+        <v-row justify="center" class="full-height">
+          <h2>Crie um novo objetivo e boa sorte!</h2>
+        </v-row>
       </div>
-    </v-row>
+
+      <v-row>
+        <div class="div-cards" v-for="objetivo in this.objetivos" :key="objetivo.id" style="padding: 15px">
+          <CardObjetivo :objetivoKey="objetivo.key" :title="objetivo.titulo" :categoria="objetivo.categoria"
+            :descricao="objetivo.descricao" :image="objetivo.imagem" />
+        </div>
+      </v-row>
+    </div>
+
+
   </v-container>
 </template>
 
@@ -43,6 +55,7 @@ export default {
   },
   data: function () {
     return {
+      loading: true,
       objetivos: [],
       mostrarModalNovoObjetivo: false,
       loadPage: false,
@@ -54,11 +67,9 @@ export default {
       if (!response.error) {
         this.objetivos = response
       }
+      this.loading = false
     });
-
     bus.emit('update-objetivos', {});
-
-    this.loadPage = true;
   },
   beforeUnmount() {
     bus.off('update-objetivos');

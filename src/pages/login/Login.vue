@@ -41,7 +41,7 @@
           <div class="overlay-panel overlay-left">
             <h1 class="h1">Olá, Amigo!</h1>
             <p class="p">
-              Introduza os seus dados pessoais e comece a evoluir com nós
+              Introduza os seus dados pessoais e comece a evoluir conosco
             </p>
             <v-btn rounded variant="text" @click="signIn()"> Entrar </v-btn>
           </div>

@@ -1,5 +1,5 @@
 <template>
-  <v-autocomplete class="custom-autocomplete" ref="autocomplete" v-if="loadComponent" variant="outlined" v-model="searchText" :items="usernames" label="Usuários">
+  <v-autocomplete no-data-text class="custom-autocomplete" ref="autocomplete" v-if="loadComponent" variant="outlined" v-model="searchText" :items="usernames" label="Usuários">
   </v-autocomplete>
 </template>
   

@@ -1,56 +1,56 @@
 <template>
-  <v-card width="250">
-    <v-img height="150" :src="objetivoImagem" cover class="text-white">
-      <v-toolbar color="rgba(0, 0, 0, 0)" theme="dark">
-        <v-toolbar-title class="text-h6">
-          {{ objetivoTitulo }}
-        </v-toolbar-title>
-
-      </v-toolbar>
-    </v-img>
-
-    <v-card-text>
-      <div class="font-weight-bold ms-1 mb-2">
-        <p style="color: black">Feedbacks: 5</p>
-        <v-divider class="my-3" />
-        <p style="color: orange">Pendentes: 2</p>
-        <v-divider class="my-3" />
+  <v-card width="250" :style="{ borderRadius: '30px', backgroundColor: this.color }">
+    <v-card-item>
+      <div>
+        <div class="text-overline mb-1">
+          {{this.data}}
+        </div>
+        <div class="text-h6 mb-1">
+          Descricao
+        </div>
+        <div class="text-caption" >
+          {{this.descicao}}
+        </div>
       </div>
+    </v-card-item>
 
-      <v-timeline density="compact" align="start">
-        <v-timeline-item v-for="timeline in timelines" :key="timeline.time" :dot-color="timeline.color" size="x-small">
-          <div class="mb-4">
-            <div class="font-weight-normal">
-              <strong>{{ timeline.from }}</strong> {{ timeline.time }}
-            </div>
-            <div>{{ timeline.message }}</div>
-          </div>
-        </v-timeline-item>
-      </v-timeline>
-
-      <v-card-actions>
-        <v-btn class="flex-grow-1" color="black" variant="tonal">
-          Feedbacks
-        </v-btn>
-      </v-card-actions>
-    </v-card-text>
+    <v-card-actions style="justify-content: center;">
+      <ModalFeedbacks :status="this.status" :key="this.key" />
+      <br><br><br>
+    </v-card-actions>
   </v-card>
 </template>
 
   
 <script>
+import ModalFeedbacks from '@/pages/feedbacks/components/ModalFeedbacks';
+
 export default {
   name: "CardFeedback",
+  components: {
+    ModalFeedbacks
+  },
+  data() {
+    return {
+      color: this.status === 'concluido' ? 'lightgreen' : '#ff8816'
+    }
+  },
   props: {
-    objetivoTitulo: {
-      type: String,
+    objetivoKey: {
+      type: String
     },
-    objetivoImagem: {
-      type: String,
+    key: {
+      type: String
     },
-    timelines: {
-      type: Array
+    data: {
+      type: String
     },
+    descicao: {
+      type: String
+    },
+    status: {
+      type: String
+    }
   }
 };
 </script>

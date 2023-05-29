@@ -122,7 +122,7 @@ export default {
     };
   },
   async beforeMount() {
-    const response = await getObjetivo(this.$route.query.objetivoKey)
+    const response = await getObjetivo(this.$route.params.objetivoKey)
     if (!response.error) {
       this.objetivo = response
 
@@ -150,7 +150,7 @@ export default {
       }
 
       const payload = this.objetivo;
-      this.objetivo.key = this.$route.query.objetivoKey
+      this.objetivo.key = this.$route.params.objetivoKey
 
       const response = await EditObjetivo(payload)
       if (!response.error) {
@@ -159,7 +159,7 @@ export default {
 
     },
     async excluirObjetivo() {
-      const response = await DeleteObjetivo(this.$route.query.objetivoKey)
+      const response = await DeleteObjetivo(this.$route.params.objetivoKey)
       if (response){
         bus.emit('update-card', {});
         this.$router.push({"path": "/objetivos"})
