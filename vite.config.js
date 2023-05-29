@@ -17,9 +17,6 @@ export default defineConfig({
       autoImport: true,
     }),
   ],
-  build: {
-    minify: false
-  },
   define: { 'process.env': {} },
   resolve: {
     alias: {
@@ -34,9 +31,6 @@ export default defineConfig({
       '.tsx',
       '.vue',
     ],
-  },
-  server: {
-    port: 3001,
   },
   configureWebpack: {
     devtool: 'source-map'
