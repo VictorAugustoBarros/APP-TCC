@@ -77,7 +77,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler)
 
 
-import { getEvolucaoObjetivos, getEvolucaoAmizades } from "@/services/evolucao";
+import { getEvolucaoObjetivos, getEvolucaoAmizades, getEvolucaoFeedbacks } from "@/services/evolucao";
 
 // TODO -> Recarregar os dados ao entrar na página
 export default {
@@ -215,7 +215,7 @@ export default {
       this.radarChart.load = true
     },
     async getFeedbacksChart() {
-      const dados = await getEvolucaoAmizades();
+      const dados = await getEvolucaoFeedbacks();
 
       const labels = Object.keys(dados.quantidade_mes)
       const datasets = [{

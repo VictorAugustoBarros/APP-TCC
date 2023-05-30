@@ -32,7 +32,7 @@ export default defineConfig({
       '.vue',
     ],
   },
-  configureWebpack: {
-    devtool: 'source-map'
-  }
+  server: {
+    port: 3001
+  },
 })

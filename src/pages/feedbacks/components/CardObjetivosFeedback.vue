@@ -6,13 +6,13 @@
 
     <v-card-text>
       <v-toolbar-title class="text-h6">
-          {{ objetivoTitulo }}
+        {{ objetivoTitulo }}
       </v-toolbar-title>
       <v-divider class="my-3" />
       <div class="font-weight-bold ms-1 mb-2">
-        <p style="color: black">Feedbacks: 5</p>
+        <p style="color: black">Feedbacks: {{ this.feedbacksConcluidos.length }}</p>
         <br>
-        <p style="color: orange">Pendentes: 2</p>
+        <p style="color: orange">Pendentes: {{ this.feedbacksPendentes.length }}</p>
       </div>
 
       <v-card-actions>
@@ -37,12 +37,20 @@ export default {
     },
     objetivoImagem: {
       type: String,
+    },
+    feedbacksPendentes: {
+      type: Array,
+      default: []
+    },
+    feedbacksConcluidos: {
+      type: Array,
+      default: []
     }
   },
   methods: {
     detalhesObjetivoFeedback() {
       this.$router.push({
-        "name": 'feedback.detalhes', params: {objetivoKey: this.objetivoKey }, query: {objetivoTitulo: this.objetivoTitulo}
+        "name": 'feedback.detalhes', params: { objetivoKey: this.objetivoKey }, query: { objetivoTitulo: this.objetivoTitulo }
       });
     }
   },

@@ -3,10 +3,11 @@ import axios from 'axios';
 
 import authStore from "@/store/authStore";
 
-export const getEvolucaoObjetivos = async () => {
+export const generateFeedback = async (objetivo_key) => {
     const auth = authStore()
 
-    return await axios.get(`${API_HOST}/evolucao/objetivos`,
+    return await axios.post(`${API_HOST}/feedbacks/generate`,
+        {"key": objetivo_key},
         {
             headers: {
                 "Authorization": auth.getToken,
@@ -23,10 +24,11 @@ export const getEvolucaoObjetivos = async () => {
         });
 }
 
-export const getEvolucaoAmizades = async () => {
-    const auth = authStore()
 
-    return await axios.get(`${API_HOST}/evolucao/amizades`,
+
+export const getFeedbacks = async (objetivo_key) => {
+    const auth = authStore()
+    return await axios.get(`${API_HOST}/feedbacks/${objetivo_key}`,
         {
             headers: {
                 "Authorization": auth.getToken,
@@ -43,10 +45,11 @@ export const getEvolucaoAmizades = async () => {
         });
 }
 
-export const getEvolucaoFeedbacks = async () => {
-    const auth = authStore()
 
-    return await axios.get(`${API_HOST}/evolucao/feedbacks`,
+export const cadastrarFeedbacks = async (payload) => {
+    const auth = authStore()
+    return await axios.post(`${API_HOST}/feedbacks`,
+        payload,
         {
             headers: {
                 "Authorization": auth.getToken,

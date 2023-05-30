@@ -3,19 +3,23 @@
     <v-card-item>
       <div>
         <div class="text-overline mb-1">
-          {{this.data}}
+          {{ this.data }}
         </div>
-        <div class="text-h6 mb-1">
-          Descricao
-        </div>
-        <div class="text-caption" >
-          {{this.descicao}}
+
+        <div v-if="observacao">
+          <div class="text-h6 mb-1">
+            Observação
+          </div>
+          <div class="text-caption">
+            {{ this.observacao }}
+          </div>
         </div>
       </div>
     </v-card-item>
 
     <v-card-actions style="justify-content: center;">
-      <ModalFeedbacks :status="this.status" :key="this.key" />
+      <ModalFeedbacks :status="this.status" :objetivoKey="this.objetivoKey" :data="this.data"
+        :observacao="this.observacao" />
       <br><br><br>
     </v-card-actions>
   </v-card>
@@ -45,7 +49,7 @@ export default {
     data: {
       type: String
     },
-    descicao: {
+    observacao: {
       type: String
     },
     status: {
