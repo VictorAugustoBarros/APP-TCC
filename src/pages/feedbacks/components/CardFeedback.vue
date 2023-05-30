@@ -6,7 +6,7 @@
           {{ this.data }}
         </div>
 
-        <div v-if="observacao">
+        <div v-if="this.status === 'concluido'">
           <div class="text-h6 mb-1">
             Observação
           </div>

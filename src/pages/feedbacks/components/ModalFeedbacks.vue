@@ -103,7 +103,7 @@
 
             <v-row>
               <v-col cols="12">
-                <v-textarea rows="1" v-model="observacao" label="Observações"></v-textarea>
+                <v-textarea rows="1" v-model="observacao" label="*Observações"></v-textarea>
               </v-col>
             </v-row>
           </v-container>
@@ -171,6 +171,10 @@ export default {
     async salvarFeedback(){
       if (!this.questao1 || !this.questao2 || !this.questao3 ||!this.questao4 ||!this.questao5 ){
           alert("Favor responder todas as perguntas!")
+          return;
+      }
+      if (!this.observacao ){
+          alert("Favor adicionar uma observação!")
           return;
       }
       

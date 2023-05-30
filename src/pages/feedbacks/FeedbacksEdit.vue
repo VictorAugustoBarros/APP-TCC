@@ -69,7 +69,6 @@ export default {
           })
         }
       }
-
     });
     bus.emit('update-feedbacks', {});
   },
