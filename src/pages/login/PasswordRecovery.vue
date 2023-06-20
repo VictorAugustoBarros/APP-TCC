@@ -5,8 +5,8 @@
             <h1>Recuperação Senha</h1>
         </v-row>
         <v-row>
-            <v-col cols="5"></v-col>
-            <v-col cols="2">
+            <v-col cols="4"></v-col>
+            <v-col cols="4">
                 <form class="register-form">
                     <v-text-field label="Email" v-model="email" variant="outlined" :error="!email"
                         :success="email"></v-text-field>
@@ -15,14 +15,14 @@
                     </div>
                 </form>
             </v-col>
-            <v-col cols="5"></v-col>
+            <v-col cols="4"></v-col>
         </v-row>
         <v-row v-if="codigoEnviado">
-            <v-col cols="5"></v-col>
-            <v-col cols="2">
+            <v-col cols="4"></v-col>
+            <v-col cols="4">
                 <v-divider />
             </v-col>
-            <v-col cols="5"></v-col>
+            <v-col cols="4"></v-col>
         </v-row>
         <v-row>
             <v-col cols="5"></v-col>
@@ -38,15 +38,15 @@
             <v-col cols="5"></v-col>
         </v-row>
         <v-row v-if="hashValido">
-            <v-col cols="5"></v-col>
-            <v-col cols="2">
+            <v-col cols="4"></v-col>
+            <v-col cols="4">
                 <v-divider />
             </v-col>
-            <v-col cols="5"></v-col>
+            <v-col cols="4"></v-col>
         </v-row>
         <v-row>
-            <v-col cols="5"></v-col>
-            <v-col cols="2">
+            <v-col cols="4"></v-col>
+            <v-col cols="4">
                 <form v-if="hashValido" class="register-form" @submit.prevent="registerUser">
                     <v-text-field type="password" label="Senha" v-model="password" variant="outlined" :error="!password"
                         :success="password"></v-text-field>
@@ -57,7 +57,7 @@
                     </div>
                 </form>
             </v-col>
-            <v-col cols="5"></v-col>
+            <v-col cols="4"></v-col>
         </v-row>
     </div>
 </template>
