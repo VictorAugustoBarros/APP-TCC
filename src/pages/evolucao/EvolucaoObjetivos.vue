@@ -7,7 +7,7 @@
         </v-btn>
       </template>
 
-      <v-card width="1000px">
+      <v-card width="1000px;height: 500px">
         <v-card-text>
           <div>
             <canvas id="chart" />
