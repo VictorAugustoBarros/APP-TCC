@@ -31,7 +31,9 @@
             type="email" placeholder="Email" required />
           <input class="input" id="passwordForm" v-model.trim="login.password" type="password" placeholder="Senha"
             required />
-          <a class="a" href="#">Forgot your password?</a>
+
+          <a class="forgot-password-link" @click="resetarSenha">Forgot your password?</a>
+
           <v-btn rounded variant="text" @click="submitLogin()"> Entrar </v-btn>
         </form>
       </div>
@@ -65,6 +67,7 @@
 import { authLogin } from '@/services/auth'
 import { ActionRegisterUser } from '@/services/users'
 
+
 export default {
   name: "LoginPage",
   data() {
@@ -85,7 +88,7 @@ export default {
         successMessage: "",
       },
     };
-  }, 
+  },
   methods: {
     async submitLogin() {
       if (this.login.email === "" || this.login.password === "") {
@@ -99,9 +102,9 @@ export default {
       })
 
       if (response.success) {
-        this.login.errorMessage = null        
-        this.$router.push({"path": "/"})
-        
+        this.login.errorMessage = null
+        this.$router.push({ "path": "/" })
+
       } else {
         this.login.errorMessage = response.error
       }
@@ -142,6 +145,9 @@ export default {
       const container = document.getElementById("container");
       container.classList.remove("right-panel-active");
     },
+    resetarSenha() {
+      this.$router.push({ "path": "/recovery" })
+    }
   },
 };
 </script>
@@ -379,5 +385,13 @@ form {
   height: 40px;
   width: 40px;
 }
+
+.forgot-password-link {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
 </style>
 

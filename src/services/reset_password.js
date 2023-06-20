@@ -2,62 +2,13 @@ import {API_HOST, ALLOW_ORIGIN} from '@/http/constants'
 import axios from 'axios';
 
 import authStore from "@/store/authStore";
-import userStore from "@/store/userStore";
 
-export const GetUserAmigos = async () => {
-    const auth = authStore()
-    const user = userStore()
-    
+export const enviarRecuperacaoSenha = async (email) => {
 
-    return await axios.get(`${API_HOST}/amigos`,
+    return await axios.post(`${API_HOST}/recuperacao/enviar`,
+        {"email": email},
         {
             headers: {
-                "Authorization": auth.getToken,
-                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
-            }
-        })
-        .then((response) => {
-            user.setAmigos(response.data)
-            return response.data
-        })
-        .catch((error) => {
-            return {
-                "error": error.message
-            }
-        });
-}
-
-export const adicionarAmizade = async (username) => {
-    const auth = authStore()
-
-    return await axios.post(`${API_HOST}/amigos`,
-        {"username": username},
-        {
-            headers: {
-                "Authorization": auth.getToken,
-                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
-            }
-        })
-        .then((response) => {
-            if (response.data.error){
-                return false
-            }
-            return true
-        })
-        .catch((error) => {
-            return {
-                "error": error.message
-            }
-        });
-}
-
-export const buscarRelacionamentosRecomendacao = async () => {
-    const auth = authStore()
-
-    return await axios.get(`${API_HOST}/amigos_relacionamentos`,
-        {
-            headers: {
-                "Authorization": auth.getToken,
                 "Access-Control-Allow-Origin": ALLOW_ORIGIN,
             }
         })
@@ -71,3 +22,41 @@ export const buscarRelacionamentosRecomendacao = async () => {
         });
 }
 
+export const validarHash = async (dados) => {
+
+    return await axios.post(`${API_HOST}/recuperacao/validar/`,
+        dados,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
+            }
+        })
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
+}
+
+
+export const atualizarSenha = async (dados) => {
+
+    return await axios.post(`${API_HOST}/recuperacao/atualizar/`,
+        dados,
+        {
+            headers: {
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
+            }
+        })
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
+}

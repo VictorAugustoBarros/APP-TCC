@@ -62,3 +62,23 @@ export const getEvolucaoFeedbacks = async () => {
             }
         });
 }
+
+export const getEvolucaoFeedbacksObjetivo = async (objetivoKey) => {
+    const auth = authStore()
+
+    return await axios.get(`${API_HOST}/evolucao/feedbacks/${objetivoKey}`,
+        {
+            headers: {
+                "Authorization": auth.getToken,
+                "Access-Control-Allow-Origin": ALLOW_ORIGIN,
+            }
+        })
+        .then((response) => {
+            return response.data
+        })
+        .catch((error) => {
+            return {
+                "error": error.message
+            }
+        });
+}

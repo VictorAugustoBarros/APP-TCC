@@ -29,6 +29,11 @@ export default [
     component: () => import('@/pages/login/Login')
   },
   {
+    path: '/recovery',
+    name: 'recovery',
+    component: () => import('@/pages/login/PasswordRecovery')
+  },
+  {
     path: '/:catchAll(.*)',
     name: '404',
     component: () => import('@/pages/404'),

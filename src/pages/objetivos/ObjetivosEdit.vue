@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="load">
+  <v-container v-if="load" style="background-color: whitesmoke;border-radius: 10px;padding-top: 6%;">
     <v-row>
       <v-col cols="8">
         <v-row>

@@ -66,6 +66,7 @@ export default {
       criteriosSelecionados: [],
       comparisons: {},
       comparisonOnLoad: false,
+      jaAdicionados: []
     };
   },
   watch: {
@@ -134,23 +135,22 @@ export default {
           this.comparisons[this.criteriosSelecionados[i]] = [];
         }
 
-        for (let j = 0; j < this.criteriosSelecionados.length; j++) {
-          if (i !== j) {
+        for (let j = i + 1; j < this.criteriosSelecionados.length; j++) {
+          const currentComparison = this.comparisons[this.criteriosSelecionados[i]];
 
-            let chaveExiste = false;
-            for (let k = 0; k < this.comparisons[this.criteriosSelecionados[i]].length; k++) {
-              if (this.criteriosSelecionados[j] == this.comparisons[this.criteriosSelecionados[i]][k].criterio) {
-                chaveExiste = true;
-                break;
-              }
-            }
+          if (!Array.isArray(currentComparison)) {
+            continue;
+          }
 
-            if (!chaveExiste) {
-              this.comparisons[this.criteriosSelecionados[i]].push({
-                "criterio": this.criteriosSelecionados[j],
-                "value": null
-              });
-            }
+          let chaveExiste = currentComparison.some(
+            item => item.criterio === this.criteriosSelecionados[j]
+          );
+
+          if (!chaveExiste) {
+            currentComparison.push({
+              criterio: this.criteriosSelecionados[j],
+              value: null
+            });
           }
         }
       }

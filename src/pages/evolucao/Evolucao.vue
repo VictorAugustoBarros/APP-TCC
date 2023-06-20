@@ -1,5 +1,11 @@
 <template>
-  <v-row style="height: 50px"></v-row>
+  <v-row style="height: 20px;">
+  </v-row>
+  <v-row style="text-align: center;justify-content: center;">
+    <EvolucaoObjetivosList />
+  </v-row>
+  <v-row style="height: 30px;">
+  </v-row>
   <v-row>
     <v-col cols="4" style="justify-content: center;text-align: center;">
       <div style="border-radius: 10px;background-color: white;">
@@ -16,7 +22,8 @@
         <h3>Feedbacks</h3><br>
         <div>
           <!-- TODO -> Finalizar depois da inserção dos feedbacks -->
-          <Bar v-if="this.barChartFeedbacks.load" :data="this.barChartFeedbacks.data" :options="this.barChartFeedbacks.options" />
+          <Bar v-if="this.barChartFeedbacks.load" :data="this.barChartFeedbacks.data"
+            :options="this.barChartFeedbacks.options" />
         </div>
         <br>
       </div>
@@ -31,6 +38,9 @@
         <br>
       </div>
     </v-col>
+  </v-row>
+
+  <v-row style="height: 30px;">
   </v-row>
 
   <v-row>
@@ -78,14 +88,16 @@ ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler)
 
 
 import { getEvolucaoObjetivos, getEvolucaoAmizades, getEvolucaoFeedbacks } from "@/services/evolucao";
+import EvolucaoObjetivosList from './EvolucaoObjetivosList'
 
 // TODO -> Recarregar os dados ao entrar na página
 export default {
-  name: 'App',
+  name: 'Evolucao',
   components: {
+    EvolucaoObjetivosList,
     Pie,
     Bar,
-    Radar
+    Radar    
   },
   data() {
     return {

@@ -2,47 +2,51 @@ import authStore from "@/store/authStore";
 import userStore from "@/store/userStore";
 import pageStore from "@/store/pageStore";
 
-import { authVerifyToken } from '@/services/auth'
-import { GetUserData } from '@/services/users'
-
+import { authVerifyToken } from "@/services/auth";
+import { GetUserData } from "@/services/users";
 
 export default async (to, from, next) => {
-  const authS = authStore()
-  const userS = userStore()
-  const pageS = pageStore()
+  const authS = authStore();
+  const userS = userStore();
+  const pageS = pageStore();
 
   pageS.setPage(to.path);
 
-  const token = authS.getToken  
+  const token = authS.getToken;
 
-  if (from.name === "login" && to.name ==="app") {
-    await GetUserData()
+  if (from.name === "login" && to.name === "app") {
+    await GetUserData();
   }
-  
+
   if (to.name === "app" && token) {
-    next({ name: 'appWeb' });
+    next({ name: "appWeb" });
     return;
   }
 
   if (to.name === "appWeb" && token) {
-    next({ name: 'perfil', params: { username: userS.getUsername } });
+    next({ name: "perfil", params: { username: userS.getUsername } });
     return;
   }
 
-  if (!token && to.name !== 'login') {
-    next({ path: '/login' });
+  if (!token && to.name == "recovery") {
+    next();
     return;
   }
 
-  if (to.name !== 'login' && token ) {
-    let response = await authVerifyToken()
+  if (!token && to.name !== "login") {
+    next({ path: "/login" });
+    return;
+  }
+
+  if (to.name !== "login" && token) {
+    let response = await authVerifyToken();
 
     if (!response) {
-      next({ path: '/login' });
+      next({ path: "/login" });
       return;
     }
-  } 
+  }
 
   next();
   return;
-}
+};

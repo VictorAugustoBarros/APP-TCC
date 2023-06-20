@@ -2,7 +2,7 @@
   <div>
     <v-dialog v-model="dialog" persistent width="700">
       <template v-slot:activator="{ props }">
-        <v-btn v-bind="props" variant="outlined">
+        <v-btn :disabled="this.status === 'concluido'" v-bind="props" variant="outlined">
           {{ this.status === 'concluido' ? 'Detalhes' : 'Adicionar Feedback' }}
         </v-btn>
       </template>
@@ -10,7 +10,7 @@
         <div style="padding: 30px">
           <v-card-title>
             <v-row style="text-align: center;justify-content: center;">
-              <span class="text-h5">Novo Feedback: {{ convertDataFormat(this.data) }}</span>
+              <span class="text-h5">Novo Feedback:  {{ this.data }}</span>
             </v-row>
           </v-card-title>
 
@@ -112,7 +112,8 @@
             <v-btn class="flex-grow-1" variant="tonal" style="background-color: red;color:white;"
               @click="dialog = false">Fechar
             </v-btn>
-            <v-btn class="flex-grow-1" style="background-color: green; color: white" variant="tonal"
+
+            <v-btn v-if="status === 'pendente'" class="flex-grow-1" style="background-color: green; color: white" variant="tonal"
               @click="salvarFeedback">Salvar
             </v-btn>
           </v-card-actions>
@@ -192,6 +193,6 @@ export default {
       bus.emit('update-feedbacks', {});
       this.dialog = false
     }
-  },
+  }
 };
 </script>
