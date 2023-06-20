@@ -6,10 +6,10 @@
           Visualizar Evolução
         </v-btn>
       </template>
-
-      <v-card width="1000px;height: 500px">
+      
+      <v-card style="width:1100px;">
         <v-card-text>
-          <div>
+          <div style="width:1000px;height:500px">
             <canvas id="chart" />
           </div>
         </v-card-text>
